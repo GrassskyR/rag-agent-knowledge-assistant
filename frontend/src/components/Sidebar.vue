@@ -1,7 +1,7 @@
 <template>
   <aside class="sidebar">
     <div class="sidebar-header">
-      <h2>生活助手</h2>
+      <h2>知识助手</h2>
     </div>
 
     <!-- New Chat — ghost button -->

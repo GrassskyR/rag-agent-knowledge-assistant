@@ -3,7 +3,7 @@
     <header class="chat-header">
       <!-- Model selection (visual placeholder) -->
       <button class="model-dropdown" type="button">
-        生活助手 <i class="fas fa-chevron-down chev"></i>
+        知识助手 <i class="fas fa-chevron-down chev"></i>
       </button>
 
       <div class="header-actions">

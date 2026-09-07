@@ -1,6 +1,6 @@
 <template>
   <div class="auth-panel">
-    <h2>{{ authStore.authMode === 'login' ? '登录生活助手' : '注册生活助手' }}</h2>
+    <h2>{{ authStore.authMode === 'login' ? '登录知识助手' : '注册知识助手' }}</h2>
     <p>登录后即可使用聊天和历史记录；管理员可管理文档知识库。</p>
     <div class="auth-form">
       <input v-model="authStore.authForm.username" type="text" placeholder="用户名" @keyup.enter="onSubmit" />

@@ -28,6 +28,10 @@ def create_app() -> FastAPI:
     @app.on_event("startup")
     async def _startup_init_db():
         init_db()
+        port = _get_runtime_port()
+        print(f"本机访问：http://localhost:{port}", flush=True)
+        print(f"本机访问：http://127.0.0.1:{port}", flush=True)
+        print(f"局域网访问：http://{_get_lan_ip()}:{port}", flush=True)
 
     app.add_middleware(
         CORSMiddleware,
@@ -71,12 +75,25 @@ def _get_lan_ip() -> str:
             return "无法检测"
 
 
+def _get_runtime_port() -> int:
+    """读取 uvicorn 命令行端口，兼容模块方式启动。"""
+    for index, arg in enumerate(sys.argv):
+        if arg == "--port" and index + 1 < len(sys.argv):
+            try:
+                return int(sys.argv[index + 1])
+            except ValueError:
+                break
+        if arg.startswith("--port="):
+            try:
+                return int(arg.split("=", 1)[1])
+            except ValueError:
+                break
+    return int(os.getenv("PORT", 8000))
+
+
 if __name__ == "__main__":
     import uvicorn
 
     host = os.getenv("HOST", "0.0.0.0")
     port = int(os.getenv("PORT", 8000))
-    print(f"本机访问：http://localhost:{port}")
-    print(f"本机访问：http://127.0.0.1:{port}")
-    print(f"局域网访问：http://{_get_lan_ip()}:{port}")
     uvicorn.run(app, host=host, port=port)

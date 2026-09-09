@@ -14,6 +14,7 @@ from backend.rag.utils import (
     step_back_expand,
     generate_hypothetical_document,
     dedupe_documents,
+    rerank_merged_documents,
     retrieval_trace_fields,
     merge_retrieval_trace,
 )
@@ -419,11 +420,10 @@ def retrieve_expanded(state: RAGState) -> RAGState:
         retrieval_trace = merge_retrieval_trace(retrieval_trace, step_meta)
 
     deduped = dedupe_documents(results)
-
-    # 扩展阶段可能合并了多路召回（如 hyde + step_back），
-    # 这里统一重排展示名次，避免出现 1,2,3,4,5,4,5 这类重复名次。
-    for idx, item in enumerate(deduped, 1):
-        item["rrf_rank"] = idx
+    deduped, merge_rerank_meta = rerank_merged_documents(state["question"], deduped)
+    retrieval_trace.update(merge_rerank_meta)
+    if merge_rerank_meta.get("merge_rerank_error"):
+        rerank_errors.append(f"merged:{merge_rerank_meta['merge_rerank_error']}")
 
     context = _format_docs(deduped)
     emit_rag_step("icon-circle-check", f"扩展检索完成，共 {len(deduped)} 个片段")
@@ -588,8 +588,7 @@ def synthesis(state: RAGState) -> RAGState:
         all_docs.extend(docs)
 
     deduped = dedupe_documents(all_docs)
-    for idx, item in enumerate(deduped, 1):
-        item["rrf_rank"] = idx
+    deduped, merge_rerank_meta = rerank_merged_documents(state["question"], deduped)
 
     context = _format_docs(deduped)
     emit_rag_step("icon-circle-check", f"合成完成，共 {len(deduped)} 个去重片段")
@@ -615,6 +614,7 @@ def synthesis(state: RAGState) -> RAGState:
         "sub_questions": state.get("sub_questions", []),
         "sub_agent_count": len(sub_results),
         "synthesis_merged_count": len(all_docs),
+        **merge_rerank_meta,
         "sub_traces": sub_traces,
     }
 

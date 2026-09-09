@@ -317,6 +317,36 @@ def _rerank_documents(query: str, docs: List[dict], top_k: int) -> Tuple[List[di
         return _sort_by_rank_score(docs_with_rank)[:top_k], meta
 
 
+def rerank_merged_documents(query: str, docs: List[dict]) -> Tuple[List[dict], Dict[str, Any]]:
+    """对多路检索合并后的候选统一重排，保留重排服务未返回的候选。"""
+    if not docs:
+        return [], {
+            "merge_rerank_applied": False,
+            "merge_rerank_error": None,
+            "merge_rerank_candidate_count": 0,
+            "merge_rerank_preserved_count": 0,
+        }
+
+    reranked, meta = _rerank_documents(query=query, docs=docs, top_k=len(docs))
+    seen = {
+        item.get("chunk_id") or f"{item.get('filename')}|{item.get('page_number')}|{item.get('text')}"
+        for item in reranked
+    }
+    preserved = [
+        item for item in docs
+        if (item.get("chunk_id") or f"{item.get('filename')}|{item.get('page_number')}|{item.get('text')}") not in seen
+    ]
+    merged = reranked + preserved
+    for index, item in enumerate(merged, 1):
+        item["rrf_rank"] = index
+    return merged, {
+        "merge_rerank_applied": bool(meta.get("rerank_applied")),
+        "merge_rerank_error": meta.get("rerank_error"),
+        "merge_rerank_candidate_count": len(docs),
+        "merge_rerank_preserved_count": len(preserved),
+    }
+
+
 def _get_stepback_model():
     global _stepback_model
     if not ARK_API_KEY or not MODEL:

@@ -4,7 +4,7 @@
     class="references-section"
   >
     <details class="references-details" ref="detailsRef">
-      <summary class="references-title"><i class="fas fa-book"></i> 参考文献</summary>
+      <summary class="references-title"><i class="icon-book" aria-hidden="true"></i> 参考文献</summary>
       <ul class="sources-list references-list">
         <li
           v-for="(chunk, cIdx) in sources"

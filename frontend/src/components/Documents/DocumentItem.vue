@@ -7,7 +7,7 @@
       <div class="document-row">
         <div class="document-info">
           <div class="document-icon">
-            <i :class="getFileIcon(doc.file_type)"></i>
+            <i :class="getFileIcon(doc.file_type)" aria-hidden="true"></i>
           </div>
           <div class="document-details">
             <div class="document-name">{{ doc.filename }}</div>
@@ -23,7 +23,7 @@
           title="删除文档"
           :disabled="documentStore.isDeleteActionLocked(doc.filename)"
         >
-          <i :class="documentStore.getDeleteButtonIcon(doc.filename)"></i>
+          <i :class="documentStore.getDeleteButtonIcon(doc.filename)" aria-hidden="true"></i>
         </button>
       </div>
 
@@ -72,13 +72,13 @@ const documentStore = useDocumentStore();
 
 const getFileIcon = (fileType: string) => {
   if (fileType === 'PDF') {
-    return 'fas fa-file-pdf';
+    return 'icon-file-text';
   } else if (fileType === 'Word') {
-    return 'fas fa-file-word';
+    return 'icon-file-type-2';
   } else if (fileType === 'Excel') {
-    return 'fas fa-file-excel';
+    return 'icon-file-spreadsheet';
   }
-  return 'fas fa-file';
+  return 'icon-file';
 };
 
 const onDelete = async () => {

@@ -9,9 +9,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-free": "^6.4.0",
     "axios": "^1.6.0",
+    "element-plus": "^2.14.5",
     "highlight.js": "^11.7.0",
+    "lucide-static": "^1.43.0",
     "marked": "^9.1.0",
     "pinia": "^2.1.0",
     "vue": "^3.3.0"

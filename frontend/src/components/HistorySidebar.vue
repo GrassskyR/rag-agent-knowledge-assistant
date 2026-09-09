@@ -3,7 +3,7 @@
     <div class="history-header">
       <h3>历史会话</h3>
       <button @click="sessionStore.showHistorySidebar = false" class="close-btn">
-        <i class="fas fa-times"></i>
+        <i class="icon-x" aria-hidden="true"></i>
       </button>
     </div>
     <div class="history-list">
@@ -30,7 +30,7 @@
           title="删除会话"
           @click.stop="onDeleteSession(session.session_id)"
         >
-          <i class="fas fa-trash"></i>
+          <i class="icon-trash-2" aria-hidden="true"></i>
         </button>
       </div>
     </div>

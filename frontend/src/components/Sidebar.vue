@@ -6,19 +6,19 @@
 
     <!-- New Chat — ghost button -->
     <button @click="onNewChat" class="new-chat-btn">
-      <i class="fas fa-plus"></i> 新建会话
+      <i class="icon-plus" aria-hidden="true"></i> 新建会话
     </button>
 
     <!-- Navigation -->
     <nav class="sidebar-nav">
       <button @click="onHistory" :class="['nav-btn', { active: chatStore.activeNav === 'history' }]">
-        <i class="fas fa-history"></i> 历史记录
+        <i class="icon-history" aria-hidden="true"></i> 历史记录
       </button>
       <button @click="onTasks" :class="['nav-btn', { active: chatStore.activeNav === 'tasks' }]">
-        <i class="fas fa-list-check"></i> 任务清单
+        <i class="icon-list-check" aria-hidden="true"></i> 任务清单
       </button>
       <button v-if="authStore.isAdmin" @click="onSettings" :class="['nav-btn', { active: chatStore.activeNav === 'settings' }]">
-        <i class="fas fa-cog"></i> 设置
+        <i class="icon-settings" aria-hidden="true"></i> 设置
       </button>
     </nav>
 
@@ -29,10 +29,10 @@
         <small>{{ authStore.currentUser?.role }}</small>
       </div>
       <button @click="chatStore.handleClearChat" class="danger-btn">
-        <i class="fas fa-trash-alt"></i> 清空当前对话
+        <i class="icon-trash-2" aria-hidden="true"></i> 清空当前对话
       </button>
       <button v-if="authStore.isAuthenticated" @click="authStore.handleLogout" class="danger-btn logout-btn">
-        <i class="fas fa-right-from-bracket"></i> 退出登录
+        <i class="icon-log-out" aria-hidden="true"></i> 退出登录
       </button>
       <div class="footer-links">
         <a>关于</a>

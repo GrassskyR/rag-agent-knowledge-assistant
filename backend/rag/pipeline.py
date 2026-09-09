@@ -228,13 +228,13 @@ def _format_docs(docs: List[dict]) -> str:
 
 def retrieve_initial(state: RAGState) -> RAGState:
     query = state["question"]
-    emit_rag_step("🔍", "正在检索知识库...", f"查询: {query[:50]}")
+    emit_rag_step("icon-search", "正在检索知识库...", f"查询: {query[:50]}")
     retrieved = retrieve_documents(query, top_k=5)
     results = retrieved.get("docs", [])
     retrieve_meta = retrieved.get("meta", {})
     context = _format_docs(results)
     emit_rag_step(
-        "🧱",
+        "icon-box",
         "三级分块检索",
         (
             f"叶子层 L{retrieve_meta.get('leaf_retrieve_level', 3)} 召回，"
@@ -242,7 +242,7 @@ def retrieve_initial(state: RAGState) -> RAGState:
         ),
     )
     emit_rag_step(
-        "🧩",
+        "icon-puzzle",
         "Auto-merging 合并",
         (
             f"启用: {bool(retrieve_meta.get('auto_merge_enabled'))}，"
@@ -250,9 +250,9 @@ def retrieve_initial(state: RAGState) -> RAGState:
             f"替换片段: {retrieve_meta.get('auto_merge_replaced_chunks', 0)}"
         ),
     )
-    emit_rag_step("✅", f"检索完成，找到 {len(results)} 个片段", f"模式: {retrieve_meta.get('retrieval_mode', 'hybrid')}")
+    emit_rag_step("icon-circle-check", f"检索完成，找到 {len(results)} 个片段", f"模式: {retrieve_meta.get('retrieval_mode', 'hybrid')}")
     if not results:
-        emit_rag_step("⚠️", "无可用片段，跳过评估并强制 step-back 扩展检索")
+        emit_rag_step("icon-triangle-alert", "无可用片段，跳过评估并强制 step-back 扩展检索")
     rag_trace = {
         "tool_used": True,
         "tool_name": "search_knowledge_base",
@@ -279,7 +279,7 @@ def _route_after_initial(state: RAGState) -> Literal["grade_documents", "rewrite
 
 def grade_documents_node(state: RAGState) -> RAGState:
     grader = _get_grader_model()
-    emit_rag_step("📊", "正在评估文档相关性...")
+    emit_rag_step("icon-chart-no-axes-combined", "正在评估文档相关性...")
     if not grader:
         grade_update = {
             "grade_score": "unknown",
@@ -300,12 +300,12 @@ def grade_documents_node(state: RAGState) -> RAGState:
         score = extract_grade_score(getattr(response, "content", response))
     except Exception as exc:
         score = "unknown"
-        emit_rag_step("⚠️", "文档相关性评估失败", str(exc)[:120])
+        emit_rag_step("icon-triangle-alert", "文档相关性评估失败", str(exc)[:120])
     route = "generate_answer" if score == "yes" else "rewrite_question"
     if route == "generate_answer":
-        emit_rag_step("✅", "文档相关性评估通过", f"评分: {score}")
+        emit_rag_step("icon-circle-check", "文档相关性评估通过", f"评分: {score}")
     else:
-        emit_rag_step("⚠️", "文档相关性不足，将重写查询", f"评分: {score}")
+        emit_rag_step("icon-triangle-alert", "文档相关性不足，将重写查询", f"评分: {score}")
     grade_update = {
         "grade_score": score,
         "grade_route": route,
@@ -319,7 +319,7 @@ def grade_documents_node(state: RAGState) -> RAGState:
 def rewrite_question_node(state: RAGState) -> RAGState:
     question = state["question"]
     force_step_back = not state.get("docs")
-    emit_rag_step("✏️", "正在重写查询...")
+    emit_rag_step("icon-pencil", "正在重写查询...")
 
     if force_step_back:
         strategy = "step_back"
@@ -348,14 +348,14 @@ def rewrite_question_node(state: RAGState) -> RAGState:
     hypothetical_doc = ""
 
     if strategy in ("step_back", "complex"):
-        emit_rag_step("🧠", f"使用策略: {strategy}", "生成退步问题")
+        emit_rag_step("icon-brain", f"使用策略: {strategy}", "生成退步问题")
         step_back = step_back_expand(question)
         step_back_question = step_back.get("step_back_question", "")
         step_back_answer = step_back.get("step_back_answer", "")
         expanded_query = step_back.get("expanded_query", question)
 
     if not force_step_back and strategy in ("hyde", "complex"):
-        emit_rag_step("📝", "HyDE 假设性文档生成中...")
+        emit_rag_step("icon-notebook-pen", "HyDE 假设性文档生成中...")
         hypothetical_doc = generate_hypothetical_document(question)
 
     rag_trace = state.get("rag_trace", {}) or {}
@@ -377,7 +377,7 @@ def rewrite_question_node(state: RAGState) -> RAGState:
 
 def retrieve_expanded(state: RAGState) -> RAGState:
     strategy = state.get("expansion_type") or "step_back"
-    emit_rag_step("🔄", "使用扩展查询重新检索...", f"策略: {strategy}")
+    emit_rag_step("icon-refresh-cw", "使用扩展查询重新检索...", f"策略: {strategy}")
     results: List[dict] = []
     rerank_errors = []
     retrieval_trace: dict = {}
@@ -388,7 +388,7 @@ def retrieve_expanded(state: RAGState) -> RAGState:
         results.extend(retrieved_hyde.get("docs", []))
         hyde_meta = retrieved_hyde.get("meta", {})
         emit_rag_step(
-            "🧱",
+            "icon-box",
             "HyDE 三级检索",
             (
                 f"L{hyde_meta.get('leaf_retrieve_level', 3)} 召回，"
@@ -406,7 +406,7 @@ def retrieve_expanded(state: RAGState) -> RAGState:
         results.extend(retrieved_stepback.get("docs", []))
         step_meta = retrieved_stepback.get("meta", {})
         emit_rag_step(
-            "🧱",
+            "icon-box",
             "Step-back 三级检索",
             (
                 f"L{step_meta.get('leaf_retrieve_level', 3)} 召回，"
@@ -426,7 +426,7 @@ def retrieve_expanded(state: RAGState) -> RAGState:
         item["rrf_rank"] = idx
 
     context = _format_docs(deduped)
-    emit_rag_step("✅", f"扩展检索完成，共 {len(deduped)} 个片段")
+    emit_rag_step("icon-circle-check", f"扩展检索完成，共 {len(deduped)} 个片段")
     rag_trace = state.get("rag_trace", {}) or {}
     rag_trace.update({
         "expanded_query": state.get("expanded_query") or state["question"],
@@ -469,11 +469,11 @@ DECOMPOSE_PROMPT = (
 def classify_complexity(state: RAGState) -> RAGState:
     """使用 FAST_MODEL 判断问题复杂度。"""
     question = state["question"]
-    emit_rag_step("🧭", "正在分析问题复杂度...")
+    emit_rag_step("icon-compass", "正在分析问题复杂度...")
 
     model = _get_complexity_model()
     if not model:
-        emit_rag_step("⚠️", "复杂度模型不可用，默认简单问题")
+        emit_rag_step("icon-triangle-alert", "复杂度模型不可用，默认简单问题")
         return {"complexity": "simple", "complexity_reason": "model_unavailable"}
 
     prompt = COMPLEXITY_PROMPT.format(question=question)
@@ -490,9 +490,9 @@ def classify_complexity(state: RAGState) -> RAGState:
         reason = "classification_error"
 
     if complexity == "simple":
-        emit_rag_step("✅", "简单问题 → 走标准 RAG 流程", f"理由: {reason[:60]}")
+        emit_rag_step("icon-circle-check", "简单问题 → 走标准 RAG 流程", f"理由: {reason[:60]}")
     else:
-        emit_rag_step("🔀", "复杂问题 → 将分解为子问题并行检索", f"理由: {reason[:60]}")
+        emit_rag_step("icon-git-merge", "复杂问题 → 将分解为子问题并行检索", f"理由: {reason[:60]}")
 
     return {"complexity": complexity, "complexity_reason": reason}
 
@@ -500,11 +500,11 @@ def classify_complexity(state: RAGState) -> RAGState:
 def decompose_question(state: RAGState) -> RAGState:
     """将复杂问题分解为 2-4 个独立子问题。"""
     question = state["question"]
-    emit_rag_step("🧩", "正在分解复杂问题...")
+    emit_rag_step("icon-puzzle", "正在分解复杂问题...")
 
     model = _get_complexity_model()
     if not model:
-        emit_rag_step("⚠️", "分解模型不可用，使用原始问题")
+        emit_rag_step("icon-triangle-alert", "分解模型不可用，使用原始问题")
         return {"sub_questions": [question]}
 
     prompt = DECOMPOSE_PROMPT.format(question=question)
@@ -519,7 +519,7 @@ def decompose_question(state: RAGState) -> RAGState:
         sub_qs = [question]
 
     for i, sq in enumerate(sub_qs, 1):
-        emit_rag_step("📌", f"子问题 {i}", sq[:80])
+        emit_rag_step("icon-pin", f"子问题 {i}", sq[:80])
 
     return {"sub_questions": sub_qs}
 
@@ -580,7 +580,7 @@ def _fanout_sub_questions(state: RAGState):
 def synthesis(state: RAGState) -> RAGState:
     """合并所有子 Agent 检索到的文档，去重排序后输出最终上下文。"""
     sub_results = state.get("sub_results", [])
-    emit_rag_step("🔬", f"正在合成 {len(sub_results)} 个子问题的检索结果...")
+    emit_rag_step("icon-microscope", f"正在合成 {len(sub_results)} 个子问题的检索结果...")
 
     all_docs: List[dict] = []
     for result in sub_results:
@@ -592,7 +592,7 @@ def synthesis(state: RAGState) -> RAGState:
         item["rrf_rank"] = idx
 
     context = _format_docs(deduped)
-    emit_rag_step("✅", f"合成完成，共 {len(deduped)} 个去重片段")
+    emit_rag_step("icon-circle-check", f"合成完成，共 {len(deduped)} 个去重片段")
 
     # 合并所有子 Agent 的 rag_trace
     sub_traces = []

@@ -1,7 +1,7 @@
 <template>
   <div v-if="msg.ragTrace" class="message-meta">
     <details class="reasoning-details">
-      <summary>检索过程</summary>
+      <summary><i class="icon-chevron-right details-chevron" aria-hidden="true"></i>检索过程</summary>
       <div class="reasoning-content">
         <div class="trace-line">
           工具：{{ msg.ragTrace.tool_used ? msg.ragTrace.tool_name : '未使用' }}
@@ -137,7 +137,8 @@
         <div v-if="msg.ragTrace.sub_traces && msg.ragTrace.sub_traces.length" class="trace-sub-traces">
           <details class="sub-traces-details">
             <summary class="sub-traces-title">
-              <i class="fas fa-layer-group"></i> 子 Agent 检索详情（{{ msg.ragTrace.sub_traces.length }} 个）
+              <i class="icon-chevron-right details-chevron" aria-hidden="true"></i>
+              <i class="icon-layers" aria-hidden="true"></i> 子 Agent 检索详情（{{ msg.ragTrace.sub_traces.length }} 个）
             </summary>
             <div v-for="(st, stIdx) in msg.ragTrace.sub_traces" :key="stIdx" class="sub-trace-block">
               <div class="sub-trace-header">

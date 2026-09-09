@@ -116,11 +116,11 @@ def web_search(query: str) -> str:
 
     set_sub_agent_group("Web Search")
     try:
-        emit_rag_step("🔎", "正在联网搜索...", query[:80])
+        emit_rag_step("icon-search", "正在联网搜索...", query[:80])
         try:
             data = search_web(query)
         except WebSearchError as exc:
-            emit_rag_step("⚠️", "联网搜索失败", str(exc)[:120])
+            emit_rag_step("icon-triangle-alert", "联网搜索失败", str(exc)[:120])
             flush_web_context_to_rag()
             return f"Web search failed: {exc}"
     finally:
@@ -134,7 +134,7 @@ def web_search(query: str) -> str:
     detail = f"结果 {len(numbered)} 条"
     if engines:
         detail += f"，引擎: {', '.join(engines)}"
-    emit_rag_step("✅", "联网搜索完成", detail)
+    emit_rag_step("icon-circle-check", "联网搜索完成", detail)
 
     if not numbered:
         return "No web results found. Try refining the query or answer from your own knowledge."
@@ -182,15 +182,15 @@ def web_fetch(urls: list) -> str:
     summaries: list[tuple[int, str, str, str]] = []
     try:
         for url in urls:
-            emit_rag_step("🌐", "正在读取网页正文...", url[:120])
+            emit_rag_step("icon-globe", "正在读取网页正文...", url[:120])
             try:
                 data = fetch_web_content_pw(url)
             except WebSearchError as exc:
-                emit_rag_step("⚠️", "网页正文读取失败", str(exc)[:120])
+                emit_rag_step("icon-triangle-alert", "网页正文读取失败", str(exc)[:120])
                 continue
             content = data.get("content") or ""
             title = data.get("title") or url
-            emit_rag_step("🧠", "正在提炼要点...", (title or url)[:80])
+            emit_rag_step("icon-brain", "正在提炼要点...", (title or url)[:80])
             summary = _summarize_for_query(fast_model, content, user_query)
             add_fetched_page(url, title, summary)
             rank = get_rank_for_url(url)
@@ -206,5 +206,5 @@ def web_fetch(urls: list) -> str:
     formatted = []
     for rank, url, title, summary in summaries:
         formatted.append(f"[{rank}] {title} - {url}\n要点：\n{summary}")
-    emit_rag_step("✅", f"网页要点读取完成，共 {len(summaries)} 个页面", "")
+    emit_rag_step("icon-circle-check", f"网页要点读取完成，共 {len(summaries)} 个页面", "")
     return "\n\n---\n\n".join(formatted)

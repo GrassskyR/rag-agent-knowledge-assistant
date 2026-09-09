@@ -7,7 +7,7 @@
         <div v-for="(img, idx) in chatStore.pendingImages" :key="idx" class="image-preview">
           <img :src="img" alt="待上传图片" />
           <button class="image-preview-remove" type="button" title="移除" @click="removeImage(idx)">
-            <i class="fas fa-xmark"></i>
+            <i class="icon-x" aria-hidden="true"></i>
           </button>
         </div>
       </div>
@@ -27,7 +27,7 @@
         <!-- Action chips (visual placeholders) -->
         <div class="action-chips">
           <button class="action-chip" type="button" title="上传图片" @click="triggerFileInput">
-            <i class="fas fa-image"></i> 图片
+            <i class="icon-image" aria-hidden="true"></i> 图片
           </button>
           <button
             class="action-chip"
@@ -36,7 +36,7 @@
             title="任务清单"
             @click="toggleTasks"
           >
-            <i class="fas fa-list-check"></i> 任务
+            <i class="icon-list-check" aria-hidden="true"></i> 任务
           </button>
           <button
             class="action-chip"
@@ -45,7 +45,7 @@
             title="联网搜索"
             @click="toggleWebSearch"
           >
-            <i class="fas fa-magnifying-glass"></i> 搜索
+            <i class="icon-search" aria-hidden="true"></i> 搜索
           </button>
         </div>
 
@@ -55,7 +55,7 @@
           class="send-btn stop-btn"
           title="终止回答"
         >
-          <i class="fas fa-stop"></i>
+          <i class="icon-square" aria-hidden="true"></i>
         </button>
 
         <button
@@ -64,7 +64,7 @@
           class="send-btn"
           title="发送"
         >
-          <i class="fas fa-arrow-up"></i>
+          <i class="icon-arrow-up" aria-hidden="true"></i>
         </button>
       </div>
       <input

@@ -17,6 +17,7 @@ from backend.db.models import User
 from backend.infra.auth import require_admin
 from backend.jobs import DELETE_STEPS, delete_job_manager, upload_job_manager
 from backend.schemas import (
+    DocumentBatchUploadResponse,
     DocumentDeleteJobResponse,
     DocumentDeleteResponse,
     DocumentDeleteStartResponse,
@@ -140,7 +141,7 @@ async def upload_document_async(
     if not filename:
         raise HTTPException(status_code=400, detail="文件名不能为空")
     if not is_supported_document(filename):
-        raise HTTPException(status_code=400, detail="仅支持 PDF、Word 和 Excel 文档")
+        raise HTTPException(status_code=400, detail="仅支持 PDF、Word、Excel 和 HTML 文档")
 
     ensure_upload_dir()
     job = upload_job_manager.create_job(filename)
@@ -160,6 +161,48 @@ async def upload_document_async(
         filename=filename,
         message="文件已上传，正在后台解析和向量化入库",
     )
+
+
+@router.post("/documents/upload/batch/async", response_model=DocumentBatchUploadResponse)
+async def upload_documents_batch_async(
+    background_tasks: BackgroundTasks,
+    files: list[UploadFile] = File(...),
+    _: User = Depends(require_admin),
+):
+    if not files:
+        raise HTTPException(status_code=400, detail="请至少选择一个文件")
+
+    filenames = set()
+    for file in files:
+        filename = file.filename or ""
+        if not filename:
+            raise HTTPException(status_code=400, detail="文件名不能为空")
+        if "/" in filename or "\\" in filename:
+            raise HTTPException(status_code=400, detail="文件名不能包含路径")
+        if not is_supported_document(filename):
+            raise HTTPException(status_code=400, detail=f"{filename}：仅支持 PDF、Word、Excel 和 HTML 文档")
+        if filename in filenames:
+            raise HTTPException(status_code=400, detail=f"同一批次不能上传同名文件：{filename}")
+        filenames.add(filename)
+
+    ensure_upload_dir()
+    jobs = []
+    for file in files:
+        filename = file.filename
+        job_id = upload_job_manager.create_job(filename)["job_id"]
+        file_path = UPLOAD_DIR / filename
+        try:
+            upload_job_manager.update_step(job_id, "upload", 1, "running", "正在保存文件到服务器")
+            await save_upload_file(file, file_path)
+            upload_job_manager.complete_step(job_id, "upload", "文件已上传，等待后台处理")
+        except Exception as e:
+            upload_job_manager.fail_job(job_id, "upload", f"文件保存失败: {e}")
+        else:
+            # 同一批次顺序处理，复用现有模型和逐文件失败状态。
+            background_tasks.add_task(_process_upload_job, job_id, str(file_path), filename)
+        jobs.append(DocumentUploadJobResponse(**upload_job_manager.get_job(job_id)))
+
+    return DocumentBatchUploadResponse(jobs=jobs)
 
 
 @router.get("/documents/upload/jobs/{job_id}", response_model=DocumentUploadJobResponse)
@@ -214,7 +257,7 @@ async def upload_document(file: UploadFile = File(...), _: User = Depends(requir
         if not filename:
             raise HTTPException(status_code=400, detail="文件名不能为空")
         if not is_supported_document(filename):
-            raise HTTPException(status_code=400, detail="仅支持 PDF、Word 和 Excel 文档")
+            raise HTTPException(status_code=400, detail="仅支持 PDF、Word、Excel 和 HTML 文档")
 
         ensure_upload_dir()
         

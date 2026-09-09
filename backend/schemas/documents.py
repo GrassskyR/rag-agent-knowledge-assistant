@@ -48,6 +48,10 @@ class DocumentUploadJobResponse(BaseModel):
     steps: List[UploadStepInfo]
 
 
+class DocumentBatchUploadResponse(BaseModel):
+    jobs: List[DocumentUploadJobResponse]
+
+
 class DocumentDeleteStartResponse(BaseModel):
     job_id: str
     filename: str

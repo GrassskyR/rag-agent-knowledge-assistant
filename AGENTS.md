@@ -24,7 +24,7 @@
 技术栈：
 
 - 后端：Python 3.12+、FastAPI、LangChain + LangGraph、SQLAlchemy、Milvus（向量库）、PostgreSQL、Redis
-- 前端：Vue 3（`<script setup>` + TS）、Pinia、Vite、纯 CSS（无 Tailwind / 组件库）、axios、marked + highlight.js、FontAwesome
+- 前端：Vue 3（`<script setup>` + TS）、Pinia、Vite、纯 CSS（无 Tailwind / 组件库）、axios、marked + highlight.js、Lucide Icon Font
 - 部署：`docker compose` 起 Milvus 依赖（etcd / minio / standalone / attu）+ postgres + redis；后端静态托管编译后的 `frontend/dist`
 
 ---
@@ -58,7 +58,7 @@ SuperMew/
 ├── frontend/
 │   ├── src/
 │   │   ├── App.vue           # 根布局：Sidebar + MainContent（AuthPanel / DocumentSettings / ChatArea）
-│   │   ├── main.ts           # createApp + Pinia，挂载全局 CSS / FontAwesome / highlight.js 主题
+│   │   ├── main.ts           # createApp + Pinia，挂载全局 CSS / Lucide Icon Font / highlight.js 主题
 │   │   ├── components/       # Sidebar、AuthPanel、HistorySidebar、Chat/*、Documents/*
 │   │   ├── stores/           # auth / chat / sessions / documents（Pinia）
 │   │   ├── utils/{api,markdown}.ts
@@ -141,7 +141,7 @@ SuperMew/
 
 ## 4. 前端架构
 
-- 入口 `main.ts`：`createApp` + Pinia，挂载 `main.css`、FontAwesome、highlight.js 主题。
+- 入口 `main.ts`：`createApp` + Pinia，挂载 `main.css`、Lucide Icon Font、highlight.js 主题。
 - `App.vue`：未登录显 `AuthPanel`；登录后按 `chatStore.activeNav` 切 `DocumentSettings` / `ChatArea`，`HistorySidebar` 侧滑。
 - 状态：`stores/auth`（token、`fetchMe`、登出）、`stores/chat`（消息列表、`handleSend` 走 SSE、RAG 步骤分组 `appendRagStepToGroups`、终止 `AbortController`）、`stores/sessions`、`stores/documents`。
 - 聊天流：`ChatInput` → `chatStore.handleSend` → `fetch('/chat/stream', {stream})` 手动解析 SSE（按 `\n\n` 切事件，`data: ` 前缀 JSON），逐事件更新消息。`/chat`、`/auth`、`/sessions`、`/documents` 走 `utils/api.ts`（axios，拦截器注入 Bearer、401 触发 `unauthorized` 事件登出）。
@@ -184,7 +184,7 @@ npm run dev        # dev server :3000，代理后端到 :8000
 - 优先复用已有 CSS 变量，**不硬编码 `#xxx`**；确需新值再加到 `:root`。
 - 边框近隐形（`--border-color` = gray-100），大量留白，克制动效（0.15s）。AI 回答是纯文本无气泡无底色；用户气泡用 `--user-msg-bg`。
 - 圆角体系：按钮/输入 `--radius-sm`(8px)、列表 `--radius-md`(12px)、用户气泡 `--radius-lg`(16px)、输入框药丸 `--radius-xl`(24px)、chips/圆形 `--radius-pill`。
-- 图标统一 FontAwesome solid（`fas`），默认灰。输入区是浮动药丸，内含 textarea + action chips + 黑色圆形发送按钮。
+- 图标统一使用 Lucide Icon Font（依赖 `lucide-static` 提供字体资源，使用 `icon-{kebab-case-name}` 类），这是主题 UI 唯一允许的图标来源和接入方式；图标颜色继承文字及其交互状态，不独立添加彩色底或背景容器。禁止使用内联 SVG、SVG Sprite、SVG 图片、JavaScript SVG 渲染库、Emoji、普通 Unicode 图形符号或 CSS 绘图替代图标字体。输入区是浮动药丸，内含 textarea + action chips + 黑色圆形发送按钮。
 
 ---
 

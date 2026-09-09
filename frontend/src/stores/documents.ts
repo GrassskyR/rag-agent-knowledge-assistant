@@ -1,34 +1,35 @@
 import { defineStore } from 'pinia';
 import api from '@/utils/api';
-import type { DocumentItem, UploadStep, ActiveDeleteJob, DeleteStep } from '@/types/document';
+import type { DocumentItem, UploadJob, ActiveUploadJob, BatchUploadResponse, ActiveDeleteJob, DeleteStep } from '@/types/document';
 
 export const useDocumentStore = defineStore('documents', {
   state: () => ({
     documents: [] as DocumentItem[],
     documentsLoading: false,
-    selectedFile: null as File | null,
+    selectedFiles: [] as File[],
     isUploading: false,
     uploadProgress: '',
-    uploadSteps: [] as UploadStep[],
-    uploadProgressCollapsed: false,
-    activeUploadJobId: '',
-    uploadPollTimer: null as any,
+    uploadError: '',
+    uploadJobs: [] as ActiveUploadJob[],
+    uploadPollTimer: null as ReturnType<typeof setTimeout> | null,
+    uploadPollController: null as AbortController | null,
     deleteJobs: {} as Record<string, ActiveDeleteJob>,
     deletePollTimers: {} as Record<string, any>,
     deleteRemoveTimers: {} as Record<string, any>,
   }),
 
-  actions: {
-    createUploadSteps(): UploadStep[] {
-      return [
-        { key: 'upload', label: '文档上传', percent: 0, status: 'pending', message: '' },
-        { key: 'cleanup', label: '清理旧版本', percent: 0, status: 'pending', message: '' },
-        { key: 'parse', label: '解析与分块', percent: 0, status: 'pending', message: '' },
-        { key: 'parent_store', label: '父级分块入库', percent: 0, status: 'pending', message: '' },
-        { key: 'vector_store', label: '向量化入库', percent: 0, status: 'pending', message: '' },
-      ];
+  getters: {
+    uploadSummary(): string {
+      const total = this.uploadJobs.length;
+      if (!total) return this.uploadProgress;
+      const completed = this.uploadJobs.filter((job) => job.status === 'completed').length;
+      const failed = this.uploadJobs.filter((job) => job.status === 'failed').length;
+      const remaining = total - completed - failed;
+      return `共 ${total} 个文件，成功 ${completed} 个，失败 ${failed} 个${remaining ? `，待完成 ${remaining} 个` : ''}`;
     },
+  },
 
+  actions: {
     createDeleteSteps(): DeleteStep[] {
       return [
         { key: 'prepare', label: '准备删除', percent: 0, status: 'pending', message: '' },
@@ -38,18 +39,20 @@ export const useDocumentStore = defineStore('documents', {
       ];
     },
 
-    updateUploadStep(key: string, percent: number, status: UploadStep['status'] = 'running', message = '') {
-      if (!this.uploadSteps.length) {
-        this.uploadSteps = this.createUploadSteps();
+    selectFiles(files: File[]) {
+      if (this.isUploading) return;
+      const names = new Set(this.selectedFiles.map((file) => file.name));
+      for (const file of files) {
+        if (!/\.(pdf|docx?|xlsx?|html?)$/i.test(file.name)) {
+          throw new Error(`${file.name}：仅支持 PDF、Word、Excel 和 HTML 文档`);
+        }
+        if (names.has(file.name)) {
+          throw new Error(`同一批次不能上传同名文件：${file.name}`);
+        }
+        names.add(file.name);
       }
-      const idx = this.uploadSteps.findIndex((step) => step.key === key);
-      if (idx === -1) return;
-      this.uploadSteps[idx] = {
-        ...this.uploadSteps[idx],
-        percent: Math.max(0, Math.min(100, Math.round(percent || 0))),
-        status,
-        message,
-      };
+      this.selectedFiles.push(...files);
+      this.uploadError = '';
     },
 
     mergeDocumentsWithActiveDeletes(nextDocuments: DocumentItem[]): DocumentItem[] {
@@ -81,97 +84,101 @@ export const useDocumentStore = defineStore('documents', {
       }
     },
 
-    async uploadDocument() {
-      if (!this.selectedFile) {
+    async uploadDocuments() {
+      if (this.isUploading) return;
+      if (!this.selectedFiles.length) {
         throw new Error('请先选择文件');
       }
 
       this.isUploading = true;
       this.uploadProgress = '正在上传...';
-      this.uploadSteps = this.createUploadSteps();
-      this.uploadProgressCollapsed = false;
-      this.updateUploadStep('upload', 0, 'running', '准备上传');
+      this.uploadError = '';
+      this.uploadJobs = [];
 
       const formData = new FormData();
-      formData.append('file', this.selectedFile);
+      this.selectedFiles.forEach((file) => formData.append('files', file));
 
       try {
-        const response = await api.post('/documents/upload/async', formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
+        const response = await api.post<BatchUploadResponse>('/documents/upload/batch/async', formData, {
+          timeout: 0,
           onUploadProgress: (progressEvent) => {
             if (!progressEvent.total) return;
             const percent = Math.round((progressEvent.loaded / progressEvent.total) * 100);
-            this.updateUploadStep('upload', percent, 'running', `已上传 ${percent}%`);
+            this.uploadProgress = `正在上传 ${this.selectedFiles.length} 个文件：${percent}%`;
           },
         });
 
-        const data = response.data;
-        this.updateUploadStep('upload', 100, 'completed', '文档上传完成');
-        this.uploadProgress = data.message;
-        this.activeUploadJobId = data.job_id;
-        this.startUploadJobPolling(data.job_id);
+        this.uploadJobs = response.data.jobs.map((job) => ({ ...job, collapsed: false }));
+        this.startUploadJobPolling();
       } catch (error: any) {
         const errMsg = error.response?.data?.detail || error.message || '上传失败';
-        this.updateUploadStep('upload', 100, 'failed', errMsg);
-        this.uploadProgress = '上传失败：' + errMsg;
+        this.uploadError = '上传失败：' + errMsg;
+        this.uploadProgress = '';
         this.isUploading = false;
         throw new Error(errMsg);
       }
     },
 
-    syncUploadJob(job: any) {
-      this.activeUploadJobId = job.job_id;
-      this.uploadProgress = job.message || '';
-      if (Array.isArray(job.steps)) {
-        this.uploadSteps = job.steps.map((step: any) => ({
-          key: step.key,
-          label: step.label,
-          percent: step.percent,
-          status: step.status,
-          message: step.message || '',
-        }));
-      }
-      if (job.status === 'completed') {
-        this.uploadProgressCollapsed = true;
-      }
+    syncUploadJob(job: UploadJob) {
+      const index = this.uploadJobs.findIndex((item) => item.job_id === job.job_id);
+      if (index === -1) return;
+      this.uploadJobs[index] = {
+        ...job,
+        collapsed: job.status === 'completed' || this.uploadJobs[index].collapsed,
+      };
     },
 
-    startUploadJobPolling(jobId: string) {
+    startUploadJobPolling() {
       this.stopUploadJobPolling();
+      if (!this.isUploading || !this.uploadJobs.length) return;
+      this.uploadError = '';
+      const controller = new AbortController();
+      this.uploadPollController = controller;
 
       const poll = async () => {
-        try {
-          const response = await api.get(`/documents/upload/jobs/${encodeURIComponent(jobId)}`);
-          const job = response.data;
-          this.syncUploadJob(job);
+        const pendingJobs = this.uploadJobs.filter((job) => job.status === 'pending' || job.status === 'running');
+        const results = await Promise.allSettled(pendingJobs.map((job) =>
+          api.get<UploadJob>(`/documents/upload/jobs/${encodeURIComponent(job.job_id)}`, { signal: controller.signal })
+        ));
+        if (controller.signal.aborted) return;
+        results.forEach((result) => {
+          if (result.status === 'fulfilled') this.syncUploadJob(result.value.data);
+        });
 
-          if (job.status === 'completed') {
-            this.stopUploadJobPolling();
-            this.isUploading = false;
-            this.selectedFile = null;
-            await this.loadDocuments();
-          } else if (job.status === 'failed') {
-            this.stopUploadJobPolling();
-            this.isUploading = false;
-          }
-        } catch (error: any) {
-          this.uploadProgress = '进度查询失败：' + (error.response?.data?.detail || error.message);
+        const failedQuery = results.find((result) => result.status === 'rejected');
+        if (failedQuery?.status === 'rejected') {
+          const error = failedQuery.reason;
+          this.uploadError = '进度查询失败：' + (error.response?.data?.detail || error.message);
+          this.stopUploadJobPolling();
+          return;
+        }
+
+        if (this.uploadJobs.every((job) => job.status === 'completed' || job.status === 'failed')) {
           this.stopUploadJobPolling();
           this.isUploading = false;
+          const failedNames = new Set(this.uploadJobs.filter((job) => job.status === 'failed').map((job) => job.filename));
+          this.selectedFiles = this.selectedFiles.filter((file) => failedNames.has(file.name));
+          try {
+            await this.loadDocuments();
+          } catch (error: any) {
+            this.uploadError = '文档列表刷新失败：' + error.message;
+          }
+          return;
         }
+
+        this.uploadPollTimer = setTimeout(poll, 1000);
       };
 
-      poll();
-      this.uploadPollTimer = setInterval(poll, 1000);
+      void poll();
     },
 
     stopUploadJobPolling() {
       if (this.uploadPollTimer) {
-        clearInterval(this.uploadPollTimer);
+        clearTimeout(this.uploadPollTimer);
         this.uploadPollTimer = null;
       }
+      this.uploadPollController?.abort();
+      this.uploadPollController = null;
     },
 
     isDeletingDocument(filename: string): boolean {
@@ -186,9 +193,9 @@ export const useDocumentStore = defineStore('documents', {
 
     getDeleteButtonIcon(filename: string): string {
       const job = this.deleteJobs[filename];
-      if (job?.status === 'running') return 'fas fa-spinner fa-spin';
-      if (job?.status === 'completed') return 'fas fa-check';
-      return 'fas fa-trash';
+      if (job?.status === 'running') return 'icon-loader-circle icon-spin';
+      if (job?.status === 'completed') return 'icon-check';
+      return 'icon-trash-2';
     },
 
     setDeleteJob(filename: string, nextJob: Partial<ActiveDeleteJob>) {

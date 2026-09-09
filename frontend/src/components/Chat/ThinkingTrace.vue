@@ -15,13 +15,13 @@
         <!-- 子 Agent 分组：带标题可折叠 -->
         <div v-if="grp.group" class="step-group">
           <div class="step-group-header" @click="toggleGroup(gIdx)">
-            <span class="step-group-arrow" :class="{ collapsed: grp.collapsed }">▶</span>
-            <span class="step-group-label">🧵 子问题：{{ grp.label }}</span>
+            <span class="step-group-arrow icon-chevron-right" :class="{ collapsed: grp.collapsed }" aria-hidden="true"></span>
+            <span class="step-group-label"><i class="icon-git-branch" aria-hidden="true"></i> 子问题：{{ grp.label }}</span>
             <span class="step-group-count">{{ grp.steps.length }} 步</span>
           </div>
           <div v-show="!grp.collapsed" class="step-group-body">
             <div v-for="(step, sIdx) in grp.steps" :key="sIdx" class="thinking-trace-line">
-              <span class="thinking-trace-icon">{{ step.icon || '▶' }}</span>
+              <i :class="['thinking-trace-icon', iconClass(step.icon)]" aria-hidden="true"></i>
               <span class="thinking-trace-label">{{ step.label }}</span>
               <span v-if="step.detail" class="thinking-trace-detail">{{ step.detail }}</span>
             </div>
@@ -31,7 +31,7 @@
         <!-- 普通步骤：直接展示 -->
         <template v-else>
           <div v-for="(step, sIdx) in grp.steps" :key="'s' + gIdx + '-' + sIdx" class="thinking-trace-line">
-            <span class="thinking-trace-icon">{{ step.icon || '▶' }}</span>
+              <i :class="['thinking-trace-icon', iconClass(step.icon)]" aria-hidden="true"></i>
             <span class="thinking-trace-label">{{ step.label }}</span>
             <span v-if="step.detail" class="thinking-trace-detail">{{ step.detail }}</span>
           </div>
@@ -51,6 +51,11 @@ const props = defineProps<{
 }>();
 
 const chatStore = useChatStore();
+
+const iconClass = (icon?: string) => {
+  if (icon && icon.startsWith('icon-')) return icon;
+  return 'icon-circle';
+};
 
 const toggleGroup = (groupIndex: number) => {
   chatStore.toggleStepGroup(props.msgIndex, groupIndex);

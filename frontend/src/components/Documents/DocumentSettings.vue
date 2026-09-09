@@ -1,8 +1,7 @@
 <template>
   <div class="settings-panel">
     <div class="settings-header">
-      <h2><i class="fas fa-cog"></i> 文档管理</h2>
-      <p>上传文档进行向量化处理，支持 PDF 和 Word、Excel 格式</p>
+      <h2><i class="icon-settings" aria-hidden="true"></i> 文档管理</h2>
     </div>
 
     <!-- Upload Section -->
@@ -10,9 +9,9 @@
 
     <!-- Documents List Section -->
     <div class="documents-section">
-      <h3><i class="fas fa-list"></i> 已上传文档</h3>
+      <h3><i class="icon-list" aria-hidden="true"></i> 已上传文档</h3>
       <button @click="onRefresh" class="btn-secondary" :disabled="documentStore.documentsLoading">
-        <i class="fas fa-sync" :class="{ 'fa-spin': documentStore.documentsLoading }"></i> 刷新列表
+        <i class="icon-refresh-cw" :class="{ 'icon-spin': documentStore.documentsLoading }" aria-hidden="true"></i> 刷新列表
       </button>
       
       <div v-if="documentStore.documentsLoading" class="loading-indicator">
@@ -20,7 +19,7 @@
       </div>
       
       <div v-else-if="documentStore.documents.length === 0" class="empty-documents">
-        <i class="fas fa-inbox"></i>
+        <i class="icon-inbox" aria-hidden="true"></i>
         <p>暂无文档</p>
       </div>
       
@@ -53,6 +52,7 @@ const onRefresh = async () => {
 
 onMounted(() => {
   documentStore.loadDocuments();
+  documentStore.startUploadJobPolling();
 });
 
 onUnmounted(() => {

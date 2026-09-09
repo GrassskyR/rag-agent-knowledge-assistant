@@ -41,10 +41,10 @@
         <!-- Utility actions (copy / regenerate) -->
         <div v-if="msg.text" class="msg-actions">
           <button class="msg-action-btn" :class="{ copied }" title="复制" type="button" @click="copyMessage">
-            <i :class="copied ? 'fas fa-check' : 'fas fa-copy'"></i>
+            <i :class="copied ? 'icon-check' : 'icon-copy'" aria-hidden="true"></i>
           </button>
           <button class="msg-action-btn" title="重新生成" type="button">
-            <i class="fas fa-rotate-right"></i>
+            <i class="icon-rotate-ccw" aria-hidden="true"></i>
           </button>
         </div>
 

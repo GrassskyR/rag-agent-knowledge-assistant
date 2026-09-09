@@ -14,9 +14,18 @@ export interface UploadStep {
 
 export interface UploadJob {
   job_id: string;
-  status: 'running' | 'completed' | 'failed';
+  filename: string;
+  status: 'pending' | 'running' | 'completed' | 'failed';
   message: string;
   steps: UploadStep[];
+}
+
+export interface ActiveUploadJob extends UploadJob {
+  collapsed: boolean;
+}
+
+export interface BatchUploadResponse {
+  jobs: UploadJob[];
 }
 
 export interface DeleteStep {

@@ -1,7 +1,7 @@
 <template>
   <div class="task-panel">
     <div class="task-header">
-      <h2><i class="fas fa-list-check"></i> 任务清单</h2>
+      <h2><i class="icon-list-check" aria-hidden="true"></i> 任务清单</h2>
       <p>AI 在对话中自动提取的可执行待办，勾选标记完成</p>
     </div>
 
@@ -17,7 +17,7 @@
               <span class="task-text">{{ todo.text }}</span>
             </label>
             <button class="task-delete" type="button" title="删除" @click="taskStore.deleteTodo(todo.id)">
-              <i class="fas fa-trash-alt"></i>
+              <i class="icon-trash-2" aria-hidden="true"></i>
             </button>
           </li>
         </ul>
@@ -35,14 +35,14 @@
               <span class="task-text">{{ todo.text }}</span>
             </label>
             <button class="task-delete" type="button" title="删除" @click="taskStore.deleteTodo(todo.id)">
-              <i class="fas fa-trash-alt"></i>
+              <i class="icon-trash-2" aria-hidden="true"></i>
             </button>
           </li>
         </ul>
       </div>
 
       <div v-if="!activeTodos.length && !doneTodos.length" class="task-empty">
-        <i class="fas fa-clipboard-list"></i>
+        <i class="icon-clipboard-list" aria-hidden="true"></i>
         <p>当前会话暂无任务</p>
         <p class="task-empty-hint">在对话中提到需要做的事，AI 会自动提取到这里</p>
       </div>

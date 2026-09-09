@@ -19,6 +19,7 @@ from backend.schemas.chat import (
     TodoUpdateRequest,
 )
 from backend.schemas.documents import (
+    DocumentBatchUploadResponse,
     DocumentDeleteJobResponse,
     DocumentDeleteResponse,
     DocumentDeleteStartResponse,
@@ -48,6 +49,7 @@ __all__ = [
     "DocumentListResponse",
     "DocumentUploadResponse",
     "DocumentUploadStartResponse",
+    "DocumentBatchUploadResponse",
     "UploadStepInfo",
     "DocumentUploadJobResponse",
     "DocumentDeleteStartResponse",

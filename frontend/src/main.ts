@@ -2,7 +2,7 @@ import { createApp } from 'vue';
 import { createPinia } from 'pinia';
 import App from './App.vue';
 import './assets/styles/main.css';
-import '@fortawesome/fontawesome-free/css/all.min.css';
+import 'element-plus/dist/index.css';
 import 'highlight.js/styles/atom-one-light.min.css';
 
 const app = createApp(App);

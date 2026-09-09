@@ -8,14 +8,16 @@ import re
 import sys
 import unicodedata
 from collections import Counter, defaultdict
+from concurrent.futures import ProcessPoolExecutor
 from datetime import datetime
+from multiprocessing import get_context
 from pathlib import Path
 from statistics import mean, median
 from typing import Annotated, Any
 from uuid import uuid4
 
 from langchain_openai import ChatOpenAI
-from langsmith import Client, evaluate
+from langsmith import Client, evaluate, get_current_run_tree, tracing_context
 from pydantic import BaseModel, Field
 
 # 项目根目录加入 sys.path，以便使用 backend 包导入
@@ -102,8 +104,9 @@ def _get_judge():
             raise RuntimeError("缺少 JUDGE_MODEL/GRADE_MODEL/FAST_MODEL/MODEL，无法运行 LLM-as-Judge。")
         base = ChatOpenAI(
             model=JUDGE_MODEL,
-            api_key=os.getenv("ARK_API_KEY") or os.getenv("OPENAI_API_KEY"),
-            base_url=os.getenv("BASE_URL"),
+            api_key=os.getenv("JUDGE_API_KEY") or os.getenv("ARK_API_KEY") or os.getenv("OPENAI_API_KEY"),
+            base_url=os.getenv("JUDGE_BASE_URL") or os.getenv("BASE_URL"),
+            extra_body=json.loads(os.getenv("JUDGE_EXTRA_BODY") or "{}"),
             temperature=0,
             timeout=90,
             max_retries=2,
@@ -119,8 +122,9 @@ def _get_raw_judge():
             raise RuntimeError("缺少 JUDGE_MODEL/GRADE_MODEL/FAST_MODEL/MODEL，无法运行 LLM-as-Judge。")
         _raw_judge = ChatOpenAI(
             model=JUDGE_MODEL,
-            api_key=os.getenv("ARK_API_KEY") or os.getenv("OPENAI_API_KEY"),
-            base_url=os.getenv("BASE_URL"),
+            api_key=os.getenv("JUDGE_API_KEY") or os.getenv("ARK_API_KEY") or os.getenv("OPENAI_API_KEY"),
+            base_url=os.getenv("JUDGE_BASE_URL") or os.getenv("BASE_URL"),
+            extra_body=json.loads(os.getenv("JUDGE_EXTRA_BODY") or "{}"),
             temperature=0,
             timeout=90,
             max_retries=2,
@@ -594,6 +598,12 @@ def target_function(inputs: dict) -> dict:
     }
 
 
+def _isolated_target(inputs: dict, parent_headers: dict) -> dict:
+    # 每个进程独占 RAG 的模块级状态，避免并发样本互相覆盖 trace 和工具计数。
+    with tracing_context(parent=parent_headers):
+        return target_function(inputs)
+
+
 def _dataset_ref(args: argparse.Namespace) -> str:
     return args.dataset_id or args.dataset_name or DATASET_NAME
 
@@ -675,6 +685,8 @@ def _write_report(payload: dict[str, Any], md_path: Path, json_path: Path) -> No
         f"- P99 latency: {payload['experiment'].get('latency_p99')}",
         f"- Avg latency: {_format_score(perf.get('latency_avg'))}s",
         f"- Avg tokens: {_format_score(perf.get('tokens_avg'))}",
+        f"- Target errors: {payload.get('target_error_count', 0)}",
+        f"- Evaluator errors: {payload.get('evaluator_error_count', 0)}",
         "",
         "## Overall Metrics",
         "",
@@ -737,7 +749,9 @@ def _evaluate_existing_experiment(args: argparse.Namespace, evaluators: list) ->
             try:
                 metrics[evaluator.__name__] = evaluator(run, example)
             except Exception as exc:
-                metrics[evaluator.__name__] = _metric(0, f"evaluator_error={type(exc).__name__}: {exc}")
+                metrics[evaluator.__name__] = {
+                    **_metric(None, f"evaluator_error={type(exc).__name__}: {exc}"), "error": True,
+                }
 
         outputs = _get_outputs(run)
         trace = _extract_rag_trace(outputs)
@@ -798,6 +812,7 @@ def _evaluate_existing_experiment(args: argparse.Namespace, evaluators: list) ->
             "metadata": getattr(project, "metadata", None),
         },
         "run_count": len(rows),
+        "evaluator_error_count": sum(m.get("error", False) for r in rows for m in r["metrics"].values()),
         "overall": _summarize_scores(rows, metric_names),
         "by_category": by_category,
         "performance": _run_perf(rows),
@@ -813,13 +828,107 @@ def _evaluate_existing_experiment(args: argparse.Namespace, evaluators: list) ->
     return payload
 
 
+def _write_new_experiment_report(args, dataset, experiment_name, rows, evaluators, client):
+    project = client.read_project(project_name=experiment_name, include_stats=True)
+    names = _metric_names(evaluators)
+    payload = {
+        "dataset": {"id": str(dataset.id), "name": dataset.name, "description": dataset.description},
+        "experiment": {
+            "id": str(project.id), "name": project.name,
+            "error_rate": sum(bool(r["error"]) for r in rows) / len(rows) if rows else None,
+            "latency_p50": str(getattr(project, "latency_p50", None)),
+            "latency_p99": str(getattr(project, "latency_p99", None)),
+            "metadata": {"judge_model": JUDGE_MODEL, "target_model": os.getenv("MODEL"),
+                         "metrics": args.metrics, "retrieval_k": args.retrieval_k,
+                         "max_concurrency": args.max_concurrency},
+        },
+        "run_count": len(rows),
+        "target_error_count": sum(bool(r["error"]) for r in rows),
+        "evaluator_error_count": sum(m.get("error", False) for r in rows for m in r["metrics"].values()),
+        "overall": _summarize_scores(rows, names),
+        "by_category": {
+            category: _summarize_scores([r for r in rows if r["category"] == category], names)
+            for category in sorted({r["category"] for r in rows})
+        },
+        "performance": _run_perf(rows),
+        "rows": rows,
+        "low_score_samples": sorted(rows, key=lambda r: min(
+            [m["score"] for m in r["metrics"].values() if m.get("score") is not None] or [1])),
+    }
+    md_path, json_path = _report_paths(args)
+    _write_report(payload, md_path, json_path)
+    print(f"报告已生成：{md_path}\n原始 JSON：{json_path}", flush=True)
+
+
+def _run_new_experiment(args, evaluators):
+    client = Client()
+    dataset = (client.read_dataset(dataset_id=args.dataset_id) if args.dataset_id
+               else client.read_dataset(dataset_name=args.dataset_name))
+    examples = sorted(client.list_examples(dataset_id=dataset.id),
+                      key=lambda ex: (ex.metadata or {}).get("case_id", str(ex.id)))
+    if args.case_ids:
+        requested = set(args.case_ids)
+        examples = [ex for ex in examples if (ex.metadata or {}).get("case_id") in requested]
+        if {(ex.metadata or {}).get("case_id") for ex in examples} != requested:
+            raise ValueError("部分 --case-ids 不在指定数据集中")
+    if args.limit is not None:
+        examples = examples[:args.limit]
+    if not examples:
+        raise ValueError("没有待评测样本")
+
+    rows = []
+    checkpoint = _report_paths(args)[1].with_suffix(".jsonl")
+    checkpoint.parent.mkdir(parents=True, exist_ok=True)
+    # SDK 同时调度生成与打分；被测调用通过进程隔离，裁判可在线程中并发。
+    with ProcessPoolExecutor(max_workers=args.max_concurrency, mp_context=get_context("spawn")) as pool:
+        def target(inputs: dict) -> dict:
+            parent = get_current_run_tree()
+            return pool.submit(_isolated_target, inputs, parent.to_headers() if parent else {}).result()
+
+        results = evaluate(
+            target, data=examples, evaluators=evaluators, client=client,
+            experiment_prefix=args.experiment_prefix, max_concurrency=args.max_concurrency,
+            num_repetitions=1, blocking=False,
+            metadata={"judge_model": JUDGE_MODEL, "target_model": os.getenv("MODEL"),
+                      "metrics": args.metrics, "retrieval_k": args.retrieval_k,
+                      "context_truncation": False if args.metrics == "manual" else True},
+        )
+        print(f"Experiment: {results.experiment_name}; samples={len(examples)}", flush=True)
+        with checkpoint.open("w", encoding="utf-8") as stream:
+            for result in results:
+                run, example = result["run"], result["example"]
+                metrics = {
+                    m.key: {"score": m.score, "comment": m.comment, "error": bool((m.extra or {}).get("error"))}
+                    for m in result["evaluation_results"]["results"]
+                }
+                row = {
+                    "run_id": str(run.id), "example_id": str(example.id),
+                    "case_id": (example.metadata or {}).get("case_id"),
+                    "category": (example.outputs or {}).get("category", "unknown"),
+                    "question": example.inputs["question"], "answer": _extract_answer(run.outputs),
+                    "outputs": run.outputs, "error": run.error, "metrics": metrics,
+                    "latency": (run.end_time - run.start_time).total_seconds() if run.end_time else None,
+                    "total_tokens": getattr(run, "total_tokens", None),
+                }
+                rows.append(row)
+                stream.write(json.dumps(row, ensure_ascii=False, default=str) + "\n")
+                stream.flush()
+                scores = {name: metric["score"] for name, metric in metrics.items()}
+                print(f"[{len(rows)}/{len(examples)}] {row['case_id'] or row['example_id']} {scores}", flush=True)
+    _write_new_experiment_report(args, dataset, results.experiment_name, rows, evaluators, client)
+
+
 def _build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="运行或复算 SuperMew LangSmith RAG 评估。")
-    parser.add_argument("--dataset-id", default=DATASET_ID, help="LangSmith dataset id。")
+    parser.add_argument("--dataset-id", default=None, help="LangSmith dataset id；指定时优先于名称。")
     parser.add_argument("--dataset-name", default=DATASET_NAME, help="LangSmith dataset name。")
     parser.add_argument("--experiment-prefix", default=EXPERIMENT_PREFIX, help="新实验名前缀。")
     parser.add_argument("--reuse-experiment-id", default=None, help="只读取并复算已有 experiment/project id，不重新跑 Agent。")
     parser.add_argument("--limit", type=int, default=None, help="限制样本数量。")
+    parser.add_argument("--case-ids", nargs="+", help="按 metadata.case_id 选择少量样本。")
+    parser.add_argument("--metrics", choices=("legacy", "manual"), default="legacy", help="manual 使用设备手册四项裁判指标。")
+    parser.add_argument("--retrieval-k", type=int, default=5, help="manual 的 AP、Hit Rate 和 MRR 截断位置。")
+    parser.add_argument("--max-concurrency", type=int, default=1, help="独立被测进程数及并发裁判数。")
     parser.add_argument("--judge-model", default=JUDGE_MODEL, help="LLM-as-Judge 模型名。")
     parser.add_argument("--no-llm", action="store_true", help="只运行规则指标，不调用 LLM judge。")
     parser.add_argument("--report-md", default=None, help="Markdown 报告输出路径。")
@@ -836,7 +945,15 @@ def main() -> None:
     global JUDGE_MODEL
     args = _build_parser().parse_args()
     JUDGE_MODEL = args.judge_model
-    evaluators = RULE_EVALUATORS if args.no_llm else RULE_EVALUATORS + LLM_EVALUATORS
+    if args.max_concurrency < 1 or (args.limit is not None and args.limit < 1):
+        raise ValueError("--max-concurrency 和 --limit 必须大于零")
+    if args.metrics == "manual":
+        if args.no_llm:
+            raise ValueError("manual 指标需要 LLM 裁判，不能使用 --no-llm")
+        from manual_rag_evaluators import ManualRagEvaluators
+        evaluators = ManualRagEvaluators(_get_raw_judge, args.retrieval_k).evaluators()
+    else:
+        evaluators = RULE_EVALUATORS if args.no_llm else RULE_EVALUATORS + LLM_EVALUATORS
 
     if args.default_reuse and not args.reuse_experiment_id:
         args.reuse_experiment_id = DEFAULT_REUSE_EXPERIMENT_ID
@@ -845,15 +962,7 @@ def main() -> None:
         _evaluate_existing_experiment(args, evaluators)
         return
 
-    data = args.dataset_id or args.dataset_name
-    evaluate(
-        target_function,
-        data=data,
-        evaluators=evaluators,
-        experiment_prefix=args.experiment_prefix,
-        max_concurrency=1,
-        num_repetitions=1,
-    )
+    _run_new_experiment(args, evaluators)
 
 
 if __name__ == "__main__":

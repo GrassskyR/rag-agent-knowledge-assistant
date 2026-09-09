@@ -90,6 +90,8 @@ export interface Message {
   text: string;
   isUser: boolean;
   isThinking?: boolean;
+  startedAt?: number;
+  durationMs?: number;
   ragTrace?: RagTrace | null;
   ragSteps?: RagStep[];
   _groupedSteps?: GroupedRagStep[];

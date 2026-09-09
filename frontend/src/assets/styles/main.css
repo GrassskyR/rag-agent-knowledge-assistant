@@ -611,6 +611,13 @@ body {
     padding: 0;
 }
 
+.response-duration {
+    margin-top: 6px;
+    color: var(--text-light);
+    font-size: 0.75rem;
+    line-height: 1.4;
+}
+
 /* AI utility icons (copy / refresh) below the answer */
 .msg-actions {
     display: flex;

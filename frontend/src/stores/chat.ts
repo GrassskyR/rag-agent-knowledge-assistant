@@ -144,6 +144,7 @@ export const useChatStore = defineStore('chat', {
         text: '',
         isUser: false,
         isThinking: true,
+        startedAt: Date.now(),
         ragTrace: null,
         ragSteps: [],
         _groupedSteps: [],
@@ -249,6 +250,10 @@ export const useChatStore = defineStore('chat', {
           this.messages[botMsgIdx].text = `抱歉，出了点问题：${error.message}`;
         }
       } finally {
+        const botMessage = this.messages[botMsgIdx];
+        if (botMessage?.startedAt !== undefined && botMessage.durationMs === undefined) {
+          botMessage.durationMs = Date.now() - botMessage.startedAt;
+        }
         this.isLoading = false;
         this.abortController = null;
       }

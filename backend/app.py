@@ -1,4 +1,5 @@
 import os
+import socket
 import sys
 from pathlib import Path
 
@@ -56,7 +57,26 @@ def create_app() -> FastAPI:
 
 app = create_app()
 
+
+def _get_lan_ip() -> str:
+    """获取当前主机用于局域网访问的 IPv4 地址。"""
+    try:
+        with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
+            sock.connect(("8.8.8.8", 80))
+            return sock.getsockname()[0]
+    except OSError:
+        try:
+            return socket.gethostbyname(socket.gethostname())
+        except OSError:
+            return "无法检测"
+
+
 if __name__ == "__main__":
     import uvicorn
 
-    uvicorn.run(app, host=os.getenv("HOST", "0.0.0.0"), port=int(os.getenv("PORT", 8000)))
+    host = os.getenv("HOST", "0.0.0.0")
+    port = int(os.getenv("PORT", 8000))
+    print(f"本机访问：http://localhost:{port}")
+    print(f"本机访问：http://127.0.0.1:{port}")
+    print(f"局域网访问：http://{_get_lan_ip()}:{port}")
+    uvicorn.run(app, host=host, port=port)

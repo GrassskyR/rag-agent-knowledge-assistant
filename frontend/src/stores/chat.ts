@@ -87,7 +87,8 @@ export const useChatStore = defineStore('chat', {
         this.messages = (data.messages || []).map((msg: any) => ({
           text: msg.content,
           isUser: msg.type === 'human',
-          ragTrace: msg.rag_trace || null,
+          durationMs: msg.type === 'ai' ? msg.rag_trace?.duration_ms : undefined,
+          ragTrace: msg.rag_trace?.tool_used ? msg.rag_trace : null,
         }));
       } catch (error: any) {
         const errMsg = error.response?.data?.detail || error.message || '加载会话失败';

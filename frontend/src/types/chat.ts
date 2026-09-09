@@ -12,6 +12,7 @@ export interface RetrievedChunk {
 }
 
 export interface RagTrace {
+  duration_ms?: number;
   tool_used?: boolean;
   tool_name?: string;
   retrieval_stage?: string;

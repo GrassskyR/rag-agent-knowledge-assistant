@@ -28,8 +28,8 @@
         :msg="msg"
         :msg-index="msgIndex"
       />
-      <div v-if="msg.isThinking && elapsedMs !== null" class="response-duration">
-        耗时 {{ formatDuration(elapsedMs) }}
+      <div v-if="msg.isThinking" class="response-duration">
+        耗时 {{ durationText }}
       </div>
       
       <!-- Actual response text -->
@@ -41,8 +41,8 @@
           @cite-click="onCiteClick"
         />
 
-        <div v-if="elapsedMs !== null" class="response-duration">
-          耗时 {{ formatDuration(elapsedMs) }}
+        <div class="response-duration">
+          耗时 {{ durationText }}
         </div>
 
         <!-- Utility actions (copy / regenerate) -->
@@ -96,12 +96,6 @@ const isTiming = computed(
   () => !props.msg.isUser && props.msg.startedAt !== undefined && props.msg.durationMs === undefined,
 );
 
-const elapsedMs = computed<number | null>(() => {
-  if (props.msg.durationMs !== undefined) return props.msg.durationMs;
-  if (props.msg.startedAt !== undefined) return Math.max(0, now.value - props.msg.startedAt);
-  return null;
-});
-
 const formatDuration = (durationMs: number) => {
   const totalSeconds = durationMs / 1000;
   if (totalSeconds < 60) return `${totalSeconds.toFixed(1)} 秒`;
@@ -109,6 +103,16 @@ const formatDuration = (durationMs: number) => {
   const seconds = Math.floor(totalSeconds % 60);
   return `${minutes} 分 ${seconds} 秒`;
 };
+
+const elapsedMs = computed<number | null>(() => {
+  if (props.msg.durationMs !== undefined) return props.msg.durationMs;
+  if (props.msg.startedAt !== undefined) return Math.max(0, now.value - props.msg.startedAt);
+  return null;
+});
+
+const durationText = computed(() => {
+  return elapsedMs.value === null ? '--' : formatDuration(elapsedMs.value);
+});
 
 const stopTimer = () => {
   if (timerId !== null) {

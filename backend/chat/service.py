@@ -1,5 +1,6 @@
 import asyncio
 import json
+import time
 
 from pydantic import BaseModel, Field
 
@@ -173,6 +174,7 @@ def chat_with_agent(
     context_messages = _build_context_messages(messages, persistent_note, user_text, images)
     messages.append(HumanMessage(content=user_text))
     storage.save(user_id, session_id, messages)
+    started_at = time.perf_counter()
 
     active_agent = get_agent(web_search_enabled)
     query_token = set_current_user_query(user_text)
@@ -213,6 +215,8 @@ def chat_with_agent(
 
     rag_context = get_last_rag_context(clear=True)
     rag_trace = rag_context.get("rag_trace") if rag_context else None
+    stored_rag_trace = dict(rag_trace or {})
+    stored_rag_trace["duration_ms"] = round((time.perf_counter() - started_at) * 1000)
 
     save_meta = dict(metadata)
     if is_first_message:
@@ -229,7 +233,7 @@ def chat_with_agent(
     except Exception as e:
         print(f"Todo merge error: {e}")
 
-    extra_message_data = [None] * (len(messages) - 1) + [{"rag_trace": rag_trace}]
+    extra_message_data = [None] * (len(messages) - 1) + [{"rag_trace": stored_rag_trace}]
     storage.save(
         user_id,
         session_id,
@@ -288,6 +292,7 @@ async def chat_with_agent_stream(
         title_task.add_done_callback(_on_title_done)
 
     full_response = ""
+    started_at = time.perf_counter()
 
     async def _agent_worker():
         nonlocal full_response
@@ -356,6 +361,8 @@ async def chat_with_agent_stream(
 
     rag_context = get_last_rag_context(clear=True)
     rag_trace = rag_context.get("rag_trace") if rag_context else None
+    stored_rag_trace = dict(rag_trace or {})
+    stored_rag_trace["duration_ms"] = round((time.perf_counter() - started_at) * 1000)
 
     if rag_trace:
         yield f"data: {json.dumps({'type': 'trace', 'rag_trace': rag_trace})}\n\n"
@@ -385,7 +392,7 @@ async def chat_with_agent_stream(
         print(f"Todo merge error: {e}")
 
     messages.append(AIMessage(content=full_response))
-    extra_message_data = [None] * (len(messages) - 1) + [{"rag_trace": rag_trace}]
+    extra_message_data = [None] * (len(messages) - 1) + [{"rag_trace": stored_rag_trace}]
     storage.save(
         user_id,
         session_id,

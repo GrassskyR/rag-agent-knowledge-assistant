@@ -1,0 +1,43 @@
+{
+  "valid": true,
+  "example_count": 100,
+  "category_counts": {
+    "error_code_troubleshooting": 35,
+    "warranty_liability": 30,
+    "multi_step_comparison": 20,
+    "negative_refusal": 15
+  },
+  "answerable_count": 85,
+  "gold_evidence_quotes_verified": 111,
+  "boundary_quotes_verified": 15,
+  "covered_pdf_count": 20,
+  "corpus_pdf_count": 20,
+  "cross_document_examples": 1,
+  "cross_page_examples": 7,
+  "examples_per_source": {
+    "01_16972_430i系统使用手册(通用_汽车_).pdf": 3,
+    "01_31298_Lenovo_V580_V580c_安全、保修_和设置指南.pdf": 2,
+    "01_31777_e-STUDIO2551C_故障排除手册.pdf": 11,
+    "01_40345_HP_LaserJet_Pro_M14-M17.pdf": 2,
+    "02_14686_N15_汽车_导航系统.pdf": 3,
+    "02_31296_ThinkPad_Edge_E535_安全、保修_和设置指南.pdf": 2,
+    "02_38324_HP_LaserJet_Enterprise_M606.pdf": 2,
+    "02_40344_HP_LaserJet_Pro_MFP_M28-M31.pdf": 5,
+    "03_14685_N18_汽车_导航系统.pdf": 3,
+    "03_31284_ThinkPad_L330_安全、保修_和设置指南.pdf": 2,
+    "03_38963_LaserJet_Pro_M402.pdf": 2,
+    "03_39879_imageRUNNER_ADVANCE_C356.pdf": 8,
+    "04_24441_专业便携式_车载_GPS.pdf": 4,
+    "04_31283_ThinkPad_T430u_安全、保修_和设置指南.pdf": 1,
+    "04_38319_HP_Color_LaserJet_Enterprise_M552.pdf": 3,
+    "04_40355_HP_LaserJet_MFP_M436n_M436dn_M436nda.pdf": 20,
+    "05_16990_高德软件_车载_导航系统V6.10用户手册.pdf": 8,
+    "05_31281_ThinkPad_S230u_安全、保修_和设置指南.pdf": 2,
+    "05_38318_LaserJet_Enterprise_MFP_M527.pdf": 3,
+    "05_40319_DocuCentre_-VII_C2273.pdf": 15
+  },
+  "unused_pdfs": [],
+  "page_convention": "page_number 为零基索引；pdf_page 为 PDF 阅读器一基页码",
+  "verification": "原文逐字包含、配比、题号、问题去重和字段一致性；不是 RAG 运行得分或语义裁判结果",
+  "errors": []
+}

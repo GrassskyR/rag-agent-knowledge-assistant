@@ -73,6 +73,7 @@ HIGH_RISK_NUMBER_RE = re.compile(
 
 JUDGE_MODEL = os.getenv("JUDGE_MODEL") or os.getenv("GRADE_MODEL") or os.getenv("FAST_MODEL") or os.getenv("MODEL")
 JUDGE_MAX_EVIDENCE_CHARS = int(os.getenv("JUDGE_MAX_EVIDENCE_CHARS", "1200"))
+DEFAULT_JUDGE_EXTRA_BODY = {"thinking": {"type": "disabled"}}
 _chat_with_agent = None
 _judge = None
 _raw_judge = None
@@ -88,6 +89,11 @@ class RagJudgeGrade(BaseModel):
     refusal_quality: float | None = Field(default=None, ge=0, le=1, description="不可回答样本是否正确拒答且不编造")
     cross_document_synthesis: float | None = Field(default=None, ge=0, le=1, description="跨文档题是否综合多个来源")
     trend_reasoning: float | None = Field(default=None, ge=0, le=1, description="趋势题是否覆盖年份数值并正确判断趋势")
+
+
+def _judge_extra_body() -> dict[str, Any]:
+    configured = os.getenv("JUDGE_EXTRA_BODY")
+    return json.loads(configured) if configured else DEFAULT_JUDGE_EXTRA_BODY.copy()
 
 
 def _get_chat_with_agent():
@@ -106,7 +112,7 @@ def _get_judge():
             model=JUDGE_MODEL,
             api_key=os.getenv("JUDGE_API_KEY") or os.getenv("ARK_API_KEY") or os.getenv("OPENAI_API_KEY"),
             base_url=os.getenv("JUDGE_BASE_URL") or os.getenv("BASE_URL"),
-            extra_body=json.loads(os.getenv("JUDGE_EXTRA_BODY") or "{}"),
+            extra_body=_judge_extra_body(),
             temperature=0,
             timeout=90,
             max_retries=2,
@@ -124,7 +130,7 @@ def _get_raw_judge():
             model=JUDGE_MODEL,
             api_key=os.getenv("JUDGE_API_KEY") or os.getenv("ARK_API_KEY") or os.getenv("OPENAI_API_KEY"),
             base_url=os.getenv("JUDGE_BASE_URL") or os.getenv("BASE_URL"),
-            extra_body=json.loads(os.getenv("JUDGE_EXTRA_BODY") or "{}"),
+            extra_body=_judge_extra_body(),
             temperature=0,
             timeout=90,
             max_retries=2,

@@ -1,0 +1,3927 @@
+[
+  {
+    "inputs": {
+      "question": "东芝 e-STUDIO2551C 打印日志出现 4031，是否意味着硬盘损坏？应先做什么？"
+    },
+    "outputs": {
+      "category": "error_code_troubleshooting",
+      "should_answer": true,
+      "ground_truth_answer": "4031 是 HDD 满错误。应删除不必要的私密打印作业和无效的部门打印作业；这条代码本身不能据以认定硬盘损坏。",
+      "reference_answer": "4031 是 HDD 满错误。应删除不必要的私密打印作业和无效的部门打印作业；这条代码本身不能据以认定硬盘损坏。",
+      "required_facts": [
+        "HDD 满错误",
+        "删除不必要的私密打印作业",
+        "删除无效的部门打印作业"
+      ],
+      "forbidden_claims": [
+        "必须更换硬盘"
+      ],
+      "gold_sources": [
+        {
+          "filename": "01_31777_e-STUDIO2551C_故障排除手册.pdf",
+          "source_path": "01_error_code_troubleshooting_office/01_31777_e-STUDIO2551C_故障排除手册.pdf",
+          "page_number": 103,
+          "pdf_page": 104,
+          "evidence_quote": "4031 HDD 满错误 删除不必要的私密打印作业和无效的部门打印作业。",
+          "must_contain": "4031 HDD 满错误 删除不必要的私密打印作业和无效的部门打印作业。"
+        }
+      ],
+      "boundary_sources": [],
+      "evidence_quote": [
+        "4031 HDD 满错误 删除不必要的私密打印作业和无效的部门打印作业。"
+      ]
+    },
+    "metadata": {
+      "case_id": "manual-001",
+      "category": "error_code_troubleshooting",
+      "product": "e-STUDIO2551C",
+      "language": "zh-CN"
+    }
+  },
+  {
+    "inputs": {
+      "question": "e-STUDIO2551C 的 4041 和 4042 都是验证错误，分别应该检查用户还是部门代码？"
+    },
+    "outputs": {
+      "category": "error_code_troubleshooting",
+      "should_answer": true,
+      "ground_truth_answer": "4041 表示执行打印的用户尚未验证或注册，应执行用户验证或注册；4042 是部门代码验证错误，应检查设备中注册的部门代码信息。",
+      "reference_answer": "4041 表示执行打印的用户尚未验证或注册，应执行用户验证或注册；4042 是部门代码验证错误，应检查设备中注册的部门代码信息。",
+      "required_facts": [
+        "4041：用户验证或注册",
+        "4042：检查注册的部门代码信息"
+      ],
+      "forbidden_claims": [],
+      "gold_sources": [
+        {
+          "filename": "01_31777_e-STUDIO2551C_故障排除手册.pdf",
+          "source_path": "01_error_code_troubleshooting_office/01_31777_e-STUDIO2551C_故障排除手册.pdf",
+          "page_number": 103,
+          "pdf_page": 104,
+          "evidence_quote": "4041 用户验证错误 执行打印的用户还未验证或注册。请执行用户验证或用户注册。",
+          "must_contain": "4041 用户验证错误 执行打印的用户还未验证或注册。请执行用户验证或用户注册。"
+        },
+        {
+          "filename": "01_31777_e-STUDIO2551C_故障排除手册.pdf",
+          "source_path": "01_error_code_troubleshooting_office/01_31777_e-STUDIO2551C_故障排除手册.pdf",
+          "page_number": 103,
+          "pdf_page": 104,
+          "evidence_quote": "4042 部门代码验证错误 检查设备中注册的部门代码信息。",
+          "must_contain": "4042 部门代码验证错误 检查设备中注册的部门代码信息。"
+        }
+      ],
+      "boundary_sources": [],
+      "evidence_quote": [
+        "4041 用户验证错误 执行打印的用户还未验证或注册。请执行用户验证或用户注册。",
+        "4042 部门代码验证错误 检查设备中注册的部门代码信息。"
+      ]
+    },
+    "metadata": {
+      "case_id": "manual-002",
+      "category": "error_code_troubleshooting",
+      "product": "e-STUDIO2551C",
+      "language": "zh-CN"
+    }
+  },
+  {
+    "inputs": {
+      "question": "e-STUDIO2551C 报 4211，校验打印和私密打印不能用时，手册建议改成哪种打印？"
+    },
+    "outputs": {
+      "category": "error_code_troubleshooting",
+      "should_answer": true,
+      "ground_truth_answer": "4211 是打印数据存储限制错误，不能执行将数据暂存到 HDD 的校验打印、私密打印、计划打印等，应执行正常打印。",
+      "reference_answer": "4211 是打印数据存储限制错误，不能执行将数据暂存到 HDD 的校验打印、私密打印、计划打印等，应执行正常打印。",
+      "required_facts": [
+        "打印数据存储限制错误",
+        "不能暂存到 HDD",
+        "执行正常打印"
+      ],
+      "forbidden_claims": [],
+      "gold_sources": [
+        {
+          "filename": "01_31777_e-STUDIO2551C_故障排除手册.pdf",
+          "source_path": "01_error_code_troubleshooting_office/01_31777_e-STUDIO2551C_故障排除手册.pdf",
+          "page_number": 103,
+          "pdf_page": 104,
+          "evidence_quote": "4211 打印数据存储限制错误 不能执行将数据暂时存储到 HDD 中的打印 （校验打印，私密打印，计划\n打印等） 。请执行正常打印。",
+          "must_contain": "4211 打印数据存储限制错误 不能执行将数据暂时存储到 HDD 中的打印 （校验打印，私密打印，计划\n打印等） 。请执行正常打印。"
+        }
+      ],
+      "boundary_sources": [],
+      "evidence_quote": [
+        "4211 打印数据存储限制错误 不能执行将数据暂时存储到 HDD 中的打印 （校验打印，私密打印，计划\n打印等） 。请执行正常打印。"
+      ]
+    },
+    "metadata": {
+      "case_id": "manual-003",
+      "category": "error_code_troubleshooting",
+      "product": "e-STUDIO2551C",
+      "language": "zh-CN"
+    }
+  },
+  {
+    "inputs": {
+      "question": "e-STUDIO2551C 报 1C10 时，是先重新开机重试，还是直接换主板？重试仍失败怎么办？"
+    },
+    "outputs": {
+      "category": "error_code_troubleshooting",
+      "should_answer": true,
+      "ground_truth_answer": "1C10 是系统访问异常。先关闭电源再打开，重新执行出错作业；问题仍存在时联系服务维修代表。手册未要求直接更换主板。",
+      "reference_answer": "1C10 是系统访问异常。先关闭电源再打开，重新执行出错作业；问题仍存在时联系服务维修代表。手册未要求直接更换主板。",
+      "required_facts": [
+        "系统访问异常",
+        "关闭电源再打开并重试作业",
+        "仍存在时联系服务维修代表"
+      ],
+      "forbidden_claims": [
+        "直接更换主板"
+      ],
+      "gold_sources": [
+        {
+          "filename": "01_31777_e-STUDIO2551C_故障排除手册.pdf",
+          "source_path": "01_error_code_troubleshooting_office/01_31777_e-STUDIO2551C_故障排除手册.pdf",
+          "page_number": 104,
+          "pdf_page": 105,
+          "evidence_quote": "1C10 系统访问异常 请关闭电源，然后再打开。然后再次执行出错的作业。如果问题仍然存\n在，请联系您的服务维修代表。",
+          "must_contain": "1C10 系统访问异常 请关闭电源，然后再打开。然后再次执行出错的作业。如果问题仍然存\n在，请联系您的服务维修代表。"
+        }
+      ],
+      "boundary_sources": [],
+      "evidence_quote": [
+        "1C10 系统访问异常 请关闭电源，然后再打开。然后再次执行出错的作业。如果问题仍然存\n在，请联系您的服务维修代表。"
+      ]
+    },
+    "metadata": {
+      "case_id": "manual-004",
+      "category": "error_code_troubleshooting",
+      "product": "e-STUDIO2551C",
+      "language": "zh-CN"
+    }
+  },
+  {
+    "inputs": {
+      "question": "e-STUDIO2551C 的 1C65 与 1C66 分别说明 SMTP 的什么问题？"
+    },
+    "outputs": {
+      "category": "error_code_troubleshooting",
+      "should_answer": true,
+      "ground_truth_answer": "1C65 表示未设置 SMTP 地址，应请管理员设置 SMTP 服务器地址；1C66 是服务器超时错误，应检查 SMTP 服务器是否运行正常。",
+      "reference_answer": "1C65 表示未设置 SMTP 地址，应请管理员设置 SMTP 服务器地址；1C66 是服务器超时错误，应检查 SMTP 服务器是否运行正常。",
+      "required_facts": [
+        "1C65：设置 SMTP 服务器地址",
+        "1C66：服务器超时，检查运行状态"
+      ],
+      "forbidden_claims": [],
+      "gold_sources": [
+        {
+          "filename": "01_31777_e-STUDIO2551C_故障排除手册.pdf",
+          "source_path": "01_error_code_troubleshooting_office/01_31777_e-STUDIO2551C_故障排除手册.pdf",
+          "page_number": 104,
+          "pdf_page": 105,
+          "evidence_quote": "1C65 未设置 SMTP 地址 请求您的管理员设置 SMTP 服务器地址。",
+          "must_contain": "1C65 未设置 SMTP 地址 请求您的管理员设置 SMTP 服务器地址。"
+        },
+        {
+          "filename": "01_31777_e-STUDIO2551C_故障排除手册.pdf",
+          "source_path": "01_error_code_troubleshooting_office/01_31777_e-STUDIO2551C_故障排除手册.pdf",
+          "page_number": 104,
+          "pdf_page": 105,
+          "evidence_quote": "1C66 服务器超时错误 请检查 SMTP 服务器是否运行正常。",
+          "must_contain": "1C66 服务器超时错误 请检查 SMTP 服务器是否运行正常。"
+        }
+      ],
+      "boundary_sources": [],
+      "evidence_quote": [
+        "1C65 未设置 SMTP 地址 请求您的管理员设置 SMTP 服务器地址。",
+        "1C66 服务器超时错误 请检查 SMTP 服务器是否运行正常。"
+      ]
+    },
+    "metadata": {
+      "case_id": "manual-005",
+      "category": "error_code_troubleshooting",
+      "product": "e-STUDIO2551C",
+      "language": "zh-CN"
+    }
+  },
+  {
+    "inputs": {
+      "question": "e-STUDIO2551C 互联网传真报 1C71，已经启用 SSL，除用户名和密码还要核对什么？"
+    },
+    "outputs": {
+      "category": "error_code_troubleshooting",
+      "should_answer": true,
+      "ground_truth_answer": "1C71 是 SMTP 验证错误。确认登录名、密码正确；启用 SSL 时还要确认 SSL 端口号设置正确。",
+      "reference_answer": "1C71 是 SMTP 验证错误。确认登录名、密码正确；启用 SSL 时还要确认 SSL 端口号设置正确。",
+      "required_facts": [
+        "SMTP 验证错误",
+        "登录名和密码",
+        "SSL 端口号"
+      ],
+      "forbidden_claims": [],
+      "gold_sources": [
+        {
+          "filename": "01_31777_e-STUDIO2551C_故障排除手册.pdf",
+          "source_path": "01_error_code_troubleshooting_office/01_31777_e-STUDIO2551C_故障排除手册.pdf",
+          "page_number": 104,
+          "pdf_page": 105,
+          "evidence_quote": "1C71 SMTP 验证错误 请确认登录名和密码是正确的。如果启用了 SSL，确认正确设置了 SSL\n端口号。",
+          "must_contain": "1C71 SMTP 验证错误 请确认登录名和密码是正确的。如果启用了 SSL，确认正确设置了 SSL\n端口号。"
+        }
+      ],
+      "boundary_sources": [],
+      "evidence_quote": [
+        "1C71 SMTP 验证错误 请确认登录名和密码是正确的。如果启用了 SSL，确认正确设置了 SSL\n端口号。"
+      ]
+    },
+    "metadata": {
+      "case_id": "manual-006",
+      "category": "error_code_troubleshooting",
+      "product": "e-STUDIO2551C",
+      "language": "zh-CN"
+    }
+  },
+  {
+    "inputs": {
+      "question": "e-STUDIO2551C 扫描邮件报 2C15，应直接重启还是把文件分开发送？"
+    },
+    "outputs": {
+      "category": "error_code_troubleshooting",
+      "should_answer": true,
+      "ground_truth_answer": "2C15 表示邮件尺寸超出限制或最大尺寸，一次发送的文件数量太多，手册建议分别发送。",
+      "reference_answer": "2C15 表示邮件尺寸超出限制或最大尺寸，一次发送的文件数量太多，手册建议分别发送。",
+      "required_facts": [
+        "邮件尺寸超限",
+        "一次发送文件过多",
+        "分别发送"
+      ],
+      "forbidden_claims": [],
+      "gold_sources": [
+        {
+          "filename": "01_31777_e-STUDIO2551C_故障排除手册.pdf",
+          "source_path": "01_error_code_troubleshooting_office/01_31777_e-STUDIO2551C_故障排除手册.pdf",
+          "page_number": 106,
+          "pdf_page": 107,
+          "evidence_quote": "2C15 邮件尺寸超出限制或最大尺寸 一次发送的文件数量太多。请分别发送。",
+          "must_contain": "2C15 邮件尺寸超出限制或最大尺寸 一次发送的文件数量太多。请分别发送。"
+        }
+      ],
+      "boundary_sources": [],
+      "evidence_quote": [
+        "2C15 邮件尺寸超出限制或最大尺寸 一次发送的文件数量太多。请分别发送。"
+      ]
+    },
+    "metadata": {
+      "case_id": "manual-007",
+      "category": "error_code_troubleshooting",
+      "product": "e-STUDIO2551C",
+      "language": "zh-CN"
+    }
+  },
+  {
+    "inputs": {
+      "question": "e-STUDIO2551C 把扫描件转为高压缩 PDF 时出现 2C40，重扫仍失败应改用什么格式？"
+    },
+    "outputs": {
+      "category": "error_code_troubleshooting",
+      "should_answer": true,
+      "ground_truth_answer": "2C40 是未能转换图像文件格式。高压缩 PDF 转换出错时先重试扫描，仍有问题则指定常规 PDF 格式。",
+      "reference_answer": "2C40 是未能转换图像文件格式。高压缩 PDF 转换出错时先重试扫描，仍有问题则指定常规 PDF 格式。",
+      "required_facts": [
+        "未能转换图像文件格式",
+        "先重试扫描",
+        "仍失败改为常规 PDF"
+      ],
+      "forbidden_claims": [],
+      "gold_sources": [
+        {
+          "filename": "01_31777_e-STUDIO2551C_故障排除手册.pdf",
+          "source_path": "01_error_code_troubleshooting_office/01_31777_e-STUDIO2551C_故障排除手册.pdf",
+          "page_number": 106,
+          "pdf_page": 107,
+          "evidence_quote": "2C40\n未能转换图像文件格式 如果转换高压缩 PDF 格式时发生该错误，请再试扫描。\n如果问题仍然存在，请指定常规的 PDF 格式。\n如果转换非高压缩 PDF 格式时发生该错误，请关闭电源\n然后再打开。然后再试扫描。如果问题仍然存在，请联\n系您的服务维修代表。",
+          "must_contain": "2C40\n未能转换图像文件格式 如果转换高压缩 PDF 格式时发生该错误，请再试扫描。\n如果问题仍然存在，请指定常规的 PDF 格式。\n如果转换非高压缩 PDF 格式时发生该错误，请关闭电源\n然后再打开。然后再试扫描。如果问题仍然存在，请联\n系您的服务维修代表。"
+        }
+      ],
+      "boundary_sources": [],
+      "evidence_quote": [
+        "2C40\n未能转换图像文件格式 如果转换高压缩 PDF 格式时发生该错误，请再试扫描。\n如果问题仍然存在，请指定常规的 PDF 格式。\n如果转换非高压缩 PDF 格式时发生该错误，请关闭电源\n然后再打开。然后再试扫描。如果问题仍然存在，请联\n系您的服务维修代表。"
+      ]
+    },
+    "metadata": {
+      "case_id": "manual-008",
+      "category": "error_code_troubleshooting",
+      "product": "e-STUDIO2551C",
+      "language": "zh-CN"
+    }
+  },
+  {
+    "inputs": {
+      "question": "e-STUDIO2551C 扫描报 2C44，可以通过直接输出未加密文件绕过吗？"
+    },
+    "outputs": {
+      "category": "error_code_troubleshooting",
+      "should_answer": true,
+      "ground_truth_answer": "2C44 表示不允许创建文件，当前不允许创建未加密文件。应配置加密设置后重试；如需创建未加密文件，应咨询管理员。",
+      "reference_answer": "2C44 表示不允许创建文件，当前不允许创建未加密文件。应配置加密设置后重试；如需创建未加密文件，应咨询管理员。",
+      "required_facts": [
+        "不允许创建未加密文件",
+        "配置加密设置后重试",
+        "未加密需求咨询管理员"
+      ],
+      "forbidden_claims": [
+        "可以直接绕过加密限制"
+      ],
+      "gold_sources": [
+        {
+          "filename": "01_31777_e-STUDIO2551C_故障排除手册.pdf",
+          "source_path": "01_error_code_troubleshooting_office/01_31777_e-STUDIO2551C_故障排除手册.pdf",
+          "page_number": 106,
+          "pdf_page": 107,
+          "evidence_quote": "2C44\n不允许创建文件 不允许创建未加密的文件。\n配置加密设置并再试失败的作业。\n要创建未加密的文件，请咨询管理员。",
+          "must_contain": "2C44\n不允许创建文件 不允许创建未加密的文件。\n配置加密设置并再试失败的作业。\n要创建未加密的文件，请咨询管理员。"
+        }
+      ],
+      "boundary_sources": [],
+      "evidence_quote": [
+        "2C44\n不允许创建文件 不允许创建未加密的文件。\n配置加密设置并再试失败的作业。\n要创建未加密的文件，请咨询管理员。"
+      ]
+    },
+    "metadata": {
+      "case_id": "manual-009",
+      "category": "error_code_troubleshooting",
+      "product": "e-STUDIO2551C",
+      "language": "zh-CN"
+    }
+  },
+  {
+    "inputs": {
+      "question": "e-STUDIO2551C 另存为文件报 2D62，应检查共享文件夹、IP 和服务器的哪些条件？"
+    },
+    "outputs": {
+      "category": "error_code_troubleshooting",
+      "should_answer": true,
+      "ground_truth_answer": "2D62 是未能连接到网络目的地。先确认网络文件夹已经共享并重试扫描；仍失败请管理员检查 IP 地址或服务器路径是否正确，同时确认服务器运行正常。",
+      "reference_answer": "2D62 是未能连接到网络目的地。先确认网络文件夹已经共享并重试扫描；仍失败请管理员检查 IP 地址或服务器路径是否正确，同时确认服务器运行正常。",
+      "required_facts": [
+        "确认网络文件夹共享",
+        "检查 IP 地址或服务器路径",
+        "服务器运行正常"
+      ],
+      "forbidden_claims": [],
+      "gold_sources": [
+        {
+          "filename": "01_31777_e-STUDIO2551C_故障排除手册.pdf",
+          "source_path": "01_error_code_troubleshooting_office/01_31777_e-STUDIO2551C_故障排除手册.pdf",
+          "page_number": 107,
+          "pdf_page": 108,
+          "evidence_quote": "2D62\n未能连接到网络目的地。检查目的地路径。 请确认在您的网络上共享网络文件夹并再试扫描。如果\n问题仍然存在，请求您的管理员检查 IP 地址或服务器路\n径是否正确。同时确认服务器运行正常。",
+          "must_contain": "2D62\n未能连接到网络目的地。检查目的地路径。 请确认在您的网络上共享网络文件夹并再试扫描。如果\n问题仍然存在，请求您的管理员检查 IP 地址或服务器路\n径是否正确。同时确认服务器运行正常。"
+        }
+      ],
+      "boundary_sources": [],
+      "evidence_quote": [
+        "2D62\n未能连接到网络目的地。检查目的地路径。 请确认在您的网络上共享网络文件夹并再试扫描。如果\n问题仍然存在，请求您的管理员检查 IP 地址或服务器路\n径是否正确。同时确认服务器运行正常。"
+      ]
+    },
+    "metadata": {
+      "case_id": "manual-010",
+      "category": "error_code_troubleshooting",
+      "product": "e-STUDIO2551C",
+      "language": "zh-CN"
+    }
+  },
+  {
+    "inputs": {
+      "question": "富士施乐 DocuCentre-VII C2273 报 016-799 是硬件坏了吗？第一步应重启还是报修？"
+    },
+    "outputs": {
+      "category": "error_code_troubleshooting",
+      "should_answer": true,
+      "ground_truth_answer": "016-799 指应用程序打印数据含无效打印参数，或打印数据与打印设定不匹配。手册的首项措施是检查应用程序的打印数据和打印设置，再尝试打印，不能仅凭该代码断言硬件损坏。",
+      "reference_answer": "016-799 指应用程序打印数据含无效打印参数，或打印数据与打印设定不匹配。手册的首项措施是检查应用程序的打印数据和打印设置，再尝试打印，不能仅凭该代码断言硬件损坏。",
+      "required_facts": [
+        "无效打印参数或打印数据与设定不匹配",
+        "检查打印数据和打印设置后重试"
+      ],
+      "forbidden_claims": [
+        "016-799 是确定的硬件故障",
+        "第一步必须更换硬件"
+      ],
+      "gold_sources": [
+        {
+          "filename": "05_40319_DocuCentre_-VII_C2273.pdf",
+          "source_path": "01_error_code_troubleshooting_office/05_40319_DocuCentre_-VII_C2273.pdf",
+          "page_number": 943,
+          "pdf_page": 944,
+          "evidence_quote": "016-799 [原 因] 应用程序的打印数据中包含无效的打印参数，或打印数据和打\n印设定可能不匹配。\n[措 施] 检查应用程序的打印数据和打印设置，并再次尝试打印。",
+          "must_contain": "016-799 [原 因] 应用程序的打印数据中包含无效的打印参数，或打印数据和打\n印设定可能不匹配。\n[措 施] 检查应用程序的打印数据和打印设置，并再次尝试打印。"
+        }
+      ],
+      "boundary_sources": [],
+      "evidence_quote": [
+        "016-799 [原 因] 应用程序的打印数据中包含无效的打印参数，或打印数据和打\n印设定可能不匹配。\n[措 施] 检查应用程序的打印数据和打印设置，并再次尝试打印。"
+      ]
+    },
+    "metadata": {
+      "case_id": "manual-011",
+      "category": "error_code_troubleshooting",
+      "product": "DocuCentre-VII C2273",
+      "language": "zh-CN"
+    }
+  },
+  {
+    "inputs": {
+      "question": "DocuCentre-VII C2273 报 016-798，能只靠修改打印参数解决吗？"
+    },
+    "outputs": {
+      "category": "error_code_troubleshooting",
+      "should_answer": true,
+      "ground_truth_answer": "016-798 是未安装硬盘导致无法打印文件。应安装硬盘后重试打印，并联络客户支持中心。",
+      "reference_answer": "016-798 是未安装硬盘导致无法打印文件。应安装硬盘后重试打印，并联络客户支持中心。",
+      "required_facts": [
+        "未安装硬盘",
+        "安装硬盘后重试",
+        "联络客户支持中心"
+      ],
+      "forbidden_claims": [],
+      "gold_sources": [
+        {
+          "filename": "05_40319_DocuCentre_-VII_C2273.pdf",
+          "source_path": "01_error_code_troubleshooting_office/05_40319_DocuCentre_-VII_C2273.pdf",
+          "page_number": 943,
+          "pdf_page": 944,
+          "evidence_quote": "016-798 [原 因] 由于未安装硬盘，无法打印文件。\n[措 施] 安装硬盘，然后尝试重新打印。请联络我们的客户支持中心。",
+          "must_contain": "016-798 [原 因] 由于未安装硬盘，无法打印文件。\n[措 施] 安装硬盘，然后尝试重新打印。请联络我们的客户支持中心。"
+        }
+      ],
+      "boundary_sources": [],
+      "evidence_quote": [
+        "016-798 [原 因] 由于未安装硬盘，无法打印文件。\n[措 施] 安装硬盘，然后尝试重新打印。请联络我们的客户支持中心。"
+      ]
+    },
+    "metadata": {
+      "case_id": "manual-012",
+      "category": "error_code_troubleshooting",
+      "product": "DocuCentre-VII C2273",
+      "language": "zh-CN"
+    }
+  },
+  {
+    "inputs": {
+      "question": "DocuCentre-VII C2273 报 016-700，机密打印密码应如何调整？"
+    },
+    "outputs": {
+      "category": "error_code_troubleshooting",
+      "should_answer": true,
+      "ground_truth_answer": "原因是打印驱动程序中机密打印或帐户打印的密码位数少于设备要求。将驱动中的密码位数设为等于或大于设备的“保存时密码的最小位数”。",
+      "reference_answer": "原因是打印驱动程序中机密打印或帐户打印的密码位数少于设备要求。将驱动中的密码位数设为等于或大于设备的“保存时密码的最小位数”。",
+      "required_facts": [
+        "密码位数少于设备要求",
+        "等于或大于保存时密码的最小位数"
+      ],
+      "forbidden_claims": [],
+      "gold_sources": [
+        {
+          "filename": "05_40319_DocuCentre_-VII_C2273.pdf",
+          "source_path": "01_error_code_troubleshooting_office/05_40319_DocuCentre_-VII_C2273.pdf",
+          "page_number": 935,
+          "pdf_page": 936,
+          "evidence_quote": "016-700 [原 因] 由于打印驱动程序上设置的机密打印或帐户打印的密码位数少\n于装置上 [ 保存时密码的最小位数 ] 中指定的位数，作业被中\n止。\n[措 施] 在打印驱动程序中将密码字符串设为等于或大于 [ 保存时密码\n的最小位数 ] 中指定的位数。",
+          "must_contain": "016-700 [原 因] 由于打印驱动程序上设置的机密打印或帐户打印的密码位数少\n于装置上 [ 保存时密码的最小位数 ] 中指定的位数，作业被中\n止。\n[措 施] 在打印驱动程序中将密码字符串设为等于或大于 [ 保存时密码\n的最小位数 ] 中指定的位数。"
+        }
+      ],
+      "boundary_sources": [],
+      "evidence_quote": [
+        "016-700 [原 因] 由于打印驱动程序上设置的机密打印或帐户打印的密码位数少\n于装置上 [ 保存时密码的最小位数 ] 中指定的位数，作业被中\n止。\n[措 施] 在打印驱动程序中将密码字符串设为等于或大于 [ 保存时密码\n的最小位数 ] 中指定的位数。"
+      ]
+    },
+    "metadata": {
+      "case_id": "manual-013",
+      "category": "error_code_troubleshooting",
+      "product": "DocuCentre-VII C2273",
+      "language": "zh-CN"
+    }
+  },
+  {
+    "inputs": {
+      "question": "DocuCentre-VII C2273 的 016-701 为什么无法处理打印数据，如何腾出内存？"
+    },
+    "outputs": {
+      "category": "error_code_troubleshooting",
+      "should_answer": true,
+      "ground_truth_answer": "016-701 表示内存不足。停止不必要的端口或删除不必要的数据，以增加内存。",
+      "reference_answer": "016-701 表示内存不足。停止不必要的端口或删除不必要的数据，以增加内存。",
+      "required_facts": [
+        "内存不足",
+        "停止不必要的端口或删除不必要的数据"
+      ],
+      "forbidden_claims": [],
+      "gold_sources": [
+        {
+          "filename": "05_40319_DocuCentre_-VII_C2273.pdf",
+          "source_path": "01_error_code_troubleshooting_office/05_40319_DocuCentre_-VII_C2273.pdf",
+          "page_number": 935,
+          "pdf_page": 936,
+          "evidence_quote": "016-701\n[原 因] 由于内存不足，无法处理打印数据。\n[措 施] 停止不必要的端口或删除不必要的数据以增加内存。",
+          "must_contain": "016-701\n[原 因] 由于内存不足，无法处理打印数据。\n[措 施] 停止不必要的端口或删除不必要的数据以增加内存。"
+        }
+      ],
+      "boundary_sources": [],
+      "evidence_quote": [
+        "016-701\n[原 因] 由于内存不足，无法处理打印数据。\n[措 施] 停止不必要的端口或删除不必要的数据以增加内存。"
+      ]
+    },
+    "metadata": {
+      "case_id": "manual-014",
+      "category": "error_code_troubleshooting",
+      "product": "DocuCentre-VII C2273",
+      "language": "zh-CN"
+    }
+  },
+  {
+    "inputs": {
+      "question": "DocuCentre-VII C2273 报 016-704，是文件夹不存在还是空间不足？"
+    },
+    "outputs": {
+      "category": "error_code_troubleshooting",
+      "should_answer": true,
+      "ground_truth_answer": "016-704 表示文件夹已满且硬盘容量不足，应删除文件夹中不必要的文件，然后保存文件。",
+      "reference_answer": "016-704 表示文件夹已满且硬盘容量不足，应删除文件夹中不必要的文件，然后保存文件。",
+      "required_facts": [
+        "文件夹已满且硬盘容量不足",
+        "删除不必要文件后保存"
+      ],
+      "forbidden_claims": [],
+      "gold_sources": [
+        {
+          "filename": "05_40319_DocuCentre_-VII_C2273.pdf",
+          "source_path": "01_error_code_troubleshooting_office/05_40319_DocuCentre_-VII_C2273.pdf",
+          "page_number": 935,
+          "pdf_page": 936,
+          "evidence_quote": "016-704 [原 因] 文件夹已满，而且硬盘容量不足。\n[措 施] 删除文件夹中不必要的文件，并且保存文件。",
+          "must_contain": "016-704 [原 因] 文件夹已满，而且硬盘容量不足。\n[措 施] 删除文件夹中不必要的文件，并且保存文件。"
+        }
+      ],
+      "boundary_sources": [],
+      "evidence_quote": [
+        "016-704 [原 因] 文件夹已满，而且硬盘容量不足。\n[措 施] 删除文件夹中不必要的文件，并且保存文件。"
+      ]
+    },
+    "metadata": {
+      "case_id": "manual-015",
+      "category": "error_code_troubleshooting",
+      "product": "DocuCentre-VII C2273",
+      "language": "zh-CN"
+    }
+  },
+  {
+    "inputs": {
+      "question": "DocuCentre-VII C2273 扫描出现 016-712，应缩小扫描区域还是提高分辨率？"
+    },
+    "outputs": {
+      "category": "error_code_troubleshooting",
+      "should_answer": true,
+      "ground_truth_answer": "016-712 是指定扫描区域过小导致无法处理原稿。应增加分辨率或增大扫描区域。",
+      "reference_answer": "016-712 是指定扫描区域过小导致无法处理原稿。应增加分辨率或增大扫描区域。",
+      "required_facts": [
+        "扫描区域过小",
+        "增加分辨率或扫描区域"
+      ],
+      "forbidden_claims": [],
+      "gold_sources": [
+        {
+          "filename": "05_40319_DocuCentre_-VII_C2273.pdf",
+          "source_path": "01_error_code_troubleshooting_office/05_40319_DocuCentre_-VII_C2273.pdf",
+          "page_number": 937,
+          "pdf_page": 938,
+          "evidence_quote": "016-712 [原 因] 无法处理原稿，因为指定的扫描区域过小。\n[措 施] 增加分辨率或扫描区域。",
+          "must_contain": "016-712 [原 因] 无法处理原稿，因为指定的扫描区域过小。\n[措 施] 增加分辨率或扫描区域。"
+        }
+      ],
+      "boundary_sources": [],
+      "evidence_quote": [
+        "016-712 [原 因] 无法处理原稿，因为指定的扫描区域过小。\n[措 施] 增加分辨率或扫描区域。"
+      ]
+    },
+    "metadata": {
+      "case_id": "manual-016",
+      "category": "error_code_troubleshooting",
+      "product": "DocuCentre-VII C2273",
+      "language": "zh-CN"
+    }
+  },
+  {
+    "inputs": {
+      "question": "DocuCentre-VII C2273 的 016-718 与 016-719 都涉及 PCL，处理办法有什么不同？"
+    },
+    "outputs": {
+      "category": "error_code_troubleshooting",
+      "should_answer": true,
+      "ground_truth_answer": "016-718 是内存不足，应降低分辨率，或者取消双面打印或多张合一后重打；016-719 是打印页面缓冲器容量不足，应增加打印页面缓冲器容量。",
+      "reference_answer": "016-718 是内存不足，应降低分辨率，或者取消双面打印或多张合一后重打；016-719 是打印页面缓冲器容量不足，应增加打印页面缓冲器容量。",
+      "required_facts": [
+        "016-718：降低分辨率或取消双面/N 合 1",
+        "016-719：增加打印页面缓冲器容量"
+      ],
+      "forbidden_claims": [],
+      "gold_sources": [
+        {
+          "filename": "05_40319_DocuCentre_-VII_C2273.pdf",
+          "source_path": "01_error_code_troubleshooting_office/05_40319_DocuCentre_-VII_C2273.pdf",
+          "page_number": 937,
+          "pdf_page": 938,
+          "evidence_quote": "016-718\n[原 因] 由于内存不足，而无法处理 PCL 打印数据。\n[措 施] 减小分辨率，或者取消双面打印或多张合一 （N 合 1）功能，\n然后重新打印。",
+          "must_contain": "016-718\n[原 因] 由于内存不足，而无法处理 PCL 打印数据。\n[措 施] 减小分辨率，或者取消双面打印或多张合一 （N 合 1）功能，\n然后重新打印。"
+        },
+        {
+          "filename": "05_40319_DocuCentre_-VII_C2273.pdf",
+          "source_path": "01_error_code_troubleshooting_office/05_40319_DocuCentre_-VII_C2273.pdf",
+          "page_number": 937,
+          "pdf_page": 938,
+          "evidence_quote": "016-719 [原 因] 由于打印页面缓冲器容量不足，无法处理 PCL 打印数据。\n[措 施] 增加打印页面缓冲器的容量。",
+          "must_contain": "016-719 [原 因] 由于打印页面缓冲器容量不足，无法处理 PCL 打印数据。\n[措 施] 增加打印页面缓冲器的容量。"
+        }
+      ],
+      "boundary_sources": [],
+      "evidence_quote": [
+        "016-718\n[原 因] 由于内存不足，而无法处理 PCL 打印数据。\n[措 施] 减小分辨率，或者取消双面打印或多张合一 （N 合 1）功能，\n然后重新打印。",
+        "016-719 [原 因] 由于打印页面缓冲器容量不足，无法处理 PCL 打印数据。\n[措 施] 增加打印页面缓冲器的容量。"
+      ]
+    },
+    "metadata": {
+      "case_id": "manual-017",
+      "category": "error_code_troubleshooting",
+      "product": "DocuCentre-VII C2273",
+      "language": "zh-CN"
+    }
+  },
+  {
+    "inputs": {
+      "question": "DocuCentre-VII C2273 报 016-724，装订位置和打孔位置应该怎样重新设定？"
+    },
+    "outputs": {
+      "category": "error_code_troubleshooting",
+      "should_answer": true,
+      "ground_truth_answer": "016-724 表示不支持指定的装订和打孔位置组合。把装订和打孔位置设在同一侧，再尝试打印。",
+      "reference_answer": "016-724 表示不支持指定的装订和打孔位置组合。把装订和打孔位置设在同一侧，再尝试打印。",
+      "required_facts": [
+        "不支持指定位置组合",
+        "装订和打孔设在同一侧"
+      ],
+      "forbidden_claims": [],
+      "gold_sources": [
+        {
+          "filename": "05_40319_DocuCentre_-VII_C2273.pdf",
+          "source_path": "01_error_code_troubleshooting_office/05_40319_DocuCentre_-VII_C2273.pdf",
+          "page_number": 938,
+          "pdf_page": 939,
+          "evidence_quote": "016-724 [原 因] 不支持指定的装订和打孔位置组合。\n[措 施] 将装订和打孔位置指定在同一侧，然后重新尝试打印。",
+          "must_contain": "016-724 [原 因] 不支持指定的装订和打孔位置组合。\n[措 施] 将装订和打孔位置指定在同一侧，然后重新尝试打印。"
+        }
+      ],
+      "boundary_sources": [],
+      "evidence_quote": [
+        "016-724 [原 因] 不支持指定的装订和打孔位置组合。\n[措 施] 将装订和打孔位置指定在同一侧，然后重新尝试打印。"
+      ]
+    },
+    "metadata": {
+      "case_id": "manual-018",
+      "category": "error_code_troubleshooting",
+      "product": "DocuCentre-VII C2273",
+      "language": "zh-CN"
+    }
+  },
+  {
+    "inputs": {
+      "question": "DocuCentre-VII C2273 A3 扫描设为 600 dpi 时出现 016-779，手册建议降到多少？仍失败怎么办？"
+    },
+    "outputs": {
+      "category": "error_code_troubleshooting",
+      "should_answer": true,
+      "ground_truth_answer": "先重新尝试扫描；对 A3 等较大纸张且原设为 600 dpi 的情况，在扫描方法中把分辨率设为 400 dpi 或以下。仍无法解决则联系客户支持中心。",
+      "reference_answer": "先重新尝试扫描；对 A3 等较大纸张且原设为 600 dpi 的情况，在扫描方法中把分辨率设为 400 dpi 或以下。仍无法解决则联系客户支持中心。",
+      "required_facts": [
+        "重新尝试扫描",
+        "400 dpi 或以下",
+        "仍失败联系客户支持中心"
+      ],
+      "forbidden_claims": [],
+      "gold_sources": [
+        {
+          "filename": "05_40319_DocuCentre_-VII_C2273.pdf",
+          "source_path": "01_error_code_troubleshooting_office/05_40319_DocuCentre_-VII_C2273.pdf",
+          "page_number": 942,
+          "pdf_page": 943,
+          "evidence_quote": "016-779 [原 因] 扫描的图像转换处理期间发生错误。\n[措 施] 重新尝试扫描。如果使用较大尺寸的纸张，如 A3 （[ 分辨率 ]\n设为 [600 dpi]） ，则在 [ 扫描方法 ] 中将 [ 分辨率 ] 指定为\n[400 dpi] 或以下。如果问题仍无法解决，请联络我们的客户支\n持中心。",
+          "must_contain": "016-779 [原 因] 扫描的图像转换处理期间发生错误。\n[措 施] 重新尝试扫描。如果使用较大尺寸的纸张，如 A3 （[ 分辨率 ]\n设为 [600 dpi]） ，则在 [ 扫描方法 ] 中将 [ 分辨率 ] 指定为\n[400 dpi] 或以下。如果问题仍无法解决，请联络我们的客户支\n持中心。"
+        }
+      ],
+      "boundary_sources": [],
+      "evidence_quote": [
+        "016-779 [原 因] 扫描的图像转换处理期间发生错误。\n[措 施] 重新尝试扫描。如果使用较大尺寸的纸张，如 A3 （[ 分辨率 ]\n设为 [600 dpi]） ，则在 [ 扫描方法 ] 中将 [ 分辨率 ] 指定为\n[400 dpi] 或以下。如果问题仍无法解决，请联络我们的客户支\n持中心。"
+      ]
+    },
+    "metadata": {
+      "case_id": "manual-019",
+      "category": "error_code_troubleshooting",
+      "product": "DocuCentre-VII C2273",
+      "language": "zh-CN"
+    }
+  },
+  {
+    "inputs": {
+      "question": "DocuCentre-VII C2273 的 016-780 能仅按“空间不足”删除文件处理吗？"
+    },
+    "outputs": {
+      "category": "error_code_troubleshooting",
+      "should_answer": true,
+      "ground_truth_answer": "016-780 指扫描图像转换处理期间硬盘发生错误，硬盘可能损坏；应联系客户支持中心处理硬盘更换。不能将其等同于硬盘空间不足。",
+      "reference_answer": "016-780 指扫描图像转换处理期间硬盘发生错误，硬盘可能损坏；应联系客户支持中心处理硬盘更换。不能将其等同于硬盘空间不足。",
+      "required_facts": [
+        "图像转换期间硬盘错误",
+        "硬盘可能损坏",
+        "联系客户支持中心更换硬盘"
+      ],
+      "forbidden_claims": [],
+      "gold_sources": [
+        {
+          "filename": "05_40319_DocuCentre_-VII_C2273.pdf",
+          "source_path": "01_error_code_troubleshooting_office/05_40319_DocuCentre_-VII_C2273.pdf",
+          "page_number": 942,
+          "pdf_page": 943,
+          "evidence_quote": "016-780\n[原 因] 扫描的图像转换处理期间硬盘发生错误。\n[措 施] 硬盘可能损坏。要更换硬盘，请联络我们的客户支持中心。",
+          "must_contain": "016-780\n[原 因] 扫描的图像转换处理期间硬盘发生错误。\n[措 施] 硬盘可能损坏。要更换硬盘，请联络我们的客户支持中心。"
+        }
+      ],
+      "boundary_sources": [],
+      "evidence_quote": [
+        "016-780\n[原 因] 扫描的图像转换处理期间硬盘发生错误。\n[措 施] 硬盘可能损坏。要更换硬盘，请联络我们的客户支持中心。"
+      ]
+    },
+    "metadata": {
+      "case_id": "manual-020",
+      "category": "error_code_troubleshooting",
+      "product": "DocuCentre-VII C2273",
+      "language": "zh-CN"
+    }
+  },
+  {
+    "inputs": {
+      "question": "DocuCentre-VII C2273 报 016-790，邮件分割发送失败有哪些调整办法？"
+    },
+    "outputs": {
+      "category": "error_code_troubleshooting",
+      "should_answer": true,
+      "ground_truth_answer": "016-790 表示超出允许的最大分割数。可以降低“画质/文件大小”的文件大小，或增加“分割发送时的最大分割数”，然后再发送。",
+      "reference_answer": "016-790 表示超出允许的最大分割数。可以降低“画质/文件大小”的文件大小，或增加“分割发送时的最大分割数”，然后再发送。",
+      "required_facts": [
+        "超出最大分割数",
+        "降低文件大小或增加最大分割数"
+      ],
+      "forbidden_claims": [],
+      "gold_sources": [
+        {
+          "filename": "05_40319_DocuCentre_-VII_C2273.pdf",
+          "source_path": "01_error_code_troubleshooting_office/05_40319_DocuCentre_-VII_C2273.pdf",
+          "page_number": 943,
+          "pdf_page": 944,
+          "evidence_quote": "016-790 [原 因] 由于超出允许的最大分割数，无法使用邮件分割方式发送邮\n件。\n[措 施] 采取下列措施之一：\n 降 低[画 质/文 件 大 小]的 文 件 大 小 。\n 增加 [ 分割发送时的最大分割数 ] 的数值。",
+          "must_contain": "016-790 [原 因] 由于超出允许的最大分割数，无法使用邮件分割方式发送邮\n件。\n[措 施] 采取下列措施之一：\n 降 低[画 质/文 件 大 小]的 文 件 大 小 。\n 增加 [ 分割发送时的最大分割数 ] 的数值。"
+        }
+      ],
+      "boundary_sources": [],
+      "evidence_quote": [
+        "016-790 [原 因] 由于超出允许的最大分割数，无法使用邮件分割方式发送邮\n件。\n[措 施] 采取下列措施之一：\n 降 低[画 质/文 件 大 小]的 文 件 大 小 。\n 增加 [ 分割发送时的最大分割数 ] 的数值。"
+      ]
+    },
+    "metadata": {
+      "case_id": "manual-021",
+      "category": "error_code_troubleshooting",
+      "product": "DocuCentre-VII C2273",
+      "language": "zh-CN"
+    }
+  },
+  {
+    "inputs": {
+      "question": "DocuCentre-VII C2273 报 016-726，发送 PostScript 数据需要补充哪个组件？"
+    },
+    "outputs": {
+      "category": "error_code_troubleshooting",
+      "should_answer": true,
+      "ground_truth_answer": "这是未安装 Adobe PostScript 3 组件而发送 PostScript 数据，导致无法自动选择打印机语言。必须安装 Adobe PostScript 3 组件；部分机型需选装，详情联系客户支持中心。",
+      "reference_answer": "这是未安装 Adobe PostScript 3 组件而发送 PostScript 数据，导致无法自动选择打印机语言。必须安装 Adobe PostScript 3 组件；部分机型需选装，详情联系客户支持中心。",
+      "required_facts": [
+        "未安装 Adobe PostScript 3 组件",
+        "必须安装该组件"
+      ],
+      "forbidden_claims": [],
+      "gold_sources": [
+        {
+          "filename": "05_40319_DocuCentre_-VII_C2273.pdf",
+          "source_path": "01_error_code_troubleshooting_office/05_40319_DocuCentre_-VII_C2273.pdf",
+          "page_number": 938,
+          "pdf_page": 939,
+          "evidence_quote": "016-726 [原 因] 由于在未安装 Adobe PostScript 3 组件* 的情况下发送\nPostScript 数据，因而无法自动选择打印机语言。\n*: 有些机型需要选装组件。有关更多详情，请联络我们的客户\n支持中心。\n[措 施] 必须安装 Adobe PostScript 3 组件。",
+          "must_contain": "016-726 [原 因] 由于在未安装 Adobe PostScript 3 组件* 的情况下发送\nPostScript 数据，因而无法自动选择打印机语言。\n*: 有些机型需要选装组件。有关更多详情，请联络我们的客户\n支持中心。\n[措 施] 必须安装 Adobe PostScript 3 组件。"
+        }
+      ],
+      "boundary_sources": [],
+      "evidence_quote": [
+        "016-726 [原 因] 由于在未安装 Adobe PostScript 3 组件* 的情况下发送\nPostScript 数据，因而无法自动选择打印机语言。\n*: 有些机型需要选装组件。有关更多详情，请联络我们的客户\n支持中心。\n[措 施] 必须安装 Adobe PostScript 3 组件。"
+      ]
+    },
+    "metadata": {
+      "case_id": "manual-022",
+      "category": "error_code_troubleshooting",
+      "product": "DocuCentre-VII C2273",
+      "language": "zh-CN"
+    }
+  },
+  {
+    "inputs": {
+      "question": "佳能 imageRUNNER ADVANCE C356 传真报 #003，通信时间上限是多少？发送和接收时分别如何处理？"
+    },
+    "outputs": {
+      "category": "error_code_troubleshooting",
+      "should_answer": true,
+      "ground_truth_answer": "通信超过 64 分钟会导致 #003。发送时降低分辨率后重发；接收时请对方降低扫描分辨率或将文档分为多个部分。",
+      "reference_answer": "通信超过 64 分钟会导致 #003。发送时降低分辨率后重发；接收时请对方降低扫描分辨率或将文档分为多个部分。",
+      "required_facts": [
+        "64 分钟",
+        "发送降低分辨率后重发",
+        "接收请对方降低分辨率或分割文档"
+      ],
+      "forbidden_claims": [],
+      "gold_sources": [
+        {
+          "filename": "03_39879_imageRUNNER_ADVANCE_C356.pdf",
+          "source_path": "01_error_code_troubleshooting_office/03_39879_imageRUNNER_ADVANCE_C356.pdf",
+          "page_number": 988,
+          "pdf_page": 989,
+          "evidence_quote": "◼ #003\n通信超过指定时间（64\n分钟）会导致错误。\n● 降低分辨率，然后再次发送。\n发送传真的基本操作(P . 256) \n● 接收文档时，要求对方在执行扫描或将文档分为多个部分时降低分辨率。",
+          "must_contain": "◼ #003\n通信超过指定时间（64\n分钟）会导致错误。\n● 降低分辨率，然后再次发送。\n发送传真的基本操作(P . 256) \n● 接收文档时，要求对方在执行扫描或将文档分为多个部分时降低分辨率。"
+        }
+      ],
+      "boundary_sources": [],
+      "evidence_quote": [
+        "◼ #003\n通信超过指定时间（64\n分钟）会导致错误。\n● 降低分辨率，然后再次发送。\n发送传真的基本操作(P . 256) \n● 接收文档时，要求对方在执行扫描或将文档分为多个部分时降低分辨率。"
+      ]
+    },
+    "metadata": {
+      "case_id": "manual-023",
+      "category": "error_code_troubleshooting",
+      "product": "imageRUNNER ADVANCE C356",
+      "language": "zh-CN"
+    }
+  },
+  {
+    "inputs": {
+      "question": "imageRUNNER ADVANCE C356 传真报 #005，有哪两种原因需要检查？"
+    },
+    "outputs": {
+      "category": "error_code_troubleshooting",
+      "should_answer": true,
+      "ground_truth_answer": "可能是对方 35 秒未响应，应检查对方能否通信再重发；也可能是对方设备型号不支持 G3，应检查对方设备。",
+      "reference_answer": "可能是对方 35 秒未响应，应检查对方能否通信再重发；也可能是对方设备型号不支持 G3，应检查对方设备。",
+      "required_facts": [
+        "对方 35 秒未响应",
+        "检查通信后重发",
+        "对方型号不支持 G3"
+      ],
+      "forbidden_claims": [],
+      "gold_sources": [
+        {
+          "filename": "03_39879_imageRUNNER_ADVANCE_C356.pdf",
+          "source_path": "01_error_code_troubleshooting_office/03_39879_imageRUNNER_ADVANCE_C356.pdf",
+          "page_number": 988,
+          "pdf_page": 989,
+          "evidence_quote": "◼ #005\n对方已经\n35 秒没有响应。\n● 检查对方是否可以通信，然后再次发送。\n对方设备的型号不支持 G3。\n● 检查对方的设备。",
+          "must_contain": "◼ #005\n对方已经\n35 秒没有响应。\n● 检查对方是否可以通信，然后再次发送。\n对方设备的型号不支持 G3。\n● 检查对方的设备。"
+        }
+      ],
+      "boundary_sources": [],
+      "evidence_quote": [
+        "◼ #005\n对方已经\n35 秒没有响应。\n● 检查对方是否可以通信，然后再次发送。\n对方设备的型号不支持 G3。\n● 检查对方的设备。"
+      ]
+    },
+    "metadata": {
+      "case_id": "manual-024",
+      "category": "error_code_troubleshooting",
+      "product": "imageRUNNER ADVANCE C356",
+      "language": "zh-CN"
+    }
+  },
+  {
+    "inputs": {
+      "question": "imageRUNNER ADVANCE C356 出现 #009，除了补纸还应检查什么？"
+    },
+    "outputs": {
+      "category": "error_code_troubleshooting",
+      "should_answer": true,
+      "ground_truth_answer": "#009 的原因包括纸张用完和纸仓/纸盒未正确插入。除添加纸张外，还要正确插入纸仓或纸盒。",
+      "reference_answer": "#009 的原因包括纸张用完和纸仓/纸盒未正确插入。除添加纸张外，还要正确插入纸仓或纸盒。",
+      "required_facts": [
+        "纸张用完",
+        "纸仓或纸盒未正确插入",
+        "补纸并插好纸仓或纸盒"
+      ],
+      "forbidden_claims": [],
+      "gold_sources": [
+        {
+          "filename": "03_39879_imageRUNNER_ADVANCE_C356.pdf",
+          "source_path": "01_error_code_troubleshooting_office/03_39879_imageRUNNER_ADVANCE_C356.pdf",
+          "page_number": 988,
+          "pdf_page": 989,
+          "evidence_quote": "◼ #009\n纸张已经用完。\n● 添加纸张。\n添加纸张(P . 99) \n纸仓/纸盒未正确插入。\n● 始终插入纸仓/纸盒。\n基本纸张添加方法",
+          "must_contain": "◼ #009\n纸张已经用完。\n● 添加纸张。\n添加纸张(P . 99) \n纸仓/纸盒未正确插入。\n● 始终插入纸仓/纸盒。\n基本纸张添加方法"
+        }
+      ],
+      "boundary_sources": [],
+      "evidence_quote": [
+        "◼ #009\n纸张已经用完。\n● 添加纸张。\n添加纸张(P . 99) \n纸仓/纸盒未正确插入。\n● 始终插入纸仓/纸盒。\n基本纸张添加方法"
+      ]
+    },
+    "metadata": {
+      "case_id": "manual-025",
+      "category": "error_code_troubleshooting",
+      "product": "imageRUNNER ADVANCE C356",
+      "language": "zh-CN"
+    }
+  },
+  {
+    "inputs": {
+      "question": "imageRUNNER ADVANCE C356 传真 #012 表示本机还是对方缺纸？该通知谁？"
+    },
+    "outputs": {
+      "category": "error_code_troubleshooting",
+      "should_answer": true,
+      "ground_truth_answer": "#012 表示对方设备没有纸张，无法发送，应通知对方添加纸张。",
+      "reference_answer": "#012 表示对方设备没有纸张，无法发送，应通知对方添加纸张。",
+      "required_facts": [
+        "对方设备缺纸",
+        "通知对方添加纸张"
+      ],
+      "forbidden_claims": [],
+      "gold_sources": [
+        {
+          "filename": "03_39879_imageRUNNER_ADVANCE_C356.pdf",
+          "source_path": "01_error_code_troubleshooting_office/03_39879_imageRUNNER_ADVANCE_C356.pdf",
+          "page_number": 989,
+          "pdf_page": 990,
+          "evidence_quote": "◼ #012\n对方设备没有纸张，无法发送。\n● 通知对方添加纸张。",
+          "must_contain": "◼ #012\n对方设备没有纸张，无法发送。\n● 通知对方添加纸张。"
+        }
+      ],
+      "boundary_sources": [],
+      "evidence_quote": [
+        "◼ #012\n对方设备没有纸张，无法发送。\n● 通知对方添加纸张。"
+      ]
+    },
+    "metadata": {
+      "case_id": "manual-026",
+      "category": "error_code_troubleshooting",
+      "product": "imageRUNNER ADVANCE C356",
+      "language": "zh-CN"
+    }
+  },
+  {
+    "inputs": {
+      "question": "imageRUNNER ADVANCE C356 报 #033，还应继续使用机密通信或子地址发送吗？"
+    },
+    "outputs": {
+      "category": "error_code_troubleshooting",
+      "should_answer": true,
+      "ground_truth_answer": "#033 表示对方设备不支持机密通信或子地址，应在发送时不使用机密通信或子地址。",
+      "reference_answer": "#033 表示对方设备不支持机密通信或子地址，应在发送时不使用机密通信或子地址。",
+      "required_facts": [
+        "对方不支持机密通信或子地址",
+        "发送时不使用这两项"
+      ],
+      "forbidden_claims": [],
+      "gold_sources": [
+        {
+          "filename": "03_39879_imageRUNNER_ADVANCE_C356.pdf",
+          "source_path": "01_error_code_troubleshooting_office/03_39879_imageRUNNER_ADVANCE_C356.pdf",
+          "page_number": 990,
+          "pdf_page": 991,
+          "evidence_quote": "◼ #033\n对方设备不支持机密通信或子地址。\n● 发送时不使用机密通信或子地址。",
+          "must_contain": "◼ #033\n对方设备不支持机密通信或子地址。\n● 发送时不使用机密通信或子地址。"
+        }
+      ],
+      "boundary_sources": [],
+      "evidence_quote": [
+        "◼ #033\n对方设备不支持机密通信或子地址。\n● 发送时不使用机密通信或子地址。"
+      ]
+    },
+    "metadata": {
+      "case_id": "manual-027",
+      "category": "error_code_troubleshooting",
+      "product": "imageRUNNER ADVANCE C356",
+      "language": "zh-CN"
+    }
+  },
+  {
+    "inputs": {
+      "question": "imageRUNNER ADVANCE C356 出现 #034，为什么不能只认定为子地址填错？"
+    },
+    "outputs": {
+      "category": "error_code_troubleshooting",
+      "should_answer": true,
+      "ground_truth_answer": "手册给出两种原因：找不到对方用于机密通信的保密存储位置，应检查该位置后重发；或对方设备内存不足，应要求对方释放部分空间。",
+      "reference_answer": "手册给出两种原因：找不到对方用于机密通信的保密存储位置，应检查该位置后重发；或对方设备内存不足，应要求对方释放部分空间。",
+      "required_facts": [
+        "未找到保密存储位置",
+        "检查位置后重发",
+        "也可能对方内存不足，要求释放空间"
+      ],
+      "forbidden_claims": [],
+      "gold_sources": [
+        {
+          "filename": "03_39879_imageRUNNER_ADVANCE_C356.pdf",
+          "source_path": "01_error_code_troubleshooting_office/03_39879_imageRUNNER_ADVANCE_C356.pdf",
+          "page_number": 990,
+          "pdf_page": 991,
+          "evidence_quote": "◼ #034\n未找到对方设备中指定用于机密通信的保密存储位置。\n● 检查对方设备中的保密存储位置，然后再次发送。\n对方设备的内存不足。\n● 要求对方释放部分空间。",
+          "must_contain": "◼ #034\n未找到对方设备中指定用于机密通信的保密存储位置。\n● 检查对方设备中的保密存储位置，然后再次发送。\n对方设备的内存不足。\n● 要求对方释放部分空间。"
+        }
+      ],
+      "boundary_sources": [],
+      "evidence_quote": [
+        "◼ #034\n未找到对方设备中指定用于机密通信的保密存储位置。\n● 检查对方设备中的保密存储位置，然后再次发送。\n对方设备的内存不足。\n● 要求对方释放部分空间。"
+      ]
+    },
+    "metadata": {
+      "case_id": "manual-028",
+      "category": "error_code_troubleshooting",
+      "product": "imageRUNNER ADVANCE C356",
+      "language": "zh-CN"
+    }
+  },
+  {
+    "inputs": {
+      "question": "imageRUNNER ADVANCE C356 #035 表示什么？对方不支持转发时怎么发？"
+    },
+    "outputs": {
+      "category": "error_code_troubleshooting",
+      "should_answer": true,
+      "ground_truth_answer": "#035 表示对方设备不支持转发功能或子地址。应直接发送到对方。",
+      "reference_answer": "#035 表示对方设备不支持转发功能或子地址。应直接发送到对方。",
+      "required_facts": [
+        "对方不支持转发功能或子地址",
+        "直接发送到对方"
+      ],
+      "forbidden_claims": [],
+      "gold_sources": [
+        {
+          "filename": "03_39879_imageRUNNER_ADVANCE_C356.pdf",
+          "source_path": "01_error_code_troubleshooting_office/03_39879_imageRUNNER_ADVANCE_C356.pdf",
+          "page_number": 990,
+          "pdf_page": 991,
+          "evidence_quote": "◼ #035\n对方设备不支持转发功能或子地址。\n● 直接发送到对方。",
+          "must_contain": "◼ #035\n对方设备不支持转发功能或子地址。\n● 直接发送到对方。"
+        }
+      ],
+      "boundary_sources": [],
+      "evidence_quote": [
+        "◼ #035\n对方设备不支持转发功能或子地址。\n● 直接发送到对方。"
+      ]
+    },
+    "metadata": {
+      "case_id": "manual-029",
+      "category": "error_code_troubleshooting",
+      "product": "imageRUNNER ADVANCE C356",
+      "language": "zh-CN"
+    }
+  },
+  {
+    "inputs": {
+      "question": "HP M436 提示“扫描仪已锁定”，第一步是什么？重启后还报错怎么办？"
+    },
+    "outputs": {
+      "category": "error_code_troubleshooting",
+      "should_answer": true,
+      "ground_truth_answer": "先重启电源；如果问题仍然存在，致电请求维修。",
+      "reference_answer": "先重启电源；如果问题仍然存在，致电请求维修。",
+      "required_facts": [
+        "重启电源",
+        "仍存在则致电请求维修"
+      ],
+      "forbidden_claims": [],
+      "gold_sources": [
+        {
+          "filename": "04_40355_HP_LaserJet_MFP_M436n_M436dn_M436nda.pdf",
+          "source_path": "01_error_code_troubleshooting_office/04_40355_HP_LaserJet_MFP_M436n_M436dn_M436nda.pdf",
+          "page_number": 132,
+          "pdf_page": 133,
+          "evidence_quote": "扫描仪已锁定\n扫描仪已锁定。按“停止”按\n钮\n扫描仪已锁定。 重启电源。如果问题仍然存在，请\n致电请求维修。",
+          "must_contain": "扫描仪已锁定\n扫描仪已锁定。按“停止”按\n钮\n扫描仪已锁定。 重启电源。如果问题仍然存在，请\n致电请求维修。"
+        }
+      ],
+      "boundary_sources": [],
+      "evidence_quote": [
+        "扫描仪已锁定\n扫描仪已锁定。按“停止”按\n钮\n扫描仪已锁定。 重启电源。如果问题仍然存在，请\n致电请求维修。"
+      ]
+    },
+    "metadata": {
+      "case_id": "manual-030",
+      "category": "error_code_troubleshooting",
+      "product": "HP LaserJet MFP M436",
+      "language": "zh-CN"
+    }
+  },
+  {
+    "inputs": {
+      "question": "HP M436 显示“IP 冲突”，这是碳粉或成像装置的问题吗？"
+    },
+    "outputs": {
+      "category": "error_code_troubleshooting",
+      "should_answer": true,
+      "ground_truth_answer": "这是设置的网络 IP 地址正被其他设备使用。应检查 IP 地址，必要时重置 IP 地址。",
+      "reference_answer": "这是设置的网络 IP 地址正被其他设备使用。应检查 IP 地址，必要时重置 IP 地址。",
+      "required_facts": [
+        "IP 地址正被其他设备使用",
+        "检查并在必要时重置 IP 地址"
+      ],
+      "forbidden_claims": [],
+      "gold_sources": [
+        {
+          "filename": "04_40355_HP_LaserJet_MFP_M436n_M436dn_M436nda.pdf",
+          "source_path": "01_error_code_troubleshooting_office/04_40355_HP_LaserJet_MFP_M436n_M436dn_M436nda.pdf",
+          "page_number": 131,
+          "pdf_page": 132,
+          "evidence_quote": "IP 冲突\n此 IP 地址与其他系统存在冲突\n您设置的网络 IP 地址正被其他人使\n用。\n请检查 IP 地址，如有必要，请重置\n它。",
+          "must_contain": "IP 冲突\n此 IP 地址与其他系统存在冲突\n您设置的网络 IP 地址正被其他人使\n用。\n请检查 IP 地址，如有必要，请重置\n它。"
+        }
+      ],
+      "boundary_sources": [],
+      "evidence_quote": [
+        "IP 冲突\n此 IP 地址与其他系统存在冲突\n您设置的网络 IP 地址正被其他人使\n用。\n请检查 IP 地址，如有必要，请重置\n它。"
+      ]
+    },
+    "metadata": {
+      "case_id": "manual-031",
+      "category": "error_code_troubleshooting",
+      "product": "HP LaserJet MFP M436",
+      "language": "zh-CN"
+    }
+  },
+  {
+    "inputs": {
+      "question": "HP LaserJet Pro MFP M28-M31 显示 Er/26，首次和反复出现时分别怎么处理？"
+    },
+    "outputs": {
+      "category": "error_code_troubleshooting",
+      "should_answer": true,
+      "ground_truth_answer": "Er/26 是常规引擎错误。先按“开始复印”继续；若重复出现，关闭打印机，等待 30 秒后再打开。",
+      "reference_answer": "Er/26 是常规引擎错误。先按“开始复印”继续；若重复出现，关闭打印机，等待 30 秒后再打开。",
+      "required_facts": [
+        "常规引擎错误",
+        "先按开始复印继续",
+        "重复出现则关闭并等待 30 秒重开"
+      ],
+      "forbidden_claims": [],
+      "gold_sources": [
+        {
+          "filename": "02_40344_HP_LaserJet_Pro_MFP_M28-M31.pdf",
+          "source_path": "04_confusable_submodels/02_40344_HP_LaserJet_Pro_MFP_M28-M31.pdf",
+          "page_number": 64,
+          "pdf_page": 65,
+          "evidence_quote": "Er/26 打印机发生常规引擎错误。 按下“开始复印” \n  按钮以继续。\n如果重复出现错误，请关闭打印机。等待 30 \n秒后再打开打印机。",
+          "must_contain": "Er/26 打印机发生常规引擎错误。 按下“开始复印” \n  按钮以继续。\n如果重复出现错误，请关闭打印机。等待 30 \n秒后再打开打印机。"
+        }
+      ],
+      "boundary_sources": [],
+      "evidence_quote": [
+        "Er/26 打印机发生常规引擎错误。 按下“开始复印” \n  按钮以继续。\n如果重复出现错误，请关闭打印机。等待 30 \n秒后再打开打印机。"
+      ]
+    },
+    "metadata": {
+      "case_id": "manual-032",
+      "category": "error_code_troubleshooting",
+      "product": "HP M28-M31",
+      "language": "zh-CN"
+    }
+  },
+  {
+    "inputs": {
+      "question": "HP LaserJet Pro MFP M28-M31 报 Er/81，需要换碳粉盒还是装入正确固件？"
+    },
+    "outputs": {
+      "category": "error_code_troubleshooting",
+      "should_answer": true,
+      "ground_truth_answer": "Er/81 表示装入的固件不正确，应按“开始复印”继续并装入正确固件。",
+      "reference_answer": "Er/81 表示装入的固件不正确，应按“开始复印”继续并装入正确固件。",
+      "required_facts": [
+        "固件不正确",
+        "按开始复印继续并装入正确固件"
+      ],
+      "forbidden_claims": [],
+      "gold_sources": [
+        {
+          "filename": "02_40344_HP_LaserJet_Pro_MFP_M28-M31.pdf",
+          "source_path": "04_confusable_submodels/02_40344_HP_LaserJet_Pro_MFP_M28-M31.pdf",
+          "page_number": 64,
+          "pdf_page": 65,
+          "evidence_quote": "Er/81 装入的固件不正确。 按下“开始复印” \n  按钮以继续。装入正\n确固件。",
+          "must_contain": "Er/81 装入的固件不正确。 按下“开始复印” \n  按钮以继续。装入正\n确固件。"
+        }
+      ],
+      "boundary_sources": [],
+      "evidence_quote": [
+        "Er/81 装入的固件不正确。 按下“开始复印” \n  按钮以继续。装入正\n确固件。"
+      ]
+    },
+    "metadata": {
+      "case_id": "manual-033",
+      "category": "error_code_troubleshooting",
+      "product": "HP M28-M31",
+      "language": "zh-CN"
+    }
+  },
+  {
+    "inputs": {
+      "question": "HP LaserJet Pro MFP M28-M31 出现 Er/30，涉及哪个部件？应如何处理？"
+    },
+    "outputs": {
+      "category": "error_code_troubleshooting",
+      "should_answer": true,
+      "ground_truth_answer": "Er/30 表示平板扫描仪存在问题。关闭设备再重新打开，仍有问题则联系惠普支持部门。",
+      "reference_answer": "Er/30 表示平板扫描仪存在问题。关闭设备再重新打开，仍有问题则联系惠普支持部门。",
+      "required_facts": [
+        "平板扫描仪问题",
+        "关闭后重开",
+        "仍存在联系惠普支持"
+      ],
+      "forbidden_claims": [],
+      "gold_sources": [
+        {
+          "filename": "02_40344_HP_LaserJet_Pro_MFP_M28-M31.pdf",
+          "source_path": "04_confusable_submodels/02_40344_HP_LaserJet_Pro_MFP_M28-M31.pdf",
+          "page_number": 65,
+          "pdf_page": 66,
+          "evidence_quote": "Er/30 平板扫描仪存在问题。 关闭设备，然后重新打开。如果问题仍然存\n在，请与惠普支持部门联系。",
+          "must_contain": "Er/30 平板扫描仪存在问题。 关闭设备，然后重新打开。如果问题仍然存\n在，请与惠普支持部门联系。"
+        }
+      ],
+      "boundary_sources": [],
+      "evidence_quote": [
+        "Er/30 平板扫描仪存在问题。 关闭设备，然后重新打开。如果问题仍然存\n在，请与惠普支持部门联系。"
+      ]
+    },
+    "metadata": {
+      "case_id": "manual-034",
+      "category": "error_code_troubleshooting",
+      "product": "HP M28-M31",
+      "language": "zh-CN"
+    }
+  },
+  {
+    "inputs": {
+      "question": "HP LaserJet Enterprise M606 打印重磅纸或穿孔纸时频繁卡纸，进纸方式和一次进纸量应怎样调整？"
+    },
+    "outputs": {
+      "category": "error_code_troubleshooting",
+      "should_answer": true,
+      "ground_truth_answer": "在重磅纸、压纹纸或穿孔纸上打印，应使用手动进纸功能，而且一次只能送入一张纸。",
+      "reference_answer": "在重磅纸、压纹纸或穿孔纸上打印，应使用手动进纸功能，而且一次只能送入一张纸。",
+      "required_facts": [
+        "手动进纸",
+        "一次只能送入一张纸"
+      ],
+      "forbidden_claims": [],
+      "gold_sources": [
+        {
+          "filename": "02_38324_HP_LaserJet_Enterprise_M606.pdf",
+          "source_path": "01_error_code_troubleshooting_office/02_38324_HP_LaserJet_Enterprise_M606.pdf",
+          "page_number": 100,
+          "pdf_page": 101,
+          "evidence_quote": "7. 在重磅纸、压纹纸或穿孔纸上打印时，请使用手动进纸功能，且一次只能送入一张纸。",
+          "must_contain": "7. 在重磅纸、压纹纸或穿孔纸上打印时，请使用手动进纸功能，且一次只能送入一张纸。"
+        }
+      ],
+      "boundary_sources": [],
+      "evidence_quote": [
+        "7. 在重磅纸、压纹纸或穿孔纸上打印时，请使用手动进纸功能，且一次只能送入一张纸。"
+      ]
+    },
+    "metadata": {
+      "case_id": "manual-035",
+      "category": "error_code_troubleshooting",
+      "product": "HP M606",
+      "language": "zh-CN"
+    }
+  },
+  {
+    "inputs": {
+      "question": "按 HP M436 手册，如果重注的非原装碳粉盒确实导致定影部件损坏，售后会免费维修吗？"
+    },
+    "outputs": {
+      "category": "warranty_liability",
+      "should_answer": true,
+      "ground_truth_answer": "按该手册，对由非 HP 碳粉盒或重注碳粉盒造成的特定故障或损坏，HP 按维修时间和材料标准收费，不能承诺免费维修。仅使用这类碳粉盒本身不取消整体保修或支持合同。",
+      "reference_answer": "按该手册，对由非 HP 碳粉盒或重注碳粉盒造成的特定故障或损坏，HP 按维修时间和材料标准收费，不能承诺免费维修。仅使用这类碳粉盒本身不取消整体保修或支持合同。",
+      "required_facts": [
+        "因非 HP 或重注碳粉盒造成的损坏收费",
+        "按时间和材料收费",
+        "使用本身不取消整体保修或支持合同"
+      ],
+      "forbidden_claims": [
+        "该损坏免费维修",
+        "整机永久脱保"
+      ],
+      "gold_sources": [
+        {
+          "filename": "04_40355_HP_LaserJet_MFP_M436n_M436dn_M436nda.pdf",
+          "source_path": "01_error_code_troubleshooting_office/04_40355_HP_LaserJet_MFP_M436n_M436dn_M436nda.pdf",
+          "page_number": 162,
+          "pdf_page": 163,
+          "evidence_quote": "注：对 HP 打印机产品而言，使用非 HP 碳粉盒或重注的碳粉盒既不影响对客户的保修也不影响提供给\n客户的任何 HP 支持合同。但是，如果产品的故障或损坏是因为使用非 HP 碳粉盒或重注碳粉盒而造成\n的，对于这种特殊的故障或损坏，HP 将根据维修花费的时间和材料按标准进行收费。",
+          "must_contain": "注：对 HP 打印机产品而言，使用非 HP 碳粉盒或重注的碳粉盒既不影响对客户的保修也不影响提供给\n客户的任何 HP 支持合同。但是，如果产品的故障或损坏是因为使用非 HP 碳粉盒或重注碳粉盒而造成\n的，对于这种特殊的故障或损坏，HP 将根据维修花费的时间和材料按标准进行收费。"
+        }
+      ],
+      "boundary_sources": [],
+      "evidence_quote": [
+        "注：对 HP 打印机产品而言，使用非 HP 碳粉盒或重注的碳粉盒既不影响对客户的保修也不影响提供给\n客户的任何 HP 支持合同。但是，如果产品的故障或损坏是因为使用非 HP 碳粉盒或重注碳粉盒而造成\n的，对于这种特殊的故障或损坏，HP 将根据维修花费的时间和材料按标准进行收费。"
+      ]
+    },
+    "metadata": {
+      "case_id": "manual-036",
+      "category": "warranty_liability",
+      "product": "HP LaserJet MFP M436",
+      "language": "zh-CN"
+    }
+  },
+  {
+    "inputs": {
+      "question": "HP M436 只是装过第三方碳粉盒，还没确认故障由它引起，是否整机保修和 HP 支持合同就自动失效？"
+    },
+    "outputs": {
+      "category": "warranty_liability",
+      "should_answer": true,
+      "ground_truth_answer": "不会仅因使用非 HP 或重注碳粉盒就自动影响保修或 HP 支持合同。但若某项故障或损坏由该碳粉盒造成，HP 会对该项维修按时间和材料收费。",
+      "reference_answer": "不会仅因使用非 HP 或重注碳粉盒就自动影响保修或 HP 支持合同。但若某项故障或损坏由该碳粉盒造成，HP 会对该项维修按时间和材料收费。",
+      "required_facts": [
+        "使用本身不影响保修和支持合同",
+        "因其造成的特定故障需收费"
+      ],
+      "forbidden_claims": [
+        "用过第三方碳粉就全机脱保",
+        "第三方耗材造成的损坏也全部免费"
+      ],
+      "gold_sources": [
+        {
+          "filename": "04_40355_HP_LaserJet_MFP_M436n_M436dn_M436nda.pdf",
+          "source_path": "01_error_code_troubleshooting_office/04_40355_HP_LaserJet_MFP_M436n_M436dn_M436nda.pdf",
+          "page_number": 162,
+          "pdf_page": 163,
+          "evidence_quote": "注：对 HP 打印机产品而言，使用非 HP 碳粉盒或重注的碳粉盒既不影响对客户的保修也不影响提供给\n客户的任何 HP 支持合同。但是，如果产品的故障或损坏是因为使用非 HP 碳粉盒或重注碳粉盒而造成\n的，对于这种特殊的故障或损坏，HP 将根据维修花费的时间和材料按标准进行收费。",
+          "must_contain": "注：对 HP 打印机产品而言，使用非 HP 碳粉盒或重注的碳粉盒既不影响对客户的保修也不影响提供给\n客户的任何 HP 支持合同。但是，如果产品的故障或损坏是因为使用非 HP 碳粉盒或重注碳粉盒而造成\n的，对于这种特殊的故障或损坏，HP 将根据维修花费的时间和材料按标准进行收费。"
+        }
+      ],
+      "boundary_sources": [],
+      "evidence_quote": [
+        "注：对 HP 打印机产品而言，使用非 HP 碳粉盒或重注的碳粉盒既不影响对客户的保修也不影响提供给\n客户的任何 HP 支持合同。但是，如果产品的故障或损坏是因为使用非 HP 碳粉盒或重注碳粉盒而造成\n的，对于这种特殊的故障或损坏，HP 将根据维修花费的时间和材料按标准进行收费。"
+      ]
+    },
+    "metadata": {
+      "case_id": "manual-037",
+      "category": "warranty_liability",
+      "product": "HP LaserJet MFP M436",
+      "language": "zh-CN"
+    }
+  },
+  {
+    "inputs": {
+      "question": "HP M436 尚在整机保修期，但维护部件已达到平均打印量，能否按保修免费更换？"
+    },
+    "outputs": {
+      "category": "warranty_liability",
+      "should_answer": true,
+      "ground_truth_answer": "手册明确保修不适用于更换已经达到平均打印量的维护部件；更换工作应由购买机器处的授权服务提供商、经销商或零售商执行。",
+      "reference_answer": "手册明确保修不适用于更换已经达到平均打印量的维护部件；更换工作应由购买机器处的授权服务提供商、经销商或零售商执行。",
+      "required_facts": [
+        "达到平均打印量的维护部件更换不适用保修",
+        "由指定的授权服务提供商、经销商或零售商更换"
+      ],
+      "forbidden_claims": [
+        "只要整机在保就免费换"
+      ],
+      "gold_sources": [
+        {
+          "filename": "04_40355_HP_LaserJet_MFP_M436n_M436dn_M436nda.pdf",
+          "source_path": "01_error_code_troubleshooting_office/04_40355_HP_LaserJet_MFP_M436n_M436dn_M436nda.pdf",
+          "page_number": 82,
+          "pdf_page": 83,
+          "evidence_quote": "维护部件的更换工作可仅由您向其购买机器的授权服\n务提供商、经销商或零售商执行。保修不适用于更换任何达到其“平均打印量”的维护部件。",
+          "must_contain": "维护部件的更换工作可仅由您向其购买机器的授权服\n务提供商、经销商或零售商执行。保修不适用于更换任何达到其“平均打印量”的维护部件。"
+        }
+      ],
+      "boundary_sources": [],
+      "evidence_quote": [
+        "维护部件的更换工作可仅由您向其购买机器的授权服\n务提供商、经销商或零售商执行。保修不适用于更换任何达到其“平均打印量”的维护部件。"
+      ]
+    },
+    "metadata": {
+      "case_id": "manual-038",
+      "category": "warranty_liability",
+      "product": "HP LaserJet MFP M436",
+      "language": "zh-CN"
+    }
+  },
+  {
+    "inputs": {
+      "question": "HP M436 因维护或校准不当造成缺陷，手册中的有限保修适用吗？"
+    },
+    "outputs": {
+      "category": "warranty_liability",
+      "should_answer": true,
+      "ground_truth_answer": "不适用。HP M436 有限保修明确排除因维护或校准不正确、不适当造成的缺陷。",
+      "reference_answer": "不适用。HP M436 有限保修明确排除因维护或校准不正确、不适当造成的缺陷。",
+      "required_facts": [
+        "因维护或校准不当造成的缺陷不适用保修"
+      ],
+      "forbidden_claims": [],
+      "gold_sources": [
+        {
+          "filename": "04_40355_HP_LaserJet_MFP_M436n_M436dn_M436nda.pdf",
+          "source_path": "01_error_code_troubleshooting_office/04_40355_HP_LaserJet_MFP_M436n_M436dn_M436nda.pdf",
+          "page_number": 148,
+          "pdf_page": 149,
+          "evidence_quote": "保修不适用于因以下原因造成的缺陷：(a) 维护或校准不正确或不适当",
+          "must_contain": "保修不适用于因以下原因造成的缺陷：(a) 维护或校准不正确或不适当"
+        }
+      ],
+      "boundary_sources": [],
+      "evidence_quote": [
+        "保修不适用于因以下原因造成的缺陷：(a) 维护或校准不正确或不适当"
+      ]
+    },
+    "metadata": {
+      "case_id": "manual-039",
+      "category": "warranty_liability",
+      "product": "HP LaserJet MFP M436",
+      "language": "zh-CN"
+    }
+  },
+  {
+    "inputs": {
+      "question": "HP M436 未经授权修改或误用造成的故障，是否可以承诺保内免费修？"
+    },
+    "outputs": {
+      "category": "warranty_liability",
+      "should_answer": true,
+      "ground_truth_answer": "不能。该有限保修排除了因未经授权的修改或误用造成的缺陷。",
+      "reference_answer": "不能。该有限保修排除了因未经授权的修改或误用造成的缺陷。",
+      "required_facts": [
+        "未经授权修改或误用导致的缺陷被排除"
+      ],
+      "forbidden_claims": [
+        "未经授权修改造成故障也免费"
+      ],
+      "gold_sources": [
+        {
+          "filename": "04_40355_HP_LaserJet_MFP_M436n_M436dn_M436nda.pdf",
+          "source_path": "01_error_code_troubleshooting_office/04_40355_HP_LaserJet_MFP_M436n_M436dn_M436nda.pdf",
+          "page_number": 148,
+          "pdf_page": 149,
+          "evidence_quote": "保修不适用于因以下原因造成的缺陷：(a) 维护或校准不正确或不适当；(b) 使用不是由 HP 提供的软\n件、接口设备、部件或耗材；(c) 未经授权的修改或误用；(d) 运行环境在该产品公布的环境规格范围之\n外；(e) 使用地点的准备或维护不正确。",
+          "must_contain": "保修不适用于因以下原因造成的缺陷：(a) 维护或校准不正确或不适当；(b) 使用不是由 HP 提供的软\n件、接口设备、部件或耗材；(c) 未经授权的修改或误用；(d) 运行环境在该产品公布的环境规格范围之\n外；(e) 使用地点的准备或维护不正确。"
+        }
+      ],
+      "boundary_sources": [],
+      "evidence_quote": [
+        "保修不适用于因以下原因造成的缺陷：(a) 维护或校准不正确或不适当；(b) 使用不是由 HP 提供的软\n件、接口设备、部件或耗材；(c) 未经授权的修改或误用；(d) 运行环境在该产品公布的环境规格范围之\n外；(e) 使用地点的准备或维护不正确。"
+      ]
+    },
+    "metadata": {
+      "case_id": "manual-040",
+      "category": "warranty_liability",
+      "product": "HP LaserJet MFP M436",
+      "language": "zh-CN"
+    }
+  },
+  {
+    "inputs": {
+      "question": "HP M436 在超出公布环境规格的场所运行而损坏，有限保修是否仍然覆盖？"
+    },
+    "outputs": {
+      "category": "warranty_liability",
+      "should_answer": true,
+      "ground_truth_answer": "按手册不覆盖由运行环境超出该产品公布环境规格而造成的缺陷。",
+      "reference_answer": "按手册不覆盖由运行环境超出该产品公布环境规格而造成的缺陷。",
+      "required_facts": [
+        "超出环境规格导致的缺陷不适用保修"
+      ],
+      "forbidden_claims": [],
+      "gold_sources": [
+        {
+          "filename": "04_40355_HP_LaserJet_MFP_M436n_M436dn_M436nda.pdf",
+          "source_path": "01_error_code_troubleshooting_office/04_40355_HP_LaserJet_MFP_M436n_M436dn_M436nda.pdf",
+          "page_number": 148,
+          "pdf_page": 149,
+          "evidence_quote": "保修不适用于因以下原因造成的缺陷：(a) 维护或校准不正确或不适当；(b) 使用不是由 HP 提供的软\n件、接口设备、部件或耗材；(c) 未经授权的修改或误用；(d) 运行环境在该产品公布的环境规格范围之\n外；(e) 使用地点的准备或维护不正确。",
+          "must_contain": "保修不适用于因以下原因造成的缺陷：(a) 维护或校准不正确或不适当；(b) 使用不是由 HP 提供的软\n件、接口设备、部件或耗材；(c) 未经授权的修改或误用；(d) 运行环境在该产品公布的环境规格范围之\n外；(e) 使用地点的准备或维护不正确。"
+        }
+      ],
+      "boundary_sources": [],
+      "evidence_quote": [
+        "保修不适用于因以下原因造成的缺陷：(a) 维护或校准不正确或不适当；(b) 使用不是由 HP 提供的软\n件、接口设备、部件或耗材；(c) 未经授权的修改或误用；(d) 运行环境在该产品公布的环境规格范围之\n外；(e) 使用地点的准备或维护不正确。"
+      ]
+    },
+    "metadata": {
+      "case_id": "manual-041",
+      "category": "warranty_liability",
+      "product": "HP LaserJet MFP M436",
+      "language": "zh-CN"
+    }
+  },
+  {
+    "inputs": {
+      "question": "HP M436 的有限保修是否保证机器从不发生中断或故障？什么条件下手册提出全额退款？"
+    },
+    "outputs": {
+      "category": "warranty_liability",
+      "should_answer": true,
+      "ground_truth_answer": "HP 不保证产品运行不发生中断或故障。若 HP 在合理期限内未能将产品维修或更换至担保条件，用户有权退回产品并获得全额退款。",
+      "reference_answer": "HP 不保证产品运行不发生中断或故障。若 HP 在合理期限内未能将产品维修或更换至担保条件，用户有权退回产品并获得全额退款。",
+      "required_facts": [
+        "不保证无中断或故障",
+        "合理期限内维修或更换仍未达担保条件",
+        "退回产品获得全额退款"
+      ],
+      "forbidden_claims": [],
+      "gold_sources": [
+        {
+          "filename": "04_40355_HP_LaserJet_MFP_M436n_M436dn_M436nda.pdf",
+          "source_path": "01_error_code_troubleshooting_office/04_40355_HP_LaserJet_MFP_M436n_M436dn_M436nda.pdf",
+          "page_number": 148,
+          "pdf_page": 149,
+          "evidence_quote": "HP 不保证 HP 产品运行不发生中断或故障。如果 HP 在合理的期限内未能将产品维修或更换至担保的条\n件，则您有权立即退回产品，并获得全额退款。",
+          "must_contain": "HP 不保证 HP 产品运行不发生中断或故障。如果 HP 在合理的期限内未能将产品维修或更换至担保的条\n件，则您有权立即退回产品，并获得全额退款。"
+        }
+      ],
+      "boundary_sources": [],
+      "evidence_quote": [
+        "HP 不保证 HP 产品运行不发生中断或故障。如果 HP 在合理的期限内未能将产品维修或更换至担保的条\n件，则您有权立即退回产品，并获得全额退款。"
+      ]
+    },
+    "metadata": {
+      "case_id": "manual-042",
+      "category": "warranty_liability",
+      "product": "HP LaserJet MFP M436",
+      "language": "zh-CN"
+    }
+  },
+  {
+    "inputs": {
+      "question": "HP M436 保修期内发现材料或工艺缺陷，能要求一定换全新机器而不接受维修或等效新品吗？"
+    },
+    "outputs": {
+      "category": "warranty_liability",
+      "should_answer": true,
+      "ground_truth_answer": "手册规定 HP 酌情维修或更换经证实有缺陷的产品，更换品可以是全新或性能等同于全新的产品，不能据此承诺一定更换全新机器。",
+      "reference_answer": "手册规定 HP 酌情维修或更换经证实有缺陷的产品，更换品可以是全新或性能等同于全新的产品，不能据此承诺一定更换全新机器。",
+      "required_facts": [
+        "HP 酌情维修或更换",
+        "更换品可全新或性能等同全新"
+      ],
+      "forbidden_claims": [
+        "必须换全新机器"
+      ],
+      "gold_sources": [
+        {
+          "filename": "04_40355_HP_LaserJet_MFP_M436n_M436dn_M436nda.pdf",
+          "source_path": "01_error_code_troubleshooting_office/04_40355_HP_LaserJet_MFP_M436n_M436dn_M436nda.pdf",
+          "page_number": 148,
+          "pdf_page": 149,
+          "evidence_quote": "如果 HP 在保修期内获悉\n此类缺陷，则 HP 将酌情维修或更换经证实确有缺陷的产品。",
+          "must_contain": "如果 HP 在保修期内获悉\n此类缺陷，则 HP 将酌情维修或更换经证实确有缺陷的产品。"
+        }
+      ],
+      "boundary_sources": [],
+      "evidence_quote": [
+        "如果 HP 在保修期内获悉\n此类缺陷，则 HP 将酌情维修或更换经证实确有缺陷的产品。"
+      ]
+    },
+    "metadata": {
+      "case_id": "manual-043",
+      "category": "warranty_liability",
+      "product": "HP LaserJet MFP M436",
+      "language": "zh-CN"
+    }
+  },
+  {
+    "inputs": {
+      "question": "仅按这份 HP M436 手册，其 M436n、M436dn、M436nda 的有限保修期限和服务方式是什么？能否不区分地区直接保证？"
+    },
+    "outputs": {
+      "category": "warranty_liability",
+      "should_answer": true,
+      "ground_truth_answer": "表中列为一年期下一工作日现场保修；同时注释规定保修与支持选项会因产品、国家或地区及当地法律要求而异，需核对当地提供的服务。",
+      "reference_answer": "表中列为一年期下一工作日现场保修；同时注释规定保修与支持选项会因产品、国家或地区及当地法律要求而异，需核对当地提供的服务。",
+      "required_facts": [
+        "一年期下一工作日现场保修",
+        "取决于产品、国家或地区和当地法律要求"
+      ],
+      "forbidden_claims": [],
+      "gold_sources": [
+        {
+          "filename": "04_40355_HP_LaserJet_MFP_M436n_M436dn_M436nda.pdf",
+          "source_path": "01_error_code_troubleshooting_office/04_40355_HP_LaserJet_MFP_M436n_M436dn_M436nda.pdf",
+          "page_number": 148,
+          "pdf_page": 149,
+          "evidence_quote": "HP LaserJet MFP M433a、M436n、M436dn、M436nda 一年期下一工作日现场保修",
+          "must_contain": "HP LaserJet MFP M433a、M436n、M436dn、M436nda 一年期下一工作日现场保修"
+        },
+        {
+          "filename": "04_40355_HP_LaserJet_MFP_M436n_M436dn_M436nda.pdf",
+          "source_path": "01_error_code_troubleshooting_office/04_40355_HP_LaserJet_MFP_M436n_M436dn_M436nda.pdf",
+          "page_number": 148,
+          "pdf_page": 149,
+          "evidence_quote": "注：*保修与支持选项视产品、国家/地区和当地法律要求而有所不同。请转至 support.hp.com 以了解当\n地提供的 HP 荣获大奖的服务和支持选项。",
+          "must_contain": "注：*保修与支持选项视产品、国家/地区和当地法律要求而有所不同。请转至 support.hp.com 以了解当\n地提供的 HP 荣获大奖的服务和支持选项。"
+        }
+      ],
+      "boundary_sources": [],
+      "evidence_quote": [
+        "HP LaserJet MFP M433a、M436n、M436dn、M436nda 一年期下一工作日现场保修",
+        "注：*保修与支持选项视产品、国家/地区和当地法律要求而有所不同。请转至 support.hp.com 以了解当\n地提供的 HP 荣获大奖的服务和支持选项。"
+      ]
+    },
+    "metadata": {
+      "case_id": "manual-044",
+      "category": "warranty_liability",
+      "product": "HP LaserJet MFP M436",
+      "language": "zh-CN"
+    }
+  },
+  {
+    "inputs": {
+      "question": "HP M436 使用的 LaserJet 碳粉盒已经重新注满、整修或再造，碳粉盒本身还适用耗材有限保修吗？"
+    },
+    "outputs": {
+      "category": "warranty_liability",
+      "should_answer": true,
+      "ground_truth_answer": "不适用。碳粉盒有限保修排除经过重新注满、整修、再造或擅自改动的产品；这不能扩展为整机保修自动失效。",
+      "reference_answer": "不适用。碳粉盒有限保修排除经过重新注满、整修、再造或擅自改动的产品；这不能扩展为整机保修自动失效。",
+      "required_facts": [
+        "重新注满、整修、再造或擅自改动的碳粉盒不适用该耗材保修"
+      ],
+      "forbidden_claims": [
+        "整机自动失去全部保修"
+      ],
+      "gold_sources": [
+        {
+          "filename": "04_40355_HP_LaserJet_MFP_M436n_M436dn_M436nda.pdf",
+          "source_path": "01_error_code_troubleshooting_office/04_40355_HP_LaserJet_MFP_M436n_M436dn_M436nda.pdf",
+          "page_number": 161,
+          "pdf_page": 162,
+          "evidence_quote": "本保修声明不适用于以下产品：(a) 经过重新注满、整修、再造或擅自改动；(b) 由于滥用、不正确存储\n或未按发布的此打印机产品的环境规格说明进行操作而产生问题；(c) 发生正常使用磨损。",
+          "must_contain": "本保修声明不适用于以下产品：(a) 经过重新注满、整修、再造或擅自改动；(b) 由于滥用、不正确存储\n或未按发布的此打印机产品的环境规格说明进行操作而产生问题；(c) 发生正常使用磨损。"
+        }
+      ],
+      "boundary_sources": [],
+      "evidence_quote": [
+        "本保修声明不适用于以下产品：(a) 经过重新注满、整修、再造或擅自改动；(b) 由于滥用、不正确存储\n或未按发布的此打印机产品的环境规格说明进行操作而产生问题；(c) 发生正常使用磨损。"
+      ]
+    },
+    "metadata": {
+      "case_id": "manual-045",
+      "category": "warranty_liability",
+      "product": "HP LaserJet MFP M436",
+      "language": "zh-CN"
+    }
+  },
+  {
+    "inputs": {
+      "question": "HP M436 的原装碳粉盒因存储不当出问题，或者正常使用磨损，能按碳粉盒保修换新吗？"
+    },
+    "outputs": {
+      "category": "warranty_liability",
+      "should_answer": true,
+      "ground_truth_answer": "该碳粉盒有限保修不适用于因不正确存储产生问题的产品，也不适用于正常使用磨损的产品，不能承诺这两类情况免费换新。",
+      "reference_answer": "该碳粉盒有限保修不适用于因不正确存储产生问题的产品，也不适用于正常使用磨损的产品，不能承诺这两类情况免费换新。",
+      "required_facts": [
+        "不正确存储造成问题不适用",
+        "正常使用磨损不适用"
+      ],
+      "forbidden_claims": [],
+      "gold_sources": [
+        {
+          "filename": "04_40355_HP_LaserJet_MFP_M436n_M436dn_M436nda.pdf",
+          "source_path": "01_error_code_troubleshooting_office/04_40355_HP_LaserJet_MFP_M436n_M436dn_M436nda.pdf",
+          "page_number": 161,
+          "pdf_page": 162,
+          "evidence_quote": "本保修声明不适用于以下产品：(a) 经过重新注满、整修、再造或擅自改动；(b) 由于滥用、不正确存储\n或未按发布的此打印机产品的环境规格说明进行操作而产生问题；(c) 发生正常使用磨损。",
+          "must_contain": "本保修声明不适用于以下产品：(a) 经过重新注满、整修、再造或擅自改动；(b) 由于滥用、不正确存储\n或未按发布的此打印机产品的环境规格说明进行操作而产生问题；(c) 发生正常使用磨损。"
+        }
+      ],
+      "boundary_sources": [],
+      "evidence_quote": [
+        "本保修声明不适用于以下产品：(a) 经过重新注满、整修、再造或擅自改动；(b) 由于滥用、不正确存储\n或未按发布的此打印机产品的环境规格说明进行操作而产生问题；(c) 发生正常使用磨损。"
+      ]
+    },
+    "metadata": {
+      "case_id": "manual-046",
+      "category": "warranty_liability",
+      "product": "HP LaserJet MFP M436",
+      "language": "zh-CN"
+    }
+  },
+  {
+    "inputs": {
+      "question": "HP M436 的备用预防性维护套件有多久的有限部件保修？能直接套用整机一年的期限吗？"
+    },
+    "outputs": {
+      "category": "warranty_liability",
+      "should_answer": true,
+      "ground_truth_answer": "备用预防性维护套件或 LLCs 产品仅带有 90 天有限部件保修，不能直接套用整机一年的期限。",
+      "reference_answer": "备用预防性维护套件或 LLCs 产品仅带有 90 天有限部件保修，不能直接套用整机一年的期限。",
+      "required_facts": [
+        "备用预防性维护套件或 LLCs",
+        "90 天有限部件保修"
+      ],
+      "forbidden_claims": [],
+      "gold_sources": [
+        {
+          "filename": "04_40355_HP_LaserJet_MFP_M436n_M436dn_M436nda.pdf",
+          "source_path": "01_error_code_troubleshooting_office/04_40355_HP_LaserJet_MFP_M436n_M436dn_M436nda.pdf",
+          "page_number": 165,
+          "pdf_page": 166,
+          "evidence_quote": "备用预防性维护套件或 LLCs 产品仅带有 90 天有限部\n件保修。",
+          "must_contain": "备用预防性维护套件或 LLCs 产品仅带有 90 天有限部\n件保修。"
+        }
+      ],
+      "boundary_sources": [],
+      "evidence_quote": [
+        "备用预防性维护套件或 LLCs 产品仅带有 90 天有限部\n件保修。"
+      ]
+    },
+    "metadata": {
+      "case_id": "manual-047",
+      "category": "warranty_liability",
+      "product": "HP LaserJet MFP M436",
+      "language": "zh-CN"
+    }
+  },
+  {
+    "inputs": {
+      "question": "HP M436 长寿命耗材保修到哪个节点结束？整机保修期和“使用寿命低”提示哪个优先？"
+    },
+    "outputs": {
+      "category": "warranty_liability",
+      "should_answer": true,
+      "ground_truth_answer": "按较早发生的节点为止：打印机控制面板显示使用寿命低指示标记，或购买打印机后的保修期届满。不能因整机仍在保就忽略耗材寿命提示。",
+      "reference_answer": "按较早发生的节点为止：打印机控制面板显示使用寿命低指示标记，或购买打印机后的保修期届满。不能因整机仍在保就忽略耗材寿命提示。",
+      "required_facts": [
+        "以较早发生者为准",
+        "使用寿命低指示或打印机保修期"
+      ],
+      "forbidden_claims": [],
+      "gold_sources": [
+        {
+          "filename": "04_40355_HP_LaserJet_MFP_M436n_M436dn_M436nda.pdf",
+          "source_path": "01_error_code_troubleshooting_office/04_40355_HP_LaserJet_MFP_M436n_M436dn_M436nda.pdf",
+          "page_number": 165,
+          "pdf_page": 166,
+          "evidence_quote": "此 HP 产品保证在材料和工艺方面没有任何缺陷，直至较早发生者：a) 打印机控制面板上显示使用寿命\n低指示标记，或 b) 在购买打印机后的保修期内。",
+          "must_contain": "此 HP 产品保证在材料和工艺方面没有任何缺陷，直至较早发生者：a) 打印机控制面板上显示使用寿命\n低指示标记，或 b) 在购买打印机后的保修期内。"
+        }
+      ],
+      "boundary_sources": [],
+      "evidence_quote": [
+        "此 HP 产品保证在材料和工艺方面没有任何缺陷，直至较早发生者：a) 打印机控制面板上显示使用寿命\n低指示标记，或 b) 在购买打印机后的保修期内。"
+      ]
+    },
+    "metadata": {
+      "case_id": "manual-048",
+      "category": "warranty_liability",
+      "product": "HP LaserJet MFP M436",
+      "language": "zh-CN"
+    }
+  },
+  {
+    "inputs": {
+      "question": "HP M436 的有限保修条款能排除或缩减购买者必须享有的强制性法定权利吗？请仅概括手册原文。"
+    },
+    "outputs": {
+      "category": "warranty_liability",
+      "should_answer": true,
+      "ground_truth_answer": "原文规定，除法律允许的范围外，条款不排除、限制或修改产品销售时适用的强制性法定权利，而只是这些权利的补充。",
+      "reference_answer": "原文规定，除法律允许的范围外，条款不排除、限制或修改产品销售时适用的强制性法定权利，而只是这些权利的补充。",
+      "required_facts": [
+        "除法律允许范围外",
+        "不排除、限制或修改强制性法定权利",
+        "只是补充"
+      ],
+      "forbidden_claims": [],
+      "gold_sources": [
+        {
+          "filename": "04_40355_HP_LaserJet_MFP_M436n_M436dn_M436nda.pdf",
+          "source_path": "01_error_code_troubleshooting_office/04_40355_HP_LaserJet_MFP_M436n_M436dn_M436nda.pdf",
+          "page_number": 148,
+          "pdf_page": 149,
+          "evidence_quote": "除法律允许的范围外，本声明中的保修条款不排除、限制或修改此产品销售给您时所适用的强制性法\n定权利，而只是这些权利的补充。",
+          "must_contain": "除法律允许的范围外，本声明中的保修条款不排除、限制或修改此产品销售给您时所适用的强制性法\n定权利，而只是这些权利的补充。"
+        }
+      ],
+      "boundary_sources": [],
+      "evidence_quote": [
+        "除法律允许的范围外，本声明中的保修条款不排除、限制或修改此产品销售给您时所适用的强制性法\n定权利，而只是这些权利的补充。"
+      ]
+    },
+    "metadata": {
+      "case_id": "manual-049",
+      "category": "warranty_liability",
+      "product": "HP LaserJet MFP M436",
+      "language": "zh-CN"
+    }
+  },
+  {
+    "inputs": {
+      "question": "按 Lenovo V580/V580c 这份指南的中国地区保修表，部件和人力、电池分别保多久？服务类型 4 是什么？"
+    },
+    "outputs": {
+      "category": "warranty_liability",
+      "should_answer": true,
+      "ground_truth_answer": "中国地区表项为部件和人力 2 年、电池 1 年，服务类型 4 是客户送修服务。",
+      "reference_answer": "中国地区表项为部件和人力 2 年、电池 1 年，服务类型 4 是客户送修服务。",
+      "required_facts": [
+        "部件和人力 2 年",
+        "电池 1 年",
+        "4 为客户送修服务"
+      ],
+      "forbidden_claims": [],
+      "gold_sources": [
+        {
+          "filename": "01_31298_Lenovo_V580_V580c_安全、保修_和设置指南.pdf",
+          "source_path": "02_warranty_policy/01_31298_Lenovo_V580_V580c_安全、保修_和设置指南.pdf",
+          "page_number": 1,
+          "pdf_page": 2,
+          "evidence_quote": "中国 部件和人力 - 2 年 \n \n电池 - 1 年",
+          "must_contain": "中国 部件和人力 - 2 年 \n \n电池 - 1 年"
+        },
+        {
+          "filename": "01_31298_Lenovo_V580_V580c_安全、保修_和设置指南.pdf",
+          "source_path": "02_warranty_policy/01_31298_Lenovo_V580_V580c_安全、保修_和设置指南.pdf",
+          "page_number": 1,
+          "pdf_page": 2,
+          "evidence_quote": "4. 客户送修服务",
+          "must_contain": "4. 客户送修服务"
+        }
+      ],
+      "boundary_sources": [],
+      "evidence_quote": [
+        "中国 部件和人力 - 2 年 \n \n电池 - 1 年",
+        "4. 客户送修服务"
+      ]
+    },
+    "metadata": {
+      "case_id": "manual-050",
+      "category": "warranty_liability",
+      "product": "Lenovo V580/V580c",
+      "language": "zh-CN"
+    }
+  },
+  {
+    "inputs": {
+      "question": "ThinkPad Edge E535 的电池被自行拆开或改装后，这块电池还在保修范围内吗？"
+    },
+    "outputs": {
+      "category": "warranty_liability",
+      "should_answer": true,
+      "ground_truth_answer": "不在。指南明确非 Lenovo 指定的电池、拆开或改装过的电池不在保修范围内。",
+      "reference_answer": "不在。指南明确非 Lenovo 指定的电池、拆开或改装过的电池不在保修范围内。",
+      "required_facts": [
+        "拆开或改装过的电池不在保修范围"
+      ],
+      "forbidden_claims": [],
+      "gold_sources": [
+        {
+          "filename": "02_31296_ThinkPad_Edge_E535_安全、保修_和设置指南.pdf",
+          "source_path": "02_warranty_policy/02_31296_ThinkPad_Edge_E535_安全、保修_和设置指南.pdf",
+          "page_number": 1,
+          "pdf_page": 2,
+          "evidence_quote": "非 Lenovo 指定的电池、拆开或改装过的电池不在保修范围内。",
+          "must_contain": "非 Lenovo 指定的电池、拆开或改装过的电池不在保修范围内。"
+        }
+      ],
+      "boundary_sources": [],
+      "evidence_quote": [
+        "非 Lenovo 指定的电池、拆开或改装过的电池不在保修范围内。"
+      ]
+    },
+    "metadata": {
+      "case_id": "manual-051",
+      "category": "warranty_liability",
+      "product": "ThinkPad Edge E535",
+      "language": "zh-CN"
+    }
+  },
+  {
+    "inputs": {
+      "question": "ThinkPad L330 换上其他系统的非授权电池后不能充电，厂商是否承诺对此类电池造成的损坏保修？"
+    },
+    "outputs": {
+      "category": "warranty_liability",
+      "should_answer": true,
+      "ground_truth_answer": "该系统不支持非授权或为其他系统设计的电池，安装后系统无法充电；Lenovo 不对非授权电池性能和安全性承担责任，也不为因此造成的故障或损坏提供保修。",
+      "reference_answer": "该系统不支持非授权或为其他系统设计的电池，安装后系统无法充电；Lenovo 不对非授权电池性能和安全性承担责任，也不为因此造成的故障或损坏提供保修。",
+      "required_facts": [
+        "非授权或其他系统电池无法充电",
+        "因此导致的故障或损坏不提供保修"
+      ],
+      "forbidden_claims": [],
+      "gold_sources": [
+        {
+          "filename": "03_31284_ThinkPad_L330_安全、保修_和设置指南.pdf",
+          "source_path": "02_warranty_policy/03_31284_ThinkPad_L330_安全、保修_和设置指南.pdf",
+          "page_number": 0,
+          "pdf_page": 1,
+          "evidence_quote": "此系统仅支持专为此特定系统设计并由 Lenovo 或授权生产厂制造\n的电池。此系统不支持非授权电池或为其他系统设计的电池。如果\n安装的是非授权电池或为其他系统设计的电池，则系统将无法充电。 \n注意：Lenovo 对于非授权电池的性能和安全性不承担任何责任， \n并且对于因使用此类电池所致的故障或损坏不提供任何保修。",
+          "must_contain": "此系统仅支持专为此特定系统设计并由 Lenovo 或授权生产厂制造\n的电池。此系统不支持非授权电池或为其他系统设计的电池。如果\n安装的是非授权电池或为其他系统设计的电池，则系统将无法充电。 \n注意：Lenovo 对于非授权电池的性能和安全性不承担任何责任， \n并且对于因使用此类电池所致的故障或损坏不提供任何保修。"
+        }
+      ],
+      "boundary_sources": [],
+      "evidence_quote": [
+        "此系统仅支持专为此特定系统设计并由 Lenovo 或授权生产厂制造\n的电池。此系统不支持非授权电池或为其他系统设计的电池。如果\n安装的是非授权电池或为其他系统设计的电池，则系统将无法充电。 \n注意：Lenovo 对于非授权电池的性能和安全性不承担任何责任， \n并且对于因使用此类电池所致的故障或损坏不提供任何保修。"
+      ]
+    },
+    "metadata": {
+      "case_id": "manual-052",
+      "category": "warranty_liability",
+      "product": "ThinkPad L330",
+      "language": "zh-CN"
+    }
+  },
+  {
+    "inputs": {
+      "question": "按 ThinkPad T430u 指南，中国购买的 3351 机型能直接享受 3 年部件保修吗？电池与服务方式是什么？"
+    },
+    "outputs": {
+      "category": "warranty_liability",
+      "should_answer": true,
+      "ground_truth_answer": "不能按 3352 等其他机型套用。中国购买的 3351 表项为部件和人力 1 年、电池 1 年，两者服务类型均为 4，即客户送修服务。",
+      "reference_answer": "不能按 3352 等其他机型套用。中国购买的 3351 表项为部件和人力 1 年、电池 1 年，两者服务类型均为 4，即客户送修服务。",
+      "required_facts": [
+        "3351 中国部件和人力 1 年",
+        "电池 1 年",
+        "均为客户送修服务"
+      ],
+      "forbidden_claims": [
+        "3351 中国部件和人力保修 3 年"
+      ],
+      "gold_sources": [
+        {
+          "filename": "04_31283_ThinkPad_T430u_安全、保修_和设置指南.pdf",
+          "source_path": "02_warranty_policy/04_31283_ThinkPad_T430u_安全、保修_和设置指南.pdf",
+          "page_number": 1,
+          "pdf_page": 2,
+          "evidence_quote": "3351 美国、 加拿大、 墨西哥、\n巴西、澳大利亚、日本 \n部件和人力 - 1 年 \n \n电池 - 1 年 \n1, 3 \n \n \n1 \n土耳其 部件和人力 - 2 年 \n \n电池 - 2 年 \n1, 4 \n \n \n1 \n中国 部件和人力 - 1 年 \n \n电池 - 1 年 \n4 \n \n \n4",
+          "must_contain": "3351 美国、 加拿大、 墨西哥、\n巴西、澳大利亚、日本 \n部件和人力 - 1 年 \n \n电池 - 1 年 \n1, 3 \n \n \n1 \n土耳其 部件和人力 - 2 年 \n \n电池 - 2 年 \n1, 4 \n \n \n1 \n中国 部件和人力 - 1 年 \n \n电池 - 1 年 \n4 \n \n \n4"
+        },
+        {
+          "filename": "04_31283_ThinkPad_T430u_安全、保修_和设置指南.pdf",
+          "source_path": "02_warranty_policy/04_31283_ThinkPad_T430u_安全、保修_和设置指南.pdf",
+          "page_number": 1,
+          "pdf_page": 2,
+          "evidence_quote": "4. 客户送修服务",
+          "must_contain": "4. 客户送修服务"
+        }
+      ],
+      "boundary_sources": [],
+      "evidence_quote": [
+        "3351 美国、 加拿大、 墨西哥、\n巴西、澳大利亚、日本 \n部件和人力 - 1 年 \n \n电池 - 1 年 \n1, 3 \n \n \n1 \n土耳其 部件和人力 - 2 年 \n \n电池 - 2 年 \n1, 4 \n \n \n1 \n中国 部件和人力 - 1 年 \n \n电池 - 1 年 \n4 \n \n \n4",
+        "4. 客户送修服务"
+      ]
+    },
+    "metadata": {
+      "case_id": "manual-053",
+      "category": "warranty_liability",
+      "product": "ThinkPad T430u 3351",
+      "language": "zh-CN"
+    }
+  },
+  {
+    "inputs": {
+      "question": "ThinkPad S230u 的内置可充电锂离子电池需要更换时，指南要求客户自行拆机换，还是联系谁处理？"
+    },
+    "outputs": {
+      "category": "warranty_liability",
+      "should_answer": true,
+      "ground_truth_answer": "指南要求不要尝试自行更换内部可充电锂离子电池，应联系 Lenovo 支持人员返厂更换；这里没有承诺任何情形都免费。",
+      "reference_answer": "指南要求不要尝试自行更换内部可充电锂离子电池，应联系 Lenovo 支持人员返厂更换；这里没有承诺任何情形都免费。",
+      "required_facts": [
+        "不要自行更换内部锂离子电池",
+        "联系 Lenovo 支持人员返厂更换"
+      ],
+      "forbidden_claims": [
+        "任何原因都免费换电池"
+      ],
+      "gold_sources": [
+        {
+          "filename": "05_31281_ThinkPad_S230u_安全、保修_和设置指南.pdf",
+          "source_path": "02_warranty_policy/05_31281_ThinkPad_S230u_安全、保修_和设置指南.pdf",
+          "page_number": 1,
+          "pdf_page": 2,
+          "evidence_quote": "请勿尝试更换内部可充电锂离子电池。请与 Lenovo 支持人员联系以\n返厂更换。",
+          "must_contain": "请勿尝试更换内部可充电锂离子电池。请与 Lenovo 支持人员联系以\n返厂更换。"
+        }
+      ],
+      "boundary_sources": [],
+      "evidence_quote": [
+        "请勿尝试更换内部可充电锂离子电池。请与 Lenovo 支持人员联系以\n返厂更换。"
+      ]
+    },
+    "metadata": {
+      "case_id": "manual-054",
+      "category": "warranty_liability",
+      "product": "ThinkPad S230u",
+      "language": "zh-CN"
+    }
+  },
+  {
+    "inputs": {
+      "question": "按高德车载导航 V6.10 手册，随产品提供的 SD 卡免费保修多久，需要什么购买凭证？"
+    },
+    "outputs": {
+      "category": "warranty_liability",
+      "should_answer": true,
+      "ground_truth_answer": "SD 卡自购买日起一年内凭发票免费保修，仍须满足手册列出的保修范围条件。",
+      "reference_answer": "SD 卡自购买日起一年内凭发票免费保修，仍须满足手册列出的保修范围条件。",
+      "required_facts": [
+        "购买日起一年内",
+        "凭发票",
+        "须满足保修范围条件"
+      ],
+      "forbidden_claims": [],
+      "gold_sources": [
+        {
+          "filename": "05_16990_高德软件_车载_导航系统V6.10用户手册.pdf",
+          "source_path": "03_automotive_electronics_substitute/05_16990_高德软件_车载_导航系统V6.10用户手册.pdf",
+          "page_number": 51,
+          "pdf_page": 52,
+          "evidence_quote": "本产品所包含的 SD 卡自购买日起一年内凭发票免\n费保修。",
+          "must_contain": "本产品所包含的 SD 卡自购买日起一年内凭发票免\n费保修。"
+        },
+        {
+          "filename": "05_16990_高德软件_车载_导航系统V6.10用户手册.pdf",
+          "source_path": "03_automotive_electronics_substitute/05_16990_高德软件_车载_导航系统V6.10用户手册.pdf",
+          "page_number": 51,
+          "pdf_page": 52,
+          "evidence_quote": "因下列情况损坏和出现故障的 SD 卡不属于保修范\n围：",
+          "must_contain": "因下列情况损坏和出现故障的 SD 卡不属于保修范\n围："
+        }
+      ],
+      "boundary_sources": [],
+      "evidence_quote": [
+        "本产品所包含的 SD 卡自购买日起一年内凭发票免\n费保修。",
+        "因下列情况损坏和出现故障的 SD 卡不属于保修范\n围："
+      ]
+    },
+    "metadata": {
+      "case_id": "manual-055",
+      "category": "warranty_liability",
+      "product": "高德车载导航 V6.10",
+      "language": "zh-CN"
+    }
+  },
+  {
+    "inputs": {
+      "question": "高德车载导航 V6.10 的 SD 卡还在一年内，但因进液、挤压或坠落损坏，手册是否承诺免费保修？"
+    },
+    "outputs": {
+      "category": "warranty_liability",
+      "should_answer": true,
+      "ground_truth_answer": "不承诺。手册把液体注入、外力挤压、坠落受损等用户使用不当造成的故障或损坏列为不属于保修范围。",
+      "reference_answer": "不承诺。手册把液体注入、外力挤压、坠落受损等用户使用不当造成的故障或损坏列为不属于保修范围。",
+      "required_facts": [
+        "液体注入、挤压、坠落等使用不当损坏被排除"
+      ],
+      "forbidden_claims": [],
+      "gold_sources": [
+        {
+          "filename": "05_16990_高德软件_车载_导航系统V6.10用户手册.pdf",
+          "source_path": "03_automotive_electronics_substitute/05_16990_高德软件_车载_导航系统V6.10用户手册.pdf",
+          "page_number": 51,
+          "pdf_page": 52,
+          "evidence_quote": "因下列情况损坏和出现故障的 SD 卡不属于保修范\n围： \nz 因使用不当、 误用和不适当的维护保管、 意外 （如\n火灾、爆炸）或自然灾害所致之故障或损坏； \nz 由于不慎感染病毒造成的故障，以及其他显然是\n由于用户使用不当原因造成，如液体注入、外力\n挤压、坠落受损等；",
+          "must_contain": "因下列情况损坏和出现故障的 SD 卡不属于保修范\n围： \nz 因使用不当、 误用和不适当的维护保管、 意外 （如\n火灾、爆炸）或自然灾害所致之故障或损坏； \nz 由于不慎感染病毒造成的故障，以及其他显然是\n由于用户使用不当原因造成，如液体注入、外力\n挤压、坠落受损等；"
+        }
+      ],
+      "boundary_sources": [],
+      "evidence_quote": [
+        "因下列情况损坏和出现故障的 SD 卡不属于保修范\n围： \nz 因使用不当、 误用和不适当的维护保管、 意外 （如\n火灾、爆炸）或自然灾害所致之故障或损坏； \nz 由于不慎感染病毒造成的故障，以及其他显然是\n由于用户使用不当原因造成，如液体注入、外力\n挤压、坠落受损等；"
+      ]
+    },
+    "metadata": {
+      "case_id": "manual-056",
+      "category": "warranty_liability",
+      "product": "高德车载导航 V6.10",
+      "language": "zh-CN"
+    }
+  },
+  {
+    "inputs": {
+      "question": "高德车载导航 V6.10 的 SD 卡标签被涂改或去除，即使还在保修期内还能按该保修条款保修吗？"
+    },
+    "outputs": {
+      "category": "warranty_liability",
+      "should_answer": true,
+      "ground_truth_answer": "不能按该条款承诺保修。SD 卡上的标签曾被涂改或去除，被明确列入不属于保修范围的情况。",
+      "reference_answer": "不能按该条款承诺保修。SD 卡上的标签曾被涂改或去除，被明确列入不属于保修范围的情况。",
+      "required_facts": [
+        "标签涂改或去除被排除"
+      ],
+      "forbidden_claims": [],
+      "gold_sources": [
+        {
+          "filename": "05_16990_高德软件_车载_导航系统V6.10用户手册.pdf",
+          "source_path": "03_automotive_electronics_substitute/05_16990_高德软件_车载_导航系统V6.10用户手册.pdf",
+          "page_number": 51,
+          "pdf_page": 52,
+          "evidence_quote": "因下列情况损坏和出现故障的 SD 卡不属于保修范\n围： \nz 因使用不当、 误用和不适当的维护保管、 意外 （如\n火灾、爆炸）或自然灾害所致之故障或损坏； \nz 由于不慎感染病毒造成的故障，以及其他显然是\n由于用户使用不当原因造成，如液体注入、外力\n挤压、坠落受损等； \nz SD 卡上的标签曾被涂改或去除；",
+          "must_contain": "因下列情况损坏和出现故障的 SD 卡不属于保修范\n围： \nz 因使用不当、 误用和不适当的维护保管、 意外 （如\n火灾、爆炸）或自然灾害所致之故障或损坏； \nz 由于不慎感染病毒造成的故障，以及其他显然是\n由于用户使用不当原因造成，如液体注入、外力\n挤压、坠落受损等； \nz SD 卡上的标签曾被涂改或去除；"
+        }
+      ],
+      "boundary_sources": [],
+      "evidence_quote": [
+        "因下列情况损坏和出现故障的 SD 卡不属于保修范\n围： \nz 因使用不当、 误用和不适当的维护保管、 意外 （如\n火灾、爆炸）或自然灾害所致之故障或损坏； \nz 由于不慎感染病毒造成的故障，以及其他显然是\n由于用户使用不当原因造成，如液体注入、外力\n挤压、坠落受损等； \nz SD 卡上的标签曾被涂改或去除；"
+      ]
+    },
+    "metadata": {
+      "case_id": "manual-057",
+      "category": "warranty_liability",
+      "product": "高德车载导航 V6.10",
+      "language": "zh-CN"
+    }
+  },
+  {
+    "inputs": {
+      "question": "高德车载导航 V6.10 的 SD 卡过了保修期，或保修期内保修卡和发票都无法出示，手册给出的服务选择是什么？"
+    },
+    "outputs": {
+      "category": "warranty_liability",
+      "should_answer": true,
+      "ground_truth_answer": "这些情况超出免费保修范围，用户可以选择有偿服务。",
+      "reference_answer": "这些情况超出免费保修范围，用户可以选择有偿服务。",
+      "required_facts": [
+        "超过保修日期或无法出示凭证属于保修排除情形",
+        "可选择有偿服务"
+      ],
+      "forbidden_claims": [],
+      "gold_sources": [
+        {
+          "filename": "05_16990_高德软件_车载_导航系统V6.10用户手册.pdf",
+          "source_path": "03_automotive_electronics_substitute/05_16990_高德软件_车载_导航系统V6.10用户手册.pdf",
+          "page_number": 52,
+          "pdf_page": 53,
+          "evidence_quote": "超过保修日期或在保修期内不能出示保修卡或购\n买发票； \n3、超过保修范围的产品您可以选择有偿服务。",
+          "must_contain": "超过保修日期或在保修期内不能出示保修卡或购\n买发票； \n3、超过保修范围的产品您可以选择有偿服务。"
+        }
+      ],
+      "boundary_sources": [],
+      "evidence_quote": [
+        "超过保修日期或在保修期内不能出示保修卡或购\n买发票； \n3、超过保修范围的产品您可以选择有偿服务。"
+      ]
+    },
+    "metadata": {
+      "case_id": "manual-058",
+      "category": "warranty_liability",
+      "product": "高德车载导航 V6.10",
+      "language": "zh-CN"
+    }
+  },
+  {
+    "inputs": {
+      "question": "高德车载导航 V6.10 手册是否保证 GPS 定位完全准确，并允许把导航作为唯一驾驶依据？"
+    },
+    "outputs": {
+      "category": "warranty_liability",
+      "should_answer": true,
+      "ground_truth_answer": "不保证。定位与天气、环境及接收器等因素有关，应结合其他信息判断；实际导航不可把该系统作为唯一参考依据，应遵守实地交通规则并按实际路况驾驶。",
+      "reference_answer": "不保证。定位与天气、环境及接收器等因素有关，应结合其他信息判断；实际导航不可把该系统作为唯一参考依据，应遵守实地交通规则并按实际路况驾驶。",
+      "required_facts": [
+        "不保证定位完全准确",
+        "结合其他信息判断",
+        "不可作为唯一依据，遵守实际路况与规则"
+      ],
+      "forbidden_claims": [
+        "保证定位完全准确",
+        "导航指令可替代现场交通规则"
+      ],
+      "gold_sources": [
+        {
+          "filename": "05_16990_高德软件_车载_导航系统V6.10用户手册.pdf",
+          "source_path": "03_automotive_electronics_substitute/05_16990_高德软件_车载_导航系统V6.10用户手册.pdf",
+          "page_number": 3,
+          "pdf_page": 4,
+          "evidence_quote": "2、本机电子地图及路口语音提示仅供参考，可能\n与实际路况有所不同，请在遵守实地交通规则的前提\n下使用本系统，按照实际路况驾驶。 \n 3 、 GPS 定位与天气、环境及接收器等各因素相关，\n本系统不保证定位完全准确，请结合其他信息判断。 \n 4、实际导航中请勿以本系统为唯一参考依据，因\n使用本系统而产生的直接的、间接的、连带的、特殊\n的后果由用户自行承担，系统设计者和生产者不负任\n何责任。",
+          "must_contain": "2、本机电子地图及路口语音提示仅供参考，可能\n与实际路况有所不同，请在遵守实地交通规则的前提\n下使用本系统，按照实际路况驾驶。 \n 3 、 GPS 定位与天气、环境及接收器等各因素相关，\n本系统不保证定位完全准确，请结合其他信息判断。 \n 4、实际导航中请勿以本系统为唯一参考依据，因\n使用本系统而产生的直接的、间接的、连带的、特殊\n的后果由用户自行承担，系统设计者和生产者不负任\n何责任。"
+        }
+      ],
+      "boundary_sources": [],
+      "evidence_quote": [
+        "2、本机电子地图及路口语音提示仅供参考，可能\n与实际路况有所不同，请在遵守实地交通规则的前提\n下使用本系统，按照实际路况驾驶。 \n 3 、 GPS 定位与天气、环境及接收器等各因素相关，\n本系统不保证定位完全准确，请结合其他信息判断。 \n 4、实际导航中请勿以本系统为唯一参考依据，因\n使用本系统而产生的直接的、间接的、连带的、特殊\n的后果由用户自行承担，系统设计者和生产者不负任\n何责任。"
+      ]
+    },
+    "metadata": {
+      "case_id": "manual-059",
+      "category": "warranty_liability",
+      "product": "高德车载导航 V6.10",
+      "language": "zh-CN"
+    }
+  },
+  {
+    "inputs": {
+      "question": "高德车载导航 V6.10 手册是否保证手册内容准确完整，并承诺赔偿因参考手册造成的损失？"
+    },
+    "outputs": {
+      "category": "warranty_liability",
+      "should_answer": true,
+      "ground_truth_answer": "按手册声明，公司对内容准确性和完整性不作保证，内容仅供参考，并声明不承担用户使用手册带来的后果和损失；争议以现行有效法律法规为依据。",
+      "reference_answer": "按手册声明，公司对内容准确性和完整性不作保证，内容仅供参考，并声明不承担用户使用手册带来的后果和损失；争议以现行有效法律法规为依据。",
+      "required_facts": [
+        "不保证手册准确性和完整性",
+        "内容仅供参考，声明不承担使用手册损失",
+        "争议以法律法规为依据"
+      ],
+      "forbidden_claims": [],
+      "gold_sources": [
+        {
+          "filename": "05_16990_高德软件_车载_导航系统V6.10用户手册.pdf",
+          "source_path": "03_automotive_electronics_substitute/05_16990_高德软件_车载_导航系统V6.10用户手册.pdf",
+          "page_number": 2,
+          "pdf_page": 3,
+          "evidence_quote": "但本公司对手册内容的准确性和完整性\n不作任何保证。本手册的内容仅供参考，对于用户使\n用本手册带来的任何后果和损失，本公司概不负责。",
+          "must_contain": "但本公司对手册内容的准确性和完整性\n不作任何保证。本手册的内容仅供参考，对于用户使\n用本手册带来的任何后果和损失，本公司概不负责。"
+        },
+        {
+          "filename": "05_16990_高德软件_车载_导航系统V6.10用户手册.pdf",
+          "source_path": "03_automotive_electronics_substitute/05_16990_高德软件_车载_导航系统V6.10用户手册.pdf",
+          "page_number": 2,
+          "pdf_page": 3,
+          "evidence_quote": "如有争议，\n以中华人民共和国现行有效的法律法规为依据。",
+          "must_contain": "如有争议，\n以中华人民共和国现行有效的法律法规为依据。"
+        }
+      ],
+      "boundary_sources": [],
+      "evidence_quote": [
+        "但本公司对手册内容的准确性和完整性\n不作任何保证。本手册的内容仅供参考，对于用户使\n用本手册带来的任何后果和损失，本公司概不负责。",
+        "如有争议，\n以中华人民共和国现行有效的法律法规为依据。"
+      ]
+    },
+    "metadata": {
+      "case_id": "manual-060",
+      "category": "warranty_liability",
+      "product": "高德车载导航 V6.10",
+      "language": "zh-CN"
+    }
+  },
+  {
+    "inputs": {
+      "question": "《专业便携式车载 GPS》手册是否承诺对电子地图的有效性、完整性和准确性作担保？"
+    },
+    "outputs": {
+      "category": "warranty_liability",
+      "should_answer": true,
+      "ground_truth_answer": "没有。手册声明制造商不对电子地图信息的有效性、完整性和准确性作任何明示或默示担保或保证。",
+      "reference_answer": "没有。手册声明制造商不对电子地图信息的有效性、完整性和准确性作任何明示或默示担保或保证。",
+      "required_facts": [
+        "不作有效性、完整性、准确性的明示或默示担保"
+      ],
+      "forbidden_claims": [],
+      "gold_sources": [
+        {
+          "filename": "04_24441_专业便携式_车载_GPS.pdf",
+          "source_path": "03_automotive_electronics_substitute/04_24441_专业便携式_车载_GPS.pdf",
+          "page_number": 1,
+          "pdf_page": 2,
+          "evidence_quote": "对于本导航器使用的电子地图中信息的有效性、完整性和准确\n性本导航器制造商不做任何明示或默示的担保或保证，对于由\n电子地图中存在缺陷给用户造成的任何人身损害和财产损失，\n本产品制造商均不承担任何赔偿责任。",
+          "must_contain": "对于本导航器使用的电子地图中信息的有效性、完整性和准确\n性本导航器制造商不做任何明示或默示的担保或保证，对于由\n电子地图中存在缺陷给用户造成的任何人身损害和财产损失，\n本产品制造商均不承担任何赔偿责任。"
+        }
+      ],
+      "boundary_sources": [],
+      "evidence_quote": [
+        "对于本导航器使用的电子地图中信息的有效性、完整性和准确\n性本导航器制造商不做任何明示或默示的担保或保证，对于由\n电子地图中存在缺陷给用户造成的任何人身损害和财产损失，\n本产品制造商均不承担任何赔偿责任。"
+      ]
+    },
+    "metadata": {
+      "case_id": "manual-061",
+      "category": "warranty_liability",
+      "product": "专业便携式车载 GPS",
+      "language": "zh-CN"
+    }
+  },
+  {
+    "inputs": {
+      "question": "按《专业便携式车载 GPS》手册，安装导航器挡住驾驶视线或安全气囊并造成损失，厂商是否作出赔偿承诺？"
+    },
+    "outputs": {
+      "category": "warranty_liability",
+      "should_answer": true,
+      "ground_truth_answer": "没有。手册要求安装不得阻挡驾驶员视线或安全气囊，并声明对错误安装造成的产品故障、财产损失和人身损害不承担赔偿责任。",
+      "reference_answer": "没有。手册要求安装不得阻挡驾驶员视线或安全气囊，并声明对错误安装造成的产品故障、财产损失和人身损害不承担赔偿责任。",
+      "required_facts": [
+        "不得阻挡视线或安全气囊",
+        "声明不赔偿错误安装造成的损失"
+      ],
+      "forbidden_claims": [],
+      "gold_sources": [
+        {
+          "filename": "04_24441_专业便携式_车载_GPS.pdf",
+          "source_path": "03_automotive_electronics_substitute/04_24441_专业便携式_车载_GPS.pdf",
+          "page_number": 2,
+          "pdf_page": 3,
+          "evidence_quote": "请正确安装本产品，不要阻挡驾驶员的视线，不要阻挡安全气\n囊，对于错误安装本产品所造成的产品故障或其他财产损失和\n人身损害，本产品制造商不承担任何赔偿责任。",
+          "must_contain": "请正确安装本产品，不要阻挡驾驶员的视线，不要阻挡安全气\n囊，对于错误安装本产品所造成的产品故障或其他财产损失和\n人身损害，本产品制造商不承担任何赔偿责任。"
+        }
+      ],
+      "boundary_sources": [],
+      "evidence_quote": [
+        "请正确安装本产品，不要阻挡驾驶员的视线，不要阻挡安全气\n囊，对于错误安装本产品所造成的产品故障或其他财产损失和\n人身损害，本产品制造商不承担任何赔偿责任。"
+      ]
+    },
+    "metadata": {
+      "case_id": "manual-062",
+      "category": "warranty_liability",
+      "product": "专业便携式车载 GPS",
+      "language": "zh-CN"
+    }
+  },
+  {
+    "inputs": {
+      "question": "《专业便携式车载 GPS》手册中，产品故障维修责任和使用导致的经济损失赔偿是同一项承诺吗？"
+    },
+    "outputs": {
+      "category": "warranty_liability",
+      "should_answer": true,
+      "ground_truth_answer": "不是。制造商说明按品质保证规定承担维修责任，但声明不赔偿用户因使用产品造成的财产损害和经济损失。",
+      "reference_answer": "不是。制造商说明按品质保证规定承担维修责任，但声明不赔偿用户因使用产品造成的财产损害和经济损失。",
+      "required_facts": [
+        "按品质保证规定承担维修责任",
+        "不承诺使用造成的财产或经济损失赔偿"
+      ],
+      "forbidden_claims": [],
+      "gold_sources": [
+        {
+          "filename": "04_24441_专业便携式_车载_GPS.pdf",
+          "source_path": "03_automotive_electronics_substitute/04_24441_专业便携式_车载_GPS.pdf",
+          "page_number": 1,
+          "pdf_page": 2,
+          "evidence_quote": "如果产品发生故障，制造商除了根据品质保证规定承担维修责\n任之外，对于用户因使用本产品而导致的财产损害和经济损失\n不承担任何赔偿责任。",
+          "must_contain": "如果产品发生故障，制造商除了根据品质保证规定承担维修责\n任之外，对于用户因使用本产品而导致的财产损害和经济损失\n不承担任何赔偿责任。"
+        }
+      ],
+      "boundary_sources": [],
+      "evidence_quote": [
+        "如果产品发生故障，制造商除了根据品质保证规定承担维修责\n任之外，对于用户因使用本产品而导致的财产损害和经济损失\n不承担任何赔偿责任。"
+      ]
+    },
+    "metadata": {
+      "case_id": "manual-063",
+      "category": "warranty_liability",
+      "product": "专业便携式车载 GPS",
+      "language": "zh-CN"
+    }
+  },
+  {
+    "inputs": {
+      "question": "Lenovo V580/V580c 的自助服务 CRU 在保修期内发现缺陷，谁提供替换件、谁负责安装？"
+    },
+    "outputs": {
+      "category": "warranty_liability",
+      "should_answer": true,
+      "ground_truth_answer": "保修期内发现 CRU 缺陷会向客户提供更换的 CRU；客户负责安装本产品的自助服务 CRU，不能把提供部件理解为必然免费上门安装。",
+      "reference_answer": "保修期内发现 CRU 缺陷会向客户提供更换的 CRU；客户负责安装本产品的自助服务 CRU，不能把提供部件理解为必然免费上门安装。",
+      "required_facts": [
+        "提供更换的 CRU",
+        "客户负责安装自助服务 CRU"
+      ],
+      "forbidden_claims": [
+        "必然免费上门安装自助 CRU"
+      ],
+      "gold_sources": [
+        {
+          "filename": "01_31298_Lenovo_V580_V580c_安全、保修_和设置指南.pdf",
+          "source_path": "02_warranty_policy/01_31298_Lenovo_V580_V580c_安全、保修_和设置指南.pdf",
+          "page_number": 1,
+          "pdf_page": 2,
+          "evidence_quote": "如果 CRU 在\n保修期内发现缺陷，将向客户提供更换的 CRU。客户负责安装本产品\n的自助服务 CRU。",
+          "must_contain": "如果 CRU 在\n保修期内发现缺陷，将向客户提供更换的 CRU。客户负责安装本产品\n的自助服务 CRU。"
+        }
+      ],
+      "boundary_sources": [],
+      "evidence_quote": [
+        "如果 CRU 在\n保修期内发现缺陷，将向客户提供更换的 CRU。客户负责安装本产品\n的自助服务 CRU。"
+      ]
+    },
+    "metadata": {
+      "case_id": "manual-064",
+      "category": "warranty_liability",
+      "product": "Lenovo V580/V580c",
+      "language": "zh-CN"
+    }
+  },
+  {
+    "inputs": {
+      "question": "按 ThinkPad L330 指南，中国购买的 3470 机型，部件、人力和电池保修期限是否不同？是上门服务吗？"
+    },
+    "outputs": {
+      "category": "warranty_liability",
+      "should_answer": true,
+      "ground_truth_answer": "表中部件和人力为 1 年，电池也为 1 年，服务类型为 4，即客户送修服务，不能据此承诺上门服务。",
+      "reference_answer": "表中部件和人力为 1 年，电池也为 1 年，服务类型为 4，即客户送修服务，不能据此承诺上门服务。",
+      "required_facts": [
+        "部件和人力 1 年",
+        "电池 1 年",
+        "4 为客户送修服务"
+      ],
+      "forbidden_claims": [
+        "保修必然上门"
+      ],
+      "gold_sources": [
+        {
+          "filename": "03_31284_ThinkPad_L330_安全、保修_和设置指南.pdf",
+          "source_path": "02_warranty_policy/03_31284_ThinkPad_L330_安全、保修_和设置指南.pdf",
+          "page_number": 0,
+          "pdf_page": 1,
+          "evidence_quote": "3470 中国 部件和人力 - 1 年 \n \n电池 - 1 年",
+          "must_contain": "3470 中国 部件和人力 - 1 年 \n \n电池 - 1 年"
+        },
+        {
+          "filename": "03_31284_ThinkPad_L330_安全、保修_和设置指南.pdf",
+          "source_path": "02_warranty_policy/03_31284_ThinkPad_L330_安全、保修_和设置指南.pdf",
+          "page_number": 0,
+          "pdf_page": 1,
+          "evidence_quote": "4. 客户送修服务",
+          "must_contain": "4. 客户送修服务"
+        }
+      ],
+      "boundary_sources": [],
+      "evidence_quote": [
+        "3470 中国 部件和人力 - 1 年 \n \n电池 - 1 年",
+        "4. 客户送修服务"
+      ]
+    },
+    "metadata": {
+      "case_id": "manual-065",
+      "category": "warranty_liability",
+      "product": "ThinkPad L330 3470",
+      "language": "zh-CN"
+    }
+  },
+  {
+    "inputs": {
+      "question": "HP M436 的多用途纸盘 1 与纸盘 2/3 分别支持多大克重？163 g/m² 卡片纸可放哪个纸盘，能自动双面打吗？"
+    },
+    "outputs": {
+      "category": "multi_step_comparison",
+      "should_answer": true,
+      "ground_truth_answer": "多用途纸盘 1 支持 60-163 g/m²，纸盘 2/3 支持 60-110 g/m²。105-163 g/m² 卡片纸仅可用多用途纸盘 1；手册注明重磅纸、证券纸和薄卡片纸不支持双面打印。",
+      "reference_answer": "多用途纸盘 1 支持 60-163 g/m²，纸盘 2/3 支持 60-110 g/m²。105-163 g/m² 卡片纸仅可用多用途纸盘 1；手册注明重磅纸、证券纸和薄卡片纸不支持双面打印。",
+      "required_facts": [
+        "纸盘 1：60-163 g/m²",
+        "纸盘 2/3：60-110 g/m²",
+        "163 g/m² 卡片纸用纸盘 1",
+        "该类卡片纸不支持双面打印"
+      ],
+      "forbidden_claims": [],
+      "gold_sources": [
+        {
+          "filename": "04_40355_HP_LaserJet_MFP_M436n_M436dn_M436nda.pdf",
+          "source_path": "01_error_code_troubleshooting_office/04_40355_HP_LaserJet_MFP_M436n_M436dn_M436nda.pdf",
+          "page_number": 45,
+          "pdf_page": 46,
+          "evidence_quote": "多用途纸盘 1： 60 到 163 g/m2（16 到 43.5 磅证券纸）\n● 纸盘 2/纸盘 3： 60 到 110 g/m2（16 到 29.3 磅证券纸）",
+          "must_contain": "多用途纸盘 1： 60 到 163 g/m2（16 到 43.5 磅证券纸）\n● 纸盘 2/纸盘 3： 60 到 110 g/m2（16 到 29.3 磅证券纸）"
+        },
+        {
+          "filename": "04_40355_HP_LaserJet_MFP_M436n_M436dn_M436nda.pdf",
+          "source_path": "01_error_code_troubleshooting_office/04_40355_HP_LaserJet_MFP_M436n_M436dn_M436nda.pdf",
+          "page_number": 45,
+          "pdf_page": 46,
+          "evidence_quote": "卡片纸 b 请参阅普通纸部分 请参阅普通纸部分 在纸盘 2/纸盘 3 中\n不可用。\n105 到 163 g/m2（28 \n到 43 磅证券纸）",
+          "must_contain": "卡片纸 b 请参阅普通纸部分 请参阅普通纸部分 在纸盘 2/纸盘 3 中\n不可用。\n105 到 163 g/m2（28 \n到 43 磅证券纸）"
+        },
+        {
+          "filename": "04_40355_HP_LaserJet_MFP_M436n_M436dn_M436nda.pdf",
+          "source_path": "01_error_code_troubleshooting_office/04_40355_HP_LaserJet_MFP_M436n_M436dn_M436nda.pdf",
+          "page_number": 45,
+          "pdf_page": 46,
+          "evidence_quote": "打印机不支持双面打印重磅纸、证券纸和薄卡片纸纸张类型。",
+          "must_contain": "打印机不支持双面打印重磅纸、证券纸和薄卡片纸纸张类型。"
+        }
+      ],
+      "boundary_sources": [],
+      "evidence_quote": [
+        "多用途纸盘 1： 60 到 163 g/m2（16 到 43.5 磅证券纸）\n● 纸盘 2/纸盘 3： 60 到 110 g/m2（16 到 29.3 磅证券纸）",
+        "卡片纸 b 请参阅普通纸部分 请参阅普通纸部分 在纸盘 2/纸盘 3 中\n不可用。\n105 到 163 g/m2（28 \n到 43 磅证券纸）",
+        "打印机不支持双面打印重磅纸、证券纸和薄卡片纸纸张类型。"
+      ]
+    },
+    "metadata": {
+      "case_id": "manual-066",
+      "category": "multi_step_comparison",
+      "product": "HP LaserJet MFP M436",
+      "language": "zh-CN"
+    }
+  },
+  {
+    "inputs": {
+      "question": "HP M436 多用途纸盘 1 和纸盘 2/3 的最小自定义纸张尺寸各是多少？最大自定义尺寸是多少？"
+    },
+    "outputs": {
+      "category": "multi_step_comparison",
+      "should_answer": true,
+      "ground_truth_answer": "多用途纸盘 1 最小为 125 × 101.6 mm；纸盘 2/3 最小为 148 × 182 mm。最大自定义尺寸为 297 × 432 mm。",
+      "reference_answer": "多用途纸盘 1 最小为 125 × 101.6 mm；纸盘 2/3 最小为 148 × 182 mm。最大自定义尺寸为 297 × 432 mm。",
+      "required_facts": [
+        "纸盘 1 最小 125 × 101.6 mm",
+        "纸盘 2/3 最小 148 × 182 mm",
+        "最大 297 × 432 mm"
+      ],
+      "forbidden_claims": [],
+      "gold_sources": [
+        {
+          "filename": "04_40355_HP_LaserJet_MFP_M436n_M436dn_M436nda.pdf",
+          "source_path": "01_error_code_troubleshooting_office/04_40355_HP_LaserJet_MFP_M436n_M436dn_M436nda.pdf",
+          "page_number": 45,
+          "pdf_page": 46,
+          "evidence_quote": "最小尺寸（自定义）\nc，d\n● 多用途纸盘 1： \n125 x 101.6 毫米\n（4.92 x 4 英\n寸）\n● 纸盘 2/纸盘 3： \n148 x 182 毫米\n（5.83 x 7.17 英\n寸）",
+          "must_contain": "最小尺寸（自定义）\nc，d\n● 多用途纸盘 1： \n125 x 101.6 毫米\n（4.92 x 4 英\n寸）\n● 纸盘 2/纸盘 3： \n148 x 182 毫米\n（5.83 x 7.17 英\n寸）"
+        },
+        {
+          "filename": "04_40355_HP_LaserJet_MFP_M436n_M436dn_M436nda.pdf",
+          "source_path": "01_error_code_troubleshooting_office/04_40355_HP_LaserJet_MFP_M436n_M436dn_M436nda.pdf",
+          "page_number": 45,
+          "pdf_page": 46,
+          "evidence_quote": "最大尺寸（自定义） 297 x 432 毫米\n（11.69 x 17.01 英\n寸）",
+          "must_contain": "最大尺寸（自定义） 297 x 432 毫米\n（11.69 x 17.01 英\n寸）"
+        }
+      ],
+      "boundary_sources": [],
+      "evidence_quote": [
+        "最小尺寸（自定义）\nc，d\n● 多用途纸盘 1： \n125 x 101.6 毫米\n（4.92 x 4 英\n寸）\n● 纸盘 2/纸盘 3： \n148 x 182 毫米\n（5.83 x 7.17 英\n寸）",
+        "最大尺寸（自定义） 297 x 432 毫米\n（11.69 x 17.01 英\n寸）"
+      ]
+    },
+    "metadata": {
+      "case_id": "manual-067",
+      "category": "multi_step_comparison",
+      "product": "HP LaserJet MFP M436",
+      "language": "zh-CN"
+    }
+  },
+  {
+    "inputs": {
+      "question": "HP M436 装 80 g/m² 普通纸时，纸盘 2/3 和多用途纸盘 1 的标称容量分别是多少？配有 ADF 时单次最多放多少页原稿？"
+    },
+    "outputs": {
+      "category": "multi_step_comparison",
+      "should_answer": true,
+      "ground_truth_answer": "纸盘 2/3 标称 250 页，多用途纸盘 1 为 100 页；使用 ADF 时单次最多 100 页 80 g/m² 原稿。纸盘最大容量可能随介质重量、厚度和环境变化。",
+      "reference_answer": "纸盘 2/3 标称 250 页，多用途纸盘 1 为 100 页；使用 ADF 时单次最多 100 页 80 g/m² 原稿。纸盘最大容量可能随介质重量、厚度和环境变化。",
+      "required_facts": [
+        "纸盘 2/3：250 页",
+        "纸盘 1：100 页",
+        "ADF：最多 100 页 80 g/m²",
+        "容量受介质与环境影响"
+      ],
+      "forbidden_claims": [],
+      "gold_sources": [
+        {
+          "filename": "04_40355_HP_LaserJet_MFP_M436n_M436dn_M436nda.pdf",
+          "source_path": "01_error_code_troubleshooting_office/04_40355_HP_LaserJet_MFP_M436n_M436dn_M436nda.pdf",
+          "page_number": 44,
+          "pdf_page": 45,
+          "evidence_quote": "纸盘 2/纸盘 3 多用途纸盘 1\n普通纸 Letter 216 x 279 毫米（8.5 \nx 11 英寸）\n71 到 85 g/m2（19 到 \n22.5 磅证券纸）\n● 250 页 80 g/m2\n（21 磅证券\n纸）\n71 到 85 g/m2（19 到 \n22.5 磅证券纸）\n● 100 页 80 g/m2",
+          "must_contain": "纸盘 2/纸盘 3 多用途纸盘 1\n普通纸 Letter 216 x 279 毫米（8.5 \nx 11 英寸）\n71 到 85 g/m2（19 到 \n22.5 磅证券纸）\n● 250 页 80 g/m2\n（21 磅证券\n纸）\n71 到 85 g/m2（19 到 \n22.5 磅证券纸）\n● 100 页 80 g/m2"
+        },
+        {
+          "filename": "04_40355_HP_LaserJet_MFP_M436n_M436dn_M436nda.pdf",
+          "source_path": "01_error_code_troubleshooting_office/04_40355_HP_LaserJet_MFP_M436n_M436dn_M436nda.pdf",
+          "page_number": 43,
+          "pdf_page": 44,
+          "evidence_quote": "使用自动文档进纸器 (ADF) 时，您可以在单次作业中装入最多 100 页纸（80 g/m2、21 磅证券纸）。",
+          "must_contain": "使用自动文档进纸器 (ADF) 时，您可以在单次作业中装入最多 100 页纸（80 g/m2、21 磅证券纸）。"
+        },
+        {
+          "filename": "04_40355_HP_LaserJet_MFP_M436n_M436dn_M436nda.pdf",
+          "source_path": "01_error_code_troubleshooting_office/04_40355_HP_LaserJet_MFP_M436n_M436dn_M436nda.pdf",
+          "page_number": 45,
+          "pdf_page": 46,
+          "evidence_quote": "最大容量可能随介质重量、厚度和环境条件而变化。",
+          "must_contain": "最大容量可能随介质重量、厚度和环境条件而变化。"
+        }
+      ],
+      "boundary_sources": [],
+      "evidence_quote": [
+        "纸盘 2/纸盘 3 多用途纸盘 1\n普通纸 Letter 216 x 279 毫米（8.5 \nx 11 英寸）\n71 到 85 g/m2（19 到 \n22.5 磅证券纸）\n● 250 页 80 g/m2\n（21 磅证券\n纸）\n71 到 85 g/m2（19 到 \n22.5 磅证券纸）\n● 100 页 80 g/m2",
+        "使用自动文档进纸器 (ADF) 时，您可以在单次作业中装入最多 100 页纸（80 g/m2、21 磅证券纸）。",
+        "最大容量可能随介质重量、厚度和环境条件而变化。"
+      ]
+    },
+    "metadata": {
+      "case_id": "manual-068",
+      "category": "multi_step_comparison",
+      "product": "HP LaserJet MFP M436",
+      "language": "zh-CN"
+    }
+  },
+  {
+    "inputs": {
+      "question": "HP LaserJet Pro M402/M403 系列手册中，纸盘 1、2、可选纸盘 3 的容量，以及 A4 和 Letter 打印速度分别是多少？"
+    },
+    "outputs": {
+      "category": "multi_step_comparison",
+      "should_answer": true,
+      "ground_truth_answer": "纸盘 1 为 100 张，纸盘 2 为 250 张，可选纸盘 3 为 550 张；A4 打印速度为 38 ppm，Letter 为 40 ppm。",
+      "reference_answer": "纸盘 1 为 100 张，纸盘 2 为 250 张，可选纸盘 3 为 550 张；A4 打印速度为 38 ppm，Letter 为 40 ppm。",
+      "required_facts": [
+        "纸盘容量 100/250/550 张，纸盘 3 可选",
+        "A4：38 ppm",
+        "Letter：40 ppm"
+      ],
+      "forbidden_claims": [],
+      "gold_sources": [
+        {
+          "filename": "03_38963_LaserJet_Pro_M402.pdf",
+          "source_path": "04_confusable_submodels/03_38963_LaserJet_Pro_M402.pdf",
+          "page_number": 14,
+          "pdf_page": 15,
+          "evidence_quote": "纸张处理 纸盘 1（容纳 100 张纸）\n 纸盘 2（容纳 250 张纸）\n 纸盘 3（容纳 550 张纸） 可选 可选 可选 可选",
+          "must_contain": "纸张处理 纸盘 1（容纳 100 张纸）\n 纸盘 2（容纳 250 张纸）\n 纸盘 3（容纳 550 张纸） 可选 可选 可选 可选"
+        },
+        {
+          "filename": "03_38963_LaserJet_Pro_M402.pdf",
+          "source_path": "04_confusable_submodels/03_38963_LaserJet_Pro_M402.pdf",
+          "page_number": 15,
+          "pdf_page": 16,
+          "evidence_quote": "在 A4 纸张上每分钟可打\n印 38 张 (ppm)，在 Letter\n尺寸纸张上为 40 ppm",
+          "must_contain": "在 A4 纸张上每分钟可打\n印 38 张 (ppm)，在 Letter\n尺寸纸张上为 40 ppm"
+        }
+      ],
+      "boundary_sources": [],
+      "evidence_quote": [
+        "纸张处理 纸盘 1（容纳 100 张纸）\n 纸盘 2（容纳 250 张纸）\n 纸盘 3（容纳 550 张纸） 可选 可选 可选 可选",
+        "在 A4 纸张上每分钟可打\n印 38 张 (ppm)，在 Letter\n尺寸纸张上为 40 ppm"
+      ]
+    },
+    "metadata": {
+      "case_id": "manual-069",
+      "category": "multi_step_comparison",
+      "product": "HP M402/M403",
+      "language": "zh-CN"
+    }
+  },
+  {
+    "inputs": {
+      "question": "HP M402/M403 完全打开与完全合上时，高度和厚度各变化多少，宽度是否改变？"
+    },
+    "outputs": {
+      "category": "multi_step_comparison",
+      "should_answer": true,
+      "ground_truth_answer": "高度从 216 mm 增至 241 mm，增加 25 mm；厚度从 357 mm 增至 781 mm，增加 424 mm；宽度都为 381 mm，不变。",
+      "reference_answer": "高度从 216 mm 增至 241 mm，增加 25 mm；厚度从 357 mm 增至 781 mm，增加 424 mm；宽度都为 381 mm，不变。",
+      "required_facts": [
+        "高度 216→241 mm，增加 25 mm",
+        "厚度 357→781 mm，增加 424 mm",
+        "宽度均为 381 mm"
+      ],
+      "forbidden_claims": [],
+      "gold_sources": [
+        {
+          "filename": "03_38963_LaserJet_Pro_M402.pdf",
+          "source_path": "04_confusable_submodels/03_38963_LaserJet_Pro_M402.pdf",
+          "page_number": 18,
+          "pdf_page": 19,
+          "evidence_quote": "打印机完全合上 打印机完全打开\n1. 高度 216 毫米 241 毫米\n2. 厚度 357 毫米 781 毫米\n3. 宽度 381 毫米 381 毫米\n重量（含碳粉盒） 8.9 千克",
+          "must_contain": "打印机完全合上 打印机完全打开\n1. 高度 216 毫米 241 毫米\n2. 厚度 357 毫米 781 毫米\n3. 宽度 381 毫米 381 毫米\n重量（含碳粉盒） 8.9 千克"
+        }
+      ],
+      "boundary_sources": [],
+      "evidence_quote": [
+        "打印机完全合上 打印机完全打开\n1. 高度 216 毫米 241 毫米\n2. 厚度 357 毫米 781 毫米\n3. 宽度 381 毫米 381 毫米\n重量（含碳粉盒） 8.9 千克"
+      ]
+    },
+    "metadata": {
+      "case_id": "manual-070",
+      "category": "multi_step_comparison",
+      "product": "HP M402/M403",
+      "language": "zh-CN"
+    }
+  },
+  {
+    "inputs": {
+      "question": "HP Color LaserJet Enterprise M552 和 M553 基本内存一样吗？都能加 DIMM 扩到 2 GB 吗？"
+    },
+    "outputs": {
+      "category": "multi_step_comparison",
+      "should_answer": true,
+      "ground_truth_answer": "基本内存都是 1 GB。M553 可加一个 DIMM 扩展至 2 GB；M552 不支持内存扩展，不能套用 M553 的升级方法。",
+      "reference_answer": "基本内存都是 1 GB。M553 可加一个 DIMM 扩展至 2 GB；M552 不支持内存扩展，不能套用 M553 的升级方法。",
+      "required_facts": [
+        "基本内存 1 GB",
+        "M553 可扩展至 2 GB",
+        "M552 不支持内存扩展"
+      ],
+      "forbidden_claims": [
+        "M552 可扩到 2 GB"
+      ],
+      "gold_sources": [
+        {
+          "filename": "04_38319_HP_Color_LaserJet_Enterprise_M552.pdf",
+          "source_path": "04_confusable_submodels/04_38319_HP_Color_LaserJet_Enterprise_M552.pdf",
+          "page_number": 17,
+          "pdf_page": 18,
+          "evidence_quote": "内存 1 GB 基本内存\n注：对于 M553 型号，基\n本内存可通过添加一个\nDIMM 内存模块扩展至 2\nGB。 M552 型号不支持内\n存扩展。",
+          "must_contain": "内存 1 GB 基本内存\n注：对于 M553 型号，基\n本内存可通过添加一个\nDIMM 内存模块扩展至 2\nGB。 M552 型号不支持内\n存扩展。"
+        }
+      ],
+      "boundary_sources": [],
+      "evidence_quote": [
+        "内存 1 GB 基本内存\n注：对于 M553 型号，基\n本内存可通过添加一个\nDIMM 内存模块扩展至 2\nGB。 M552 型号不支持内\n存扩展。"
+      ]
+    },
+    "metadata": {
+      "case_id": "manual-071",
+      "category": "multi_step_comparison",
+      "product": "HP M552/M553",
+      "language": "zh-CN"
+    }
+  },
+  {
+    "inputs": {
+      "question": "HP M552 与 M553 能接受的 550 页扩展进纸器数量相同吗？"
+    },
+    "outputs": {
+      "category": "multi_step_comparison",
+      "should_answer": true,
+      "ground_truth_answer": "不同。M552 接受一个 550 页进纸器，M553 接受三个 550 页进纸器。",
+      "reference_answer": "不同。M552 接受一个 550 页进纸器，M553 接受三个 550 页进纸器。",
+      "required_facts": [
+        "M552：一个 550 页进纸器",
+        "M553：三个 550 页进纸器"
+      ],
+      "forbidden_claims": [],
+      "gold_sources": [
+        {
+          "filename": "04_38319_HP_Color_LaserJet_Enterprise_M552.pdf",
+          "source_path": "04_confusable_submodels/04_38319_HP_Color_LaserJet_Enterprise_M552.pdf",
+          "page_number": 17,
+          "pdf_page": 18,
+          "evidence_quote": "注：M552 型号接受一个\n1 x 550 页进纸器。",
+          "must_contain": "注：M552 型号接受一个\n1 x 550 页进纸器。"
+        }
+      ],
+      "boundary_sources": [],
+      "evidence_quote": [
+        "注：M552 型号接受一个\n1 x 550 页进纸器。"
+      ]
+    },
+    "metadata": {
+      "case_id": "manual-072",
+      "category": "multi_step_comparison",
+      "product": "HP M552/M553",
+      "language": "zh-CN"
+    }
+  },
+  {
+    "inputs": {
+      "question": "HP LaserJet Enterprise MFP M527 的基本内存与加 DIMM 后的上限是多少？文档进纸器一次性双面扫描容量是多少？"
+    },
+    "outputs": {
+      "category": "multi_step_comparison",
+      "should_answer": true,
+      "ground_truth_answer": "基本内存为 1.75 GB，添加一个 DIMM 可扩展至 2.5 GB。100 页文档进纸器带双头扫描功能，可一次性完成双面复印和扫描。",
+      "reference_answer": "基本内存为 1.75 GB，添加一个 DIMM 可扩展至 2.5 GB。100 页文档进纸器带双头扫描功能，可一次性完成双面复印和扫描。",
+      "required_facts": [
+        "基本内存 1.75 GB",
+        "加一个 DIMM 可至 2.5 GB",
+        "100 页进纸器、双头、一次性双面扫描"
+      ],
+      "forbidden_claims": [],
+      "gold_sources": [
+        {
+          "filename": "05_38318_LaserJet_Enterprise_MFP_M527.pdf",
+          "source_path": "04_confusable_submodels/05_38318_LaserJet_Enterprise_MFP_M527.pdf",
+          "page_number": 18,
+          "pdf_page": 19,
+          "evidence_quote": "内存 1.75 GB 基本内存\n注：可通过添加一个\nDIMM 内存模块将此基本\n内存扩展至 2.5 GB。",
+          "must_contain": "内存 1.75 GB 基本内存\n注：可通过添加一个\nDIMM 内存模块将此基本\n内存扩展至 2.5 GB。"
+        },
+        {
+          "filename": "05_38318_LaserJet_Enterprise_MFP_M527.pdf",
+          "source_path": "04_confusable_submodels/05_38318_LaserJet_Enterprise_MFP_M527.pdf",
+          "page_number": 19,
+          "pdf_page": 20,
+          "evidence_quote": "带双头扫描功能的 100\n页文档进纸器，可一次性\n完成双面复印和扫描",
+          "must_contain": "带双头扫描功能的 100\n页文档进纸器，可一次性\n完成双面复印和扫描"
+        }
+      ],
+      "boundary_sources": [],
+      "evidence_quote": [
+        "内存 1.75 GB 基本内存\n注：可通过添加一个\nDIMM 内存模块将此基本\n内存扩展至 2.5 GB。",
+        "带双头扫描功能的 100\n页文档进纸器，可一次性\n完成双面复印和扫描"
+      ]
+    },
+    "metadata": {
+      "case_id": "manual-073",
+      "category": "multi_step_comparison",
+      "product": "HP M527",
+      "language": "zh-CN"
+    }
+  },
+  {
+    "inputs": {
+      "question": "HP M527 标配纸盘 1、2 各多少张？如果加满三个 550 页选配进纸器，按标称容量合计多少张？"
+    },
+    "outputs": {
+      "category": "multi_step_comparison",
+      "should_answer": true,
+      "ground_truth_answer": "纸盘 1 标称 100 张，纸盘 2 为 550 张；最多加三个 550 页进纸器。标称合计 100 + 550 + 3 × 550 = 2300 张。",
+      "reference_answer": "纸盘 1 标称 100 张，纸盘 2 为 550 张；最多加三个 550 页进纸器。标称合计 100 + 550 + 3 × 550 = 2300 张。",
+      "required_facts": [
+        "纸盘 1：100 张",
+        "纸盘 2：550 张",
+        "最多三个 550 页进纸器",
+        "标称总计 2300 张"
+      ],
+      "forbidden_claims": [],
+      "gold_sources": [
+        {
+          "filename": "05_38318_LaserJet_Enterprise_MFP_M527.pdf",
+          "source_path": "04_confusable_submodels/05_38318_LaserJet_Enterprise_MFP_M527.pdf",
+          "page_number": 18,
+          "pdf_page": 19,
+          "evidence_quote": "纸张处理 纸盘 1（容纳 100 张纸）\n 纸盘 2（容纳 550 张纸）\n 1 x 550 页进纸器\n注：每个打印机型号最多\n可接受三个可选 1 x 550\n页进纸器（纸盘 3、 4 和\n5）。",
+          "must_contain": "纸张处理 纸盘 1（容纳 100 张纸）\n 纸盘 2（容纳 550 张纸）\n 1 x 550 页进纸器\n注：每个打印机型号最多\n可接受三个可选 1 x 550\n页进纸器（纸盘 3、 4 和\n5）。"
+        }
+      ],
+      "boundary_sources": [],
+      "evidence_quote": [
+        "纸张处理 纸盘 1（容纳 100 张纸）\n 纸盘 2（容纳 550 张纸）\n 1 x 550 页进纸器\n注：每个打印机型号最多\n可接受三个可选 1 x 550\n页进纸器（纸盘 3、 4 和\n5）。"
+      ]
+    },
+    "metadata": {
+      "case_id": "manual-074",
+      "category": "multi_step_comparison",
+      "product": "HP M527",
+      "language": "zh-CN"
+    }
+  },
+  {
+    "inputs": {
+      "question": "HP LaserJet Pro M14-M17 手册列出的 Wi-Fi Direct 和 AirPrint 对机型有什么限制？完整支持移动打印前还建议做什么？"
+    },
+    "outputs": {
+      "category": "multi_step_comparison",
+      "should_answer": true,
+      "ground_truth_answer": "该手册中 Wi-Fi Direct 和 AirPrint 都标注仅限无线型号；还建议更新打印机固件以确保支持所有移动打印。",
+      "reference_answer": "该手册中 Wi-Fi Direct 和 AirPrint 都标注仅限无线型号；还建议更新打印机固件以确保支持所有移动打印。",
+      "required_facts": [
+        "Wi-Fi Direct 仅无线型号",
+        "AirPrint 仅无线型号",
+        "更新打印机固件"
+      ],
+      "forbidden_claims": [],
+      "gold_sources": [
+        {
+          "filename": "01_40345_HP_LaserJet_Pro_M14-M17.pdf",
+          "source_path": "04_confusable_submodels/01_40345_HP_LaserJet_Pro_M14-M17.pdf",
+          "page_number": 14,
+          "pdf_page": 15,
+          "evidence_quote": "注：更新打印机固件，以确保支持所有移动打印。\n● Wi-Fi Direct（仅限无线型号）\n● 用于 iOS 和 Android 设备的 HP All-in-One Remote 应用程序\n● Google Cloud Print\n● AirPrint（仅限无线型号）\n● Android 打印",
+          "must_contain": "注：更新打印机固件，以确保支持所有移动打印。\n● Wi-Fi Direct（仅限无线型号）\n● 用于 iOS 和 Android 设备的 HP All-in-One Remote 应用程序\n● Google Cloud Print\n● AirPrint（仅限无线型号）\n● Android 打印"
+        }
+      ],
+      "boundary_sources": [],
+      "evidence_quote": [
+        "注：更新打印机固件，以确保支持所有移动打印。\n● Wi-Fi Direct（仅限无线型号）\n● 用于 iOS 和 Android 设备的 HP All-in-One Remote 应用程序\n● Google Cloud Print\n● AirPrint（仅限无线型号）\n● Android 打印"
+      ]
+    },
+    "metadata": {
+      "case_id": "manual-075",
+      "category": "multi_step_comparison",
+      "product": "HP M14-M17",
+      "language": "zh-CN"
+    }
+  },
+  {
+    "inputs": {
+      "question": "HP LaserJet Pro MFP M28-M31 完全合上和完全打开时，高度、宽度、厚度分别是多少？"
+    },
+    "outputs": {
+      "category": "multi_step_comparison",
+      "should_answer": true,
+      "ground_truth_answer": "合上时高 196 mm、宽 360 mm、厚 263 mm；打开时高 447 mm、宽 360 mm、厚 390 mm。",
+      "reference_answer": "合上时高 196 mm、宽 360 mm、厚 263 mm；打开时高 447 mm、宽 360 mm、厚 390 mm。",
+      "required_facts": [
+        "合上：196 × 360 × 263 mm（高宽厚）",
+        "打开：447 × 360 × 390 mm（高宽厚）"
+      ],
+      "forbidden_claims": [],
+      "gold_sources": [
+        {
+          "filename": "02_40344_HP_LaserJet_Pro_MFP_M28-M31.pdf",
+          "source_path": "04_confusable_submodels/02_40344_HP_LaserJet_Pro_MFP_M28-M31.pdf",
+          "page_number": 14,
+          "pdf_page": 15,
+          "evidence_quote": "打印机完全合上 打印机完全打开\n1. 高度 196 毫米 447 毫米\n2. 宽度 360 毫米 360 毫米\n3. 厚度 263 毫米 390 毫米",
+          "must_contain": "打印机完全合上 打印机完全打开\n1. 高度 196 毫米 447 毫米\n2. 宽度 360 毫米 360 毫米\n3. 厚度 263 毫米 390 毫米"
+        }
+      ],
+      "boundary_sources": [],
+      "evidence_quote": [
+        "打印机完全合上 打印机完全打开\n1. 高度 196 毫米 447 毫米\n2. 宽度 360 毫米 360 毫米\n3. 厚度 263 毫米 390 毫米"
+      ]
+    },
+    "metadata": {
+      "case_id": "manual-076",
+      "category": "multi_step_comparison",
+      "product": "HP M28-M31",
+      "language": "zh-CN"
+    }
+  },
+  {
+    "inputs": {
+      "question": "DocuCentre-VII C2273 纸盘 1/2 和手送纸盘的最大基重各是多少？手送纸盘中轻磅、普通和重磅光泽卡片纸的克重区间分别是什么？"
+    },
+    "outputs": {
+      "category": "multi_step_comparison",
+      "should_answer": true,
+      "ground_truth_answer": "两者基重范围均为 52-300 g/m²，最大都是 300 g/m²。手送纸盘列出的轻磅光泽卡片纸为 106-176 g/m²，光泽卡片纸为 177-220 g/m²，重磅光泽卡片纸为 221-300 g/m²。不能因此承诺所有称作铜版纸的介质都适用。",
+      "reference_answer": "两者基重范围均为 52-300 g/m²，最大都是 300 g/m²。手送纸盘列出的轻磅光泽卡片纸为 106-176 g/m²，光泽卡片纸为 177-220 g/m²，重磅光泽卡片纸为 221-300 g/m²。不能因此承诺所有称作铜版纸的介质都适用。",
+      "required_facts": [
+        "纸盘 1/2 最大 300 g/m²",
+        "手送纸盘最大 300 g/m²",
+        "光泽卡片纸三档 106-176、177-220、221-300 g/m²"
+      ],
+      "forbidden_claims": [
+        "任何铜版纸都可使用"
+      ],
+      "gold_sources": [
+        {
+          "filename": "05_40319_DocuCentre_-VII_C2273.pdf",
+          "source_path": "01_error_code_troubleshooting_office/05_40319_DocuCentre_-VII_C2273.pdf",
+          "page_number": 73,
+          "pdf_page": 74,
+          "evidence_quote": "纸 盘1和2\n纸 盘3和4\n（双纸盘模块）\n基重：\n52-300 g/m2",
+          "must_contain": "纸 盘1和2\n纸 盘3和4\n（双纸盘模块）\n基重：\n52-300 g/m2"
+        },
+        {
+          "filename": "05_40319_DocuCentre_-VII_C2273.pdf",
+          "source_path": "01_error_code_troubleshooting_office/05_40319_DocuCentre_-VII_C2273.pdf",
+          "page_number": 74,
+          "pdf_page": 75,
+          "evidence_quote": "手送纸盘 基重：\n52-300 g/m2\n最多 10 毫米 \n90 张",
+          "must_contain": "手送纸盘 基重：\n52-300 g/m2\n最多 10 毫米 \n90 张"
+        },
+        {
+          "filename": "05_40319_DocuCentre_-VII_C2273.pdf",
+          "source_path": "01_error_code_troubleshooting_office/05_40319_DocuCentre_-VII_C2273.pdf",
+          "page_number": 74,
+          "pdf_page": 75,
+          "evidence_quote": "轻磅光泽卡片纸 （106-176 g/m2）\n轻磅光泽卡片纸 ( 反面 ) （106-176 g/m2）\n光泽卡片纸 （177-220 g/m2）\n光 泽 卡 片 纸(反)（177-220 g/m2）\n重磅光泽卡片纸 （221-300 g/m2）",
+          "must_contain": "轻磅光泽卡片纸 （106-176 g/m2）\n轻磅光泽卡片纸 ( 反面 ) （106-176 g/m2）\n光泽卡片纸 （177-220 g/m2）\n光 泽 卡 片 纸(反)（177-220 g/m2）\n重磅光泽卡片纸 （221-300 g/m2）"
+        }
+      ],
+      "boundary_sources": [],
+      "evidence_quote": [
+        "纸 盘1和2\n纸 盘3和4\n（双纸盘模块）\n基重：\n52-300 g/m2",
+        "手送纸盘 基重：\n52-300 g/m2\n最多 10 毫米 \n90 张",
+        "轻磅光泽卡片纸 （106-176 g/m2）\n轻磅光泽卡片纸 ( 反面 ) （106-176 g/m2）\n光泽卡片纸 （177-220 g/m2）\n光 泽 卡 片 纸(反)（177-220 g/m2）\n重磅光泽卡片纸 （221-300 g/m2）"
+      ]
+    },
+    "metadata": {
+      "case_id": "manual-077",
+      "category": "multi_step_comparison",
+      "product": "DocuCentre-VII C2273",
+      "language": "zh-CN"
+    }
+  },
+  {
+    "inputs": {
+      "question": "DocuCentre-VII C2273 的复合纸盘 3、4 和手送纸盘标称容量各是多少？手送纸盘的堆叠高度上限呢？"
+    },
+    "outputs": {
+      "category": "multi_step_comparison",
+      "should_answer": true,
+      "ground_truth_answer": "复合纸盘 3 为 867 张，复合纸盘 4 为 1133 张；手送纸盘为 90 张，最多堆叠 10 mm。",
+      "reference_answer": "复合纸盘 3 为 867 张，复合纸盘 4 为 1133 张；手送纸盘为 90 张，最多堆叠 10 mm。",
+      "required_facts": [
+        "复合纸盘 3：867 张",
+        "复合纸盘 4：1133 张",
+        "手送：90 张、最多 10 mm"
+      ],
+      "forbidden_claims": [],
+      "gold_sources": [
+        {
+          "filename": "05_40319_DocuCentre_-VII_C2273.pdf",
+          "source_path": "01_error_code_troubleshooting_office/05_40319_DocuCentre_-VII_C2273.pdf",
+          "page_number": 73,
+          "pdf_page": 74,
+          "evidence_quote": "纸盘 3\n（复合纸盘）\n867 张\n纸盘 4\n（复合纸盘）\n1,133 张",
+          "must_contain": "纸盘 3\n（复合纸盘）\n867 张\n纸盘 4\n（复合纸盘）\n1,133 张"
+        },
+        {
+          "filename": "05_40319_DocuCentre_-VII_C2273.pdf",
+          "source_path": "01_error_code_troubleshooting_office/05_40319_DocuCentre_-VII_C2273.pdf",
+          "page_number": 74,
+          "pdf_page": 75,
+          "evidence_quote": "手送纸盘 基重：\n52-300 g/m2\n最多 10 毫米 \n90 张",
+          "must_contain": "手送纸盘 基重：\n52-300 g/m2\n最多 10 毫米 \n90 张"
+        }
+      ],
+      "boundary_sources": [],
+      "evidence_quote": [
+        "纸盘 3\n（复合纸盘）\n867 张\n纸盘 4\n（复合纸盘）\n1,133 张",
+        "手送纸盘 基重：\n52-300 g/m2\n最多 10 毫米 \n90 张"
+      ]
+    },
+    "metadata": {
+      "case_id": "manual-078",
+      "category": "multi_step_comparison",
+      "product": "DocuCentre-VII C2273",
+      "language": "zh-CN"
+    }
+  },
+  {
+    "inputs": {
+      "question": "N15 的 NURO 导航手册中，地图画面、导航语音和路径规划分别有哪些模式可选？"
+    },
+    "outputs": {
+      "category": "multi_step_comparison",
+      "should_answer": true,
+      "ground_truth_answer": "地图有 2D 平面和 3D 俯瞰；播报语音有国语和台语；路径条件有最佳路径、一高优先、二高优先、避走高速公路。",
+      "reference_answer": "地图有 2D 平面和 3D 俯瞰；播报语音有国语和台语；路径条件有最佳路径、一高优先、二高优先、避走高速公路。",
+      "required_facts": [
+        "2D 平面与 3D 俯瞰",
+        "国语和台语",
+        "最佳路径、一高优先、二高优先、避走高速"
+      ],
+      "forbidden_claims": [],
+      "gold_sources": [
+        {
+          "filename": "02_14686_N15_汽车_导航系统.pdf",
+          "source_path": "03_automotive_electronics_substitute/02_14686_N15_汽车_导航系统.pdf",
+          "page_number": 4,
+          "pdf_page": 5,
+          "evidence_quote": "畫面模式  地圖畫面有 2D 平面跟 3D 俯瞰兩種模式。 \n比 例 尺  導航時可採自動或手動來調整地圖畫面的大小。 \n語    音  導航時的播報語音，有國台語兩種。 \n超速警示   可啟用或關閉超速警示的提示。 \n測速照相  可啟用或關閉測速照相的提示。",
+          "must_contain": "畫面模式  地圖畫面有 2D 平面跟 3D 俯瞰兩種模式。 \n比 例 尺  導航時可採自動或手動來調整地圖畫面的大小。 \n語    音  導航時的播報語音，有國台語兩種。 \n超速警示   可啟用或關閉超速警示的提示。 \n測速照相  可啟用或關閉測速照相的提示。"
+        },
+        {
+          "filename": "02_14686_N15_汽车_导航系统.pdf",
+          "source_path": "03_automotive_electronics_substitute/02_14686_N15_汽车_导航系统.pdf",
+          "page_number": 4,
+          "pdf_page": 5,
+          "evidence_quote": "規劃條件  有最佳路徑、一高優先、二高優先、避走高速公路，\n可依需求選擇目前最適合的路徑。",
+          "must_contain": "規劃條件  有最佳路徑、一高優先、二高優先、避走高速公路，\n可依需求選擇目前最適合的路徑。"
+        }
+      ],
+      "boundary_sources": [],
+      "evidence_quote": [
+        "畫面模式  地圖畫面有 2D 平面跟 3D 俯瞰兩種模式。 \n比 例 尺  導航時可採自動或手動來調整地圖畫面的大小。 \n語    音  導航時的播報語音，有國台語兩種。 \n超速警示   可啟用或關閉超速警示的提示。 \n測速照相  可啟用或關閉測速照相的提示。",
+        "規劃條件  有最佳路徑、一高優先、二高優先、避走高速公路，\n可依需求選擇目前最適合的路徑。"
+      ]
+    },
+    "metadata": {
+      "case_id": "manual-079",
+      "category": "multi_step_comparison",
+      "product": "NURO N15",
+      "language": "zh-CN"
+    }
+  },
+  {
+    "inputs": {
+      "question": "P-Link N18 系统设置里，日夜配色、播报语音与音量控制分别有什么选择？"
+    },
+    "outputs": {
+      "category": "multi_step_comparison",
+      "should_answer": true,
+      "ground_truth_answer": "日夜配色有日、夜、自动三种；播报有国语、台语，并有合成音播报下一个进入的道路名称；音量为五段控制。",
+      "reference_answer": "日夜配色有日、夜、自动三种；播报有国语、台语，并有合成音播报下一个进入的道路名称；音量为五段控制。",
+      "required_facts": [
+        "日/夜/自动三种",
+        "国语、台语及合成音道路名称播报",
+        "五段音量控制"
+      ],
+      "forbidden_claims": [],
+      "gold_sources": [
+        {
+          "filename": "03_14685_N18_汽车_导航系统.pdf",
+          "source_path": "03_automotive_electronics_substitute/03_14685_N18_汽车_导航系统.pdf",
+          "page_number": 4,
+          "pdf_page": 5,
+          "evidence_quote": "日夜模式  地圖畫面可依個人喜好轉換 『日/夜/自動』 三種配\n色模式。",
+          "must_contain": "日夜模式  地圖畫面可依個人喜好轉換 『日/夜/自動』 三種配\n色模式。"
+        },
+        {
+          "filename": "03_14685_N18_汽车_导航系统.pdf",
+          "source_path": "03_automotive_electronics_substitute/03_14685_N18_汽车_导航系统.pdf",
+          "page_number": 4,
+          "pdf_page": 5,
+          "evidence_quote": "語    音  導航時的播報語音，有『國/台語』與合成音播報\n『下一個進入的道路名稱』。 \n音量大小   五段音量控制。",
+          "must_contain": "語    音  導航時的播報語音，有『國/台語』與合成音播報\n『下一個進入的道路名稱』。 \n音量大小   五段音量控制。"
+        }
+      ],
+      "boundary_sources": [],
+      "evidence_quote": [
+        "日夜模式  地圖畫面可依個人喜好轉換 『日/夜/自動』 三種配\n色模式。",
+        "語    音  導航時的播報語音，有『國/台語』與合成音播報\n『下一個進入的道路名稱』。 \n音量大小   五段音量控制。"
+      ]
+    },
+    "metadata": {
+      "case_id": "manual-080",
+      "category": "multi_step_comparison",
+      "product": "P-Link N18",
+      "language": "zh-CN"
+    }
+  },
+  {
+    "inputs": {
+      "question": "对照 N15 与 N18 手册，日夜模式和语音播报有什么差别？不要把 N18 的新增描述套给 N15。"
+    },
+    "outputs": {
+      "category": "multi_step_comparison",
+      "should_answer": true,
+      "ground_truth_answer": "N15 描述日、夜两种配色，语音为国语和台语；N18 描述日、夜、自动三种配色，并在国语、台语之外描述用合成音播报下一条道路名称。",
+      "reference_answer": "N15 描述日、夜两种配色，语音为国语和台语；N18 描述日、夜、自动三种配色，并在国语、台语之外描述用合成音播报下一条道路名称。",
+      "required_facts": [
+        "N15 日夜两种、国语台语",
+        "N18 日夜自动三种",
+        "N18 另有合成音播报道路名"
+      ],
+      "forbidden_claims": [],
+      "gold_sources": [
+        {
+          "filename": "02_14686_N15_汽车_导航系统.pdf",
+          "source_path": "03_automotive_electronics_substitute/02_14686_N15_汽车_导航系统.pdf",
+          "page_number": 4,
+          "pdf_page": 5,
+          "evidence_quote": "日夜模式  地圖畫面可依需求轉換日夜兩種配色模式。 \n畫面模式  地圖畫面有 2D 平面跟 3D 俯瞰兩種模式。 \n比 例 尺  導航時可採自動或手動來調整地圖畫面的大小。 \n語    音  導航時的播報語音，有國台語兩種。",
+          "must_contain": "日夜模式  地圖畫面可依需求轉換日夜兩種配色模式。 \n畫面模式  地圖畫面有 2D 平面跟 3D 俯瞰兩種模式。 \n比 例 尺  導航時可採自動或手動來調整地圖畫面的大小。 \n語    音  導航時的播報語音，有國台語兩種。"
+        },
+        {
+          "filename": "03_14685_N18_汽车_导航系统.pdf",
+          "source_path": "03_automotive_electronics_substitute/03_14685_N18_汽车_导航系统.pdf",
+          "page_number": 4,
+          "pdf_page": 5,
+          "evidence_quote": "日夜模式  地圖畫面可依個人喜好轉換 『日/夜/自動』 三種配\n色模式。",
+          "must_contain": "日夜模式  地圖畫面可依個人喜好轉換 『日/夜/自動』 三種配\n色模式。"
+        },
+        {
+          "filename": "03_14685_N18_汽车_导航系统.pdf",
+          "source_path": "03_automotive_electronics_substitute/03_14685_N18_汽车_导航系统.pdf",
+          "page_number": 4,
+          "pdf_page": 5,
+          "evidence_quote": "語    音  導航時的播報語音，有『國/台語』與合成音播報\n『下一個進入的道路名稱』。",
+          "must_contain": "語    音  導航時的播報語音，有『國/台語』與合成音播報\n『下一個進入的道路名稱』。"
+        }
+      ],
+      "boundary_sources": [],
+      "evidence_quote": [
+        "日夜模式  地圖畫面可依需求轉換日夜兩種配色模式。 \n畫面模式  地圖畫面有 2D 平面跟 3D 俯瞰兩種模式。 \n比 例 尺  導航時可採自動或手動來調整地圖畫面的大小。 \n語    音  導航時的播報語音，有國台語兩種。",
+        "日夜模式  地圖畫面可依個人喜好轉換 『日/夜/自動』 三種配\n色模式。",
+        "語    音  導航時的播報語音，有『國/台語』與合成音播報\n『下一個進入的道路名稱』。"
+      ]
+    },
+    "metadata": {
+      "case_id": "manual-081",
+      "category": "multi_step_comparison",
+      "product": "NURO N15 / P-Link N18",
+      "language": "zh-CN"
+    }
+  },
+  {
+    "inputs": {
+      "question": "430i 有哪两种打开相机的办法？机身相机钮在地图导航运行时也能用吗？"
+    },
+    "outputs": {
+      "category": "multi_step_comparison",
+      "should_answer": true,
+      "ground_truth_answer": "可在系统主菜单点“相机”，或按机身上方相机钮，后者会先关闭正在使用的程序。但使用地图导航程序时，相机钮无法使用。",
+      "reference_answer": "可在系统主菜单点“相机”，或按机身上方相机钮，后者会先关闭正在使用的程序。但使用地图导航程序时，相机钮无法使用。",
+      "required_facts": [
+        "主菜单点击相机",
+        "机身相机钮会先关闭当前程序",
+        "地图导航时相机钮不可用"
+      ],
+      "forbidden_claims": [],
+      "gold_sources": [
+        {
+          "filename": "01_16972_430i系统使用手册(通用_汽车_).pdf",
+          "source_path": "03_automotive_electronics_substitute/01_16972_430i系统使用手册(通用_汽车_).pdf",
+          "page_number": 40,
+          "pdf_page": 41,
+          "evidence_quote": "打开相机程序的方法有两种： \nz 由系统主菜单点击 [相机] 键。 \n \nz 按压机身上方的相机钮。（正在使用的程序会先关闭。） \n \n【注】使用地图导航程序时，相机钮无法使用。",
+          "must_contain": "打开相机程序的方法有两种： \nz 由系统主菜单点击 [相机] 键。 \n \nz 按压机身上方的相机钮。（正在使用的程序会先关闭。） \n \n【注】使用地图导航程序时，相机钮无法使用。"
+        }
+      ],
+      "boundary_sources": [],
+      "evidence_quote": [
+        "打开相机程序的方法有两种： \nz 由系统主菜单点击 [相机] 键。 \n \nz 按压机身上方的相机钮。（正在使用的程序会先关闭。） \n \n【注】使用地图导航程序时，相机钮无法使用。"
+      ]
+    },
+    "metadata": {
+      "case_id": "manual-082",
+      "category": "multi_step_comparison",
+      "product": "430i",
+      "language": "zh-CN"
+    }
+  },
+  {
+    "inputs": {
+      "question": "430i 的照片分辨率最高是多少？连拍是否沿用最高分辨率？高于 800×600 后还能缩放吗？"
+    },
+    "outputs": {
+      "category": "multi_step_comparison",
+      "should_answer": true,
+      "ground_truth_answer": "照片最高可设 1600 × 1200；连拍固定为 640 × 480，不沿用最高分辨率；设置高于 800 × 600（不含）时不能使用缩放。",
+      "reference_answer": "照片最高可设 1600 × 1200；连拍固定为 640 × 480，不沿用最高分辨率；设置高于 800 × 600（不含）时不能使用缩放。",
+      "required_facts": [
+        "最高 1600 × 1200",
+        "连拍固定 640 × 480",
+        "高于 800 × 600 不可缩放"
+      ],
+      "forbidden_claims": [],
+      "gold_sources": [
+        {
+          "filename": "01_16972_430i系统使用手册(通用_汽车_).pdf",
+          "source_path": "03_automotive_electronics_substitute/01_16972_430i系统使用手册(通用_汽车_).pdf",
+          "page_number": 45,
+          "pdf_page": 46,
+          "evidence_quote": "分辨率 设置相片的分辨率。选项为 [320 x 240]、[336 x 252]、\n[400 x 300]、[640 x 480]、[800 x 600] （默认值）、\n[1280 x 960]、[1600 x 1200]。",
+          "must_contain": "分辨率 设置相片的分辨率。选项为 [320 x 240]、[336 x 252]、\n[400 x 300]、[640 x 480]、[800 x 600] （默认值）、\n[1280 x 960]、[1600 x 1200]。"
+        },
+        {
+          "filename": "01_16972_430i系统使用手册(通用_汽车_).pdf",
+          "source_path": "03_automotive_electronics_substitute/01_16972_430i系统使用手册(通用_汽车_).pdf",
+          "page_number": 44,
+          "pdf_page": 45,
+          "evidence_quote": "连拍的相片会固定在 640 x 480的分辨率。",
+          "must_contain": "连拍的相片会固定在 640 x 480的分辨率。"
+        },
+        {
+          "filename": "01_16972_430i系统使用手册(通用_汽车_).pdf",
+          "source_path": "03_automotive_electronics_substitute/01_16972_430i系统使用手册(通用_汽车_).pdf",
+          "page_number": 43,
+          "pdf_page": 44,
+          "evidence_quote": "如果您设的分辨率高于 800x600（不含），则无\n法使用缩放功能。",
+          "must_contain": "如果您设的分辨率高于 800x600（不含），则无\n法使用缩放功能。"
+        }
+      ],
+      "boundary_sources": [],
+      "evidence_quote": [
+        "分辨率 设置相片的分辨率。选项为 [320 x 240]、[336 x 252]、\n[400 x 300]、[640 x 480]、[800 x 600] （默认值）、\n[1280 x 960]、[1600 x 1200]。",
+        "连拍的相片会固定在 640 x 480的分辨率。",
+        "如果您设的分辨率高于 800x600（不含），则无\n法使用缩放功能。"
+      ]
+    },
+    "metadata": {
+      "case_id": "manual-083",
+      "category": "multi_step_comparison",
+      "product": "430i",
+      "language": "zh-CN"
+    }
+  },
+  {
+    "inputs": {
+      "question": "用光盘恢复高德车载导航 V6.10 前应记录什么？格式化 SD 卡后如何恢复和重新注册？"
+    },
+    "outputs": {
+      "category": "multi_step_comparison",
+      "should_answer": true,
+      "ground_truth_answer": "先确认已记录软件序列号和安装码。格式化 SD 卡后，用电脑把光盘所有内容复制到 SD 卡，运行软件并按提示操作；需重新注册时联系高德客服，提供序列号与安装码核实身份后协助注册。",
+      "reference_answer": "先确认已记录软件序列号和安装码。格式化 SD 卡后，用电脑把光盘所有内容复制到 SD 卡，运行软件并按提示操作；需重新注册时联系高德客服，提供序列号与安装码核实身份后协助注册。",
+      "required_facts": [
+        "先记录序列号与安装码",
+        "格式化后复制光盘全部内容到 SD 卡",
+        "运行软件按提示操作",
+        "重新注册联系高德客服并提供两项凭证"
+      ],
+      "forbidden_claims": [],
+      "gold_sources": [
+        {
+          "filename": "05_16990_高德软件_车载_导航系统V6.10用户手册.pdf",
+          "source_path": "03_automotive_electronics_substitute/05_16990_高德软件_车载_导航系统V6.10用户手册.pdf",
+          "page_number": 51,
+          "pdf_page": 52,
+          "evidence_quote": "1、使用光盘恢复（请慎重使用）：首先确认已在本手\n册的第 5 页或其他位置记录下了软件的序列号和安装\n码。将 SD 卡格式化后，通过电脑，把光盘上的所有内\n容拷贝到 SD 卡中。运行软件。按提示操作，当需要重\n新注册时，请联系高德软件客户服务中心，此时需要\n提供产品的序列号和安装码。客服人员以此确认用户\n身份后，会协助用户重新注册。",
+          "must_contain": "1、使用光盘恢复（请慎重使用）：首先确认已在本手\n册的第 5 页或其他位置记录下了软件的序列号和安装\n码。将 SD 卡格式化后，通过电脑，把光盘上的所有内\n容拷贝到 SD 卡中。运行软件。按提示操作，当需要重\n新注册时，请联系高德软件客户服务中心，此时需要\n提供产品的序列号和安装码。客服人员以此确认用户\n身份后，会协助用户重新注册。"
+        }
+      ],
+      "boundary_sources": [],
+      "evidence_quote": [
+        "1、使用光盘恢复（请慎重使用）：首先确认已在本手\n册的第 5 页或其他位置记录下了软件的序列号和安装\n码。将 SD 卡格式化后，通过电脑，把光盘上的所有内\n容拷贝到 SD 卡中。运行软件。按提示操作，当需要重\n新注册时，请联系高德软件客户服务中心，此时需要\n提供产品的序列号和安装码。客服人员以此确认用户\n身份后，会协助用户重新注册。"
+      ]
+    },
+    "metadata": {
+      "case_id": "manual-084",
+      "category": "multi_step_comparison",
+      "product": "高德车载导航 V6.10",
+      "language": "zh-CN"
+    }
+  },
+  {
+    "inputs": {
+      "question": "仅按《专业便携式车载 GPS》旧手册，新机前三次充电、平时 DC 充电、长期闲置补电分别写了多久？"
+    },
+    "outputs": {
+      "category": "multi_step_comparison",
+      "should_answer": true,
+      "ground_truth_answer": "该手册写新机前三次每次至少 8 小时且不超过 16 小时；正常 DC 充电连续 2-2.5 小时；长期闲置建议每隔 2-3 个月充一次电并充满存放。这是该手册的记录。",
+      "reference_answer": "该手册写新机前三次每次至少 8 小时且不超过 16 小时；正常 DC 充电连续 2-2.5 小时；长期闲置建议每隔 2-3 个月充一次电并充满存放。这是该手册的记录。",
+      "required_facts": [
+        "前三次至少 8 小时、不超过 16 小时",
+        "正常 DC 充电 2-2.5 小时",
+        "闲置每 2-3 个月充一次并充满存放"
+      ],
+      "forbidden_claims": [],
+      "gold_sources": [
+        {
+          "filename": "04_24441_专业便携式_车载_GPS.pdf",
+          "source_path": "03_automotive_electronics_substitute/04_24441_专业便携式_车载_GPS.pdf",
+          "page_number": 3,
+          "pdf_page": 4,
+          "evidence_quote": "2.为了使电池达到最佳性能，当您在使用新机器时，前三次充\n  电至少充电8小时，但不要超过16个小时。\n3.正常使用DC电源充电时，必须保证连续充电2-2.5小时,才能\n  保证电池充满电。",
+          "must_contain": "2.为了使电池达到最佳性能，当您在使用新机器时，前三次充\n  电至少充电8小时，但不要超过16个小时。\n3.正常使用DC电源充电时，必须保证连续充电2-2.5小时,才能\n  保证电池充满电。"
+        },
+        {
+          "filename": "04_24441_专业便携式_车载_GPS.pdf",
+          "source_path": "03_automotive_electronics_substitute/04_24441_专业便携式_车载_GPS.pdf",
+          "page_number": 3,
+          "pdf_page": 4,
+          "evidence_quote": "如果本机长时间放置不用，建议间隔2-3个月对本机充一\n次电，且充满电存放。",
+          "must_contain": "如果本机长时间放置不用，建议间隔2-3个月对本机充一\n次电，且充满电存放。"
+        }
+      ],
+      "boundary_sources": [],
+      "evidence_quote": [
+        "2.为了使电池达到最佳性能，当您在使用新机器时，前三次充\n  电至少充电8小时，但不要超过16个小时。\n3.正常使用DC电源充电时，必须保证连续充电2-2.5小时,才能\n  保证电池充满电。",
+        "如果本机长时间放置不用，建议间隔2-3个月对本机充一\n次电，且充满电存放。"
+      ]
+    },
+    "metadata": {
+      "case_id": "manual-085",
+      "category": "multi_step_comparison",
+      "product": "专业便携式车载 GPS",
+      "language": "zh-CN"
+    }
+  },
+  {
+    "inputs": {
+      "question": "DocuCentre-VII C2273 支持蓝牙 5.3 隔空打印 3D 模型切片吗？请给出配对步骤。"
+    },
+    "outputs": {
+      "category": "negative_refusal",
+      "should_answer": false,
+      "ground_truth_answer": "所给手册没有提供蓝牙 5.3 打印 3D 模型切片的功能说明或配对步骤，无法根据这些资料确认支持，也不能编造设置流程。",
+      "reference_answer": "所给手册没有提供蓝牙 5.3 打印 3D 模型切片的功能说明或配对步骤，无法根据这些资料确认支持，也不能编造设置流程。",
+      "required_facts": [
+        "明确资料未提供该功能和步骤",
+        "不承诺支持、不编造配对流程"
+      ],
+      "forbidden_claims": [
+        "支持蓝牙 5.3 的 3D 切片打印",
+        "虚构蓝牙配对菜单"
+      ],
+      "gold_sources": [],
+      "boundary_sources": [
+        {
+          "filename": "05_40319_DocuCentre_-VII_C2273.pdf",
+          "source_path": "01_error_code_troubleshooting_office/05_40319_DocuCentre_-VII_C2273.pdf",
+          "page_number": 67,
+          "pdf_page": 68,
+          "evidence_quote": "将设备直接连接至计算机时，请使用 USB 接口。\n将设备连接至网络时，请使用以太网接口。",
+          "must_contain": "将设备直接连接至计算机时，请使用 USB 接口。\n将设备连接至网络时，请使用以太网接口。"
+        }
+      ],
+      "evidence_quote": []
+    },
+    "metadata": {
+      "case_id": "manual-086",
+      "category": "negative_refusal",
+      "product": "DocuCentre-VII C2273",
+      "language": "zh-CN"
+    }
+  },
+  {
+    "inputs": {
+      "question": "e-STUDIO2551C 报 E99Z9，听说是激光器坏了，请给我这个代码的官方更换部件和维修步骤。"
+    },
+    "outputs": {
+      "category": "negative_refusal",
+      "should_answer": false,
+      "ground_truth_answer": "在所给故障排除手册中未找到 E99Z9 的对应条目，无法确认它表示激光器故障，也不能给出所谓官方更换步骤。应先核对完整代码和机型，再向服务维修代表确认。",
+      "reference_answer": "在所给故障排除手册中未找到 E99Z9 的对应条目，无法确认它表示激光器故障，也不能给出所谓官方更换步骤。应先核对完整代码和机型，再向服务维修代表确认。",
+      "required_facts": [
+        "未找到 E99Z9 对应条目",
+        "不确认激光器故障",
+        "建议核对代码和机型"
+      ],
+      "forbidden_claims": [
+        "E99Z9 确定表示激光器损坏",
+        "虚构官方维修流程"
+      ],
+      "gold_sources": [],
+      "boundary_sources": [
+        {
+          "filename": "01_31777_e-STUDIO2551C_故障排除手册.pdf",
+          "source_path": "01_error_code_troubleshooting_office/01_31777_e-STUDIO2551C_故障排除手册.pdf",
+          "page_number": 103,
+          "pdf_page": 104,
+          "evidence_quote": "TopAccess 包含打印、传送、接收和扫描作业列表的页面。在 [ 日志 ] 选项标签中的这些页面上显示了以下错误代码 （成\n功的作业没有代码）。这些代码有助于您找出错误发生的原因。",
+          "must_contain": "TopAccess 包含打印、传送、接收和扫描作业列表的页面。在 [ 日志 ] 选项标签中的这些页面上显示了以下错误代码 （成\n功的作业没有代码）。这些代码有助于您找出错误发生的原因。"
+        }
+      ],
+      "evidence_quote": []
+    },
+    "metadata": {
+      "case_id": "manual-087",
+      "category": "negative_refusal",
+      "product": "e-STUDIO2551C",
+      "language": "zh-CN"
+    }
+  },
+  {
+    "inputs": {
+      "question": "只根据这份 HP M436 PDF，告诉我中国购买机器是否一律七天无理由退货、十五天免费换新，并给出适用条款编号。"
+    },
+    "outputs": {
+      "category": "negative_refusal",
+      "should_answer": false,
+      "ground_truth_answer": "这份 PDF 未提供题述中国七天无理由、十五天免费换新及其条款编号，不能据此确认或承诺。手册列出的有限保修与具体地区选项不能替代题述规则的依据。",
+      "reference_answer": "这份 PDF 未提供题述中国七天无理由、十五天免费换新及其条款编号，不能据此确认或承诺。手册列出的有限保修与具体地区选项不能替代题述规则的依据。",
+      "required_facts": [
+        "资料不足以确认题述退换承诺",
+        "不编造中国退换期限或条款编号"
+      ],
+      "forbidden_claims": [
+        "一律七天无理由退货且十五天免费换新",
+        "编造法律或保修条款编号"
+      ],
+      "gold_sources": [],
+      "boundary_sources": [
+        {
+          "filename": "04_40355_HP_LaserJet_MFP_M436n_M436dn_M436nda.pdf",
+          "source_path": "01_error_code_troubleshooting_office/04_40355_HP_LaserJet_MFP_M436n_M436dn_M436nda.pdf",
+          "page_number": 148,
+          "pdf_page": 149,
+          "evidence_quote": "注：*保修与支持选项视产品、国家/地区和当地法律要求而有所不同。请转至 support.hp.com 以了解当\n地提供的 HP 荣获大奖的服务和支持选项。",
+          "must_contain": "注：*保修与支持选项视产品、国家/地区和当地法律要求而有所不同。请转至 support.hp.com 以了解当\n地提供的 HP 荣获大奖的服务和支持选项。"
+        }
+      ],
+      "evidence_quote": []
+    },
+    "metadata": {
+      "case_id": "manual-088",
+      "category": "negative_refusal",
+      "product": "HP LaserJet MFP M436",
+      "language": "zh-CN"
+    }
+  },
+  {
+    "inputs": {
+      "question": "我的 ThinkPad Edge E535 买了五年上门延保，请根据这份安全、保修和设置指南确认合同到期日和每次上门费用。"
+    },
+    "outputs": {
+      "category": "negative_refusal",
+      "should_answer": false,
+      "ground_truth_answer": "指南没有你的延保合同、购买日期、服务编号及收费约定，无法据此确定个人合同到期日或每次上门费用；应核对实际服务合同。",
+      "reference_answer": "指南没有你的延保合同、购买日期、服务编号及收费约定，无法据此确定个人合同到期日或每次上门费用；应核对实际服务合同。",
+      "required_facts": [
+        "缺少个人延保合同与购买信息",
+        "不能确认到期日和费用"
+      ],
+      "forbidden_claims": [
+        "虚构个人延保截止日期",
+        "承诺所有上门免费"
+      ],
+      "gold_sources": [],
+      "boundary_sources": [
+        {
+          "filename": "02_31296_ThinkPad_Edge_E535_安全、保修_和设置指南.pdf",
+          "source_path": "02_warranty_policy/02_31296_ThinkPad_Edge_E535_安全、保修_和设置指南.pdf",
+          "page_number": 1,
+          "pdf_page": 2,
+          "evidence_quote": "Lenovo 有限保证条款版本 L505-0010-02 08/2011 涉及本产品。",
+          "must_contain": "Lenovo 有限保证条款版本 L505-0010-02 08/2011 涉及本产品。"
+        }
+      ],
+      "evidence_quote": []
+    },
+    "metadata": {
+      "case_id": "manual-089",
+      "category": "negative_refusal",
+      "product": "ThinkPad Edge E535",
+      "language": "zh-CN"
+    }
+  },
+  {
+    "inputs": {
+      "question": "这份 ThinkPad S230u 指南有没有承诺咖啡泼进主板后可不限次数免费换新？请确认我能享受。"
+    },
+    "outputs": {
+      "category": "negative_refusal",
+      "should_answer": false,
+      "ground_truth_answer": "所给指南没有提供咖啡进液后不限次数免费换新的承诺，也没有该个案的服务认定，无法确认你能享受；不能把一般保修期限推导为该承诺。",
+      "reference_answer": "所给指南没有提供咖啡进液后不限次数免费换新的承诺，也没有该个案的服务认定，无法确认你能享受；不能把一般保修期限推导为该承诺。",
+      "required_facts": [
+        "没有题述免费换新承诺",
+        "不能确认个案权益"
+      ],
+      "forbidden_claims": [
+        "进液后无限次免费换新"
+      ],
+      "gold_sources": [],
+      "boundary_sources": [
+        {
+          "filename": "05_31281_ThinkPad_S230u_安全、保修_和设置指南.pdf",
+          "source_path": "02_warranty_policy/05_31281_ThinkPad_S230u_安全、保修_和设置指南.pdf",
+          "page_number": 1,
+          "pdf_page": 2,
+          "evidence_quote": "有关保修服务类型的完整说明，请参阅完整保修。有关访问完整保修的\n详细信息，请参阅“Lenovo 有限保证声明”。",
+          "must_contain": "有关保修服务类型的完整说明，请参阅完整保修。有关访问完整保修的\n详细信息，请参阅“Lenovo 有限保证声明”。"
+        }
+      ],
+      "evidence_quote": []
+    },
+    "metadata": {
+      "case_id": "manual-090",
+      "category": "negative_refusal",
+      "product": "ThinkPad S230u",
+      "language": "zh-CN"
+    }
+  },
+  {
+    "inputs": {
+      "question": "高德车载导航 V6.10 这份手册能告诉我 2026 年 9 月 7 日上海哪些道路正在临时封闭吗？请列出路名。"
+    },
+    "outputs": {
+      "category": "negative_refusal",
+      "should_answer": false,
+      "ground_truth_answer": "这份历史手册不提供指定日期的实时封路信息，无法据此列出当天封闭道路；需要当日交通公告或实时信息源。",
+      "reference_answer": "这份历史手册不提供指定日期的实时封路信息，无法据此列出当天封闭道路；需要当日交通公告或实时信息源。",
+      "required_facts": [
+        "历史手册没有指定日期实时路况",
+        "不编造路名"
+      ],
+      "forbidden_claims": [
+        "编造该日期上海封闭道路清单"
+      ],
+      "gold_sources": [],
+      "boundary_sources": [
+        {
+          "filename": "05_16990_高德软件_车载_导航系统V6.10用户手册.pdf",
+          "source_path": "03_automotive_electronics_substitute/05_16990_高德软件_车载_导航系统V6.10用户手册.pdf",
+          "page_number": 3,
+          "pdf_page": 4,
+          "evidence_quote": "2、本机电子地图及路口语音提示仅供参考，可能\n与实际路况有所不同，请在遵守实地交通规则的前提\n下使用本系统，按照实际路况驾驶。",
+          "must_contain": "2、本机电子地图及路口语音提示仅供参考，可能\n与实际路况有所不同，请在遵守实地交通规则的前提\n下使用本系统，按照实际路况驾驶。"
+        }
+      ],
+      "evidence_quote": []
+    },
+    "metadata": {
+      "case_id": "manual-091",
+      "category": "negative_refusal",
+      "product": "高德车载导航 V6.10",
+      "language": "zh-CN"
+    }
+  },
+  {
+    "inputs": {
+      "question": "N15 导航设好目的地后，在哪个菜单开启自动驾驶，让设备直接控制汽车方向盘和刹车？"
+    },
+    "outputs": {
+      "category": "negative_refusal",
+      "should_answer": false,
+      "ground_truth_answer": "这份 N15 手册描述的是导航与模拟导航，没有提供控制车辆方向盘、刹车或开启自动驾驶的功能与菜单，无法给出这种设置步骤。",
+      "reference_answer": "这份 N15 手册描述的是导航与模拟导航，没有提供控制车辆方向盘、刹车或开启自动驾驶的功能与菜单，无法给出这种设置步骤。",
+      "required_facts": [
+        "未提供车辆控制或自动驾驶功能",
+        "不编造开启菜单"
+      ],
+      "forbidden_claims": [
+        "导航菜单可开启自动驾驶控制刹车"
+      ],
+      "gold_sources": [],
+      "boundary_sources": [
+        {
+          "filename": "02_14686_N15_汽车_导航系统.pdf",
+          "source_path": "03_automotive_electronics_substitute/02_14686_N15_汽车_导航系统.pdf",
+          "page_number": 3,
+          "pdf_page": 4,
+          "evidence_quote": "導 航  實際汽車導航。 \n模 擬  模擬實際導航時的路徑、時間、時速。",
+          "must_contain": "導 航  實際汽車導航。 \n模 擬  模擬實際導航時的路徑、時間、時速。"
+        }
+      ],
+      "evidence_quote": []
+    },
+    "metadata": {
+      "case_id": "manual-092",
+      "category": "negative_refusal",
+      "product": "NURO N15",
+      "language": "zh-CN"
+    }
+  },
+  {
+    "inputs": {
+      "question": "P-Link N18 的“合成音”能直接接入 ChatGPT 做联网对话吗？具体 API Key 应该填到哪？"
+    },
+    "outputs": {
+      "category": "negative_refusal",
+      "should_answer": false,
+      "ground_truth_answer": "手册中的合成音用于播报下一条进入道路的名称，没有提供 ChatGPT 联网对话或 API Key 配置说明，无法据此给出接入步骤。",
+      "reference_answer": "手册中的合成音用于播报下一条进入道路的名称，没有提供 ChatGPT 联网对话或 API Key 配置说明，无法据此给出接入步骤。",
+      "required_facts": [
+        "合成音描述为道路名称播报",
+        "没有 ChatGPT 或 API Key 接入依据"
+      ],
+      "forbidden_claims": [
+        "虚构 ChatGPT/API Key 设置入口"
+      ],
+      "gold_sources": [],
+      "boundary_sources": [
+        {
+          "filename": "03_14685_N18_汽车_导航系统.pdf",
+          "source_path": "03_automotive_electronics_substitute/03_14685_N18_汽车_导航系统.pdf",
+          "page_number": 4,
+          "pdf_page": 5,
+          "evidence_quote": "語    音  導航時的播報語音，有『國/台語』與合成音播報\n『下一個進入的道路名稱』。",
+          "must_contain": "語    音  導航時的播報語音，有『國/台語』與合成音播報\n『下一個進入的道路名稱』。"
+        }
+      ],
+      "evidence_quote": []
+    },
+    "metadata": {
+      "case_id": "manual-093",
+      "category": "negative_refusal",
+      "product": "P-Link N18",
+      "language": "zh-CN"
+    }
+  },
+  {
+    "inputs": {
+      "question": "430i 升级哪个固件就能录 8K 120 fps 视频？请给出版本号和下载地址。"
+    },
+    "outputs": {
+      "category": "negative_refusal",
+      "should_answer": false,
+      "ground_truth_answer": "所给 430i 手册没有提供实现 8K 120 fps 的升级固件、版本号或下载地址；录像设置仅列出 128 × 96 和 176 × 144 等参数，不能据此编造升级方案。",
+      "reference_answer": "所给 430i 手册没有提供实现 8K 120 fps 的升级固件、版本号或下载地址；录像设置仅列出 128 × 96 和 176 × 144 等参数，不能据此编造升级方案。",
+      "required_facts": [
+        "没有题述固件与下载依据",
+        "不编造版本或链接",
+        "手册录像分辨率为 128 × 96/176 × 144"
+      ],
+      "forbidden_claims": [
+        "有固件可启用 8K 120 fps",
+        "虚构固件下载链接"
+      ],
+      "gold_sources": [],
+      "boundary_sources": [
+        {
+          "filename": "01_16972_430i系统使用手册(通用_汽车_).pdf",
+          "source_path": "03_automotive_electronics_substitute/01_16972_430i系统使用手册(通用_汽车_).pdf",
+          "page_number": 48,
+          "pdf_page": 49,
+          "evidence_quote": "分辨率 设置影像的分辨率。选项为 [128 x 96]（默认值）、\n[176 x 144]。",
+          "must_contain": "分辨率 设置影像的分辨率。选项为 [128 x 96]（默认值）、\n[176 x 144]。"
+        }
+      ],
+      "evidence_quote": []
+    },
+    "metadata": {
+      "case_id": "manual-094",
+      "category": "negative_refusal",
+      "product": "430i",
+      "language": "zh-CN"
+    }
+  },
+  {
+    "inputs": {
+      "question": "把 M553 的升级办法用到 M552 上，能否提供一个隐藏 BIOS 操作把内存扩到 4 GB？"
+    },
+    "outputs": {
+      "category": "negative_refusal",
+      "should_answer": false,
+      "ground_truth_answer": "手册明确 M552 不支持内存扩展，也没有题述隐藏 BIOS 或 4 GB 升级方法，不能提供虚构的操作步骤。M553 的扩展说明不能套用于 M552。",
+      "reference_answer": "手册明确 M552 不支持内存扩展，也没有题述隐藏 BIOS 或 4 GB 升级方法，不能提供虚构的操作步骤。M553 的扩展说明不能套用于 M552。",
+      "required_facts": [
+        "M552 不支持内存扩展",
+        "无隐藏 BIOS 升级依据",
+        "不能套用 M553"
+      ],
+      "forbidden_claims": [
+        "隐藏 BIOS 可令 M552 扩到 4 GB"
+      ],
+      "gold_sources": [],
+      "boundary_sources": [
+        {
+          "filename": "04_38319_HP_Color_LaserJet_Enterprise_M552.pdf",
+          "source_path": "04_confusable_submodels/04_38319_HP_Color_LaserJet_Enterprise_M552.pdf",
+          "page_number": 17,
+          "pdf_page": 18,
+          "evidence_quote": "内存 1 GB 基本内存\n注：对于 M553 型号，基\n本内存可通过添加一个\nDIMM 内存模块扩展至 2\nGB。 M552 型号不支持内\n存扩展。",
+          "must_contain": "内存 1 GB 基本内存\n注：对于 M553 型号，基\n本内存可通过添加一个\nDIMM 内存模块扩展至 2\nGB。 M552 型号不支持内\n存扩展。"
+        }
+      ],
+      "evidence_quote": []
+    },
+    "metadata": {
+      "case_id": "manual-095",
+      "category": "negative_refusal",
+      "product": "HP M552",
+      "language": "zh-CN"
+    }
+  },
+  {
+    "inputs": {
+      "question": "HP M14-M17 不连电脑和无线网络，能用 NFC 碰一碰手机就打印吗？请写 NFC 配对 PIN。"
+    },
+    "outputs": {
+      "category": "negative_refusal",
+      "should_answer": false,
+      "ground_truth_answer": "这份手册没有提供所述 NFC 碰一碰打印及配对 PIN，不能确认该方案或编造 PIN；列出的 Wi-Fi Direct 等移动打印方式不能作为 NFC 支持的证据。",
+      "reference_answer": "这份手册没有提供所述 NFC 碰一碰打印及配对 PIN，不能确认该方案或编造 PIN；列出的 Wi-Fi Direct 等移动打印方式不能作为 NFC 支持的证据。",
+      "required_facts": [
+        "无所述 NFC 功能和 PIN 依据",
+        "不编造 PIN",
+        "不把 Wi-Fi Direct 等同 NFC"
+      ],
+      "forbidden_claims": [
+        "虚构 NFC 配对 PIN",
+        "将 Wi-Fi Direct 解释为 NFC"
+      ],
+      "gold_sources": [],
+      "boundary_sources": [
+        {
+          "filename": "01_40345_HP_LaserJet_Pro_M14-M17.pdf",
+          "source_path": "04_confusable_submodels/01_40345_HP_LaserJet_Pro_M14-M17.pdf",
+          "page_number": 14,
+          "pdf_page": 15,
+          "evidence_quote": "注：更新打印机固件，以确保支持所有移动打印。\n● Wi-Fi Direct（仅限无线型号）\n● 用于 iOS 和 Android 设备的 HP All-in-One Remote 应用程序\n● Google Cloud Print\n● AirPrint（仅限无线型号）\n● Android 打印",
+          "must_contain": "注：更新打印机固件，以确保支持所有移动打印。\n● Wi-Fi Direct（仅限无线型号）\n● 用于 iOS 和 Android 设备的 HP All-in-One Remote 应用程序\n● Google Cloud Print\n● AirPrint（仅限无线型号）\n● Android 打印"
+        }
+      ],
+      "evidence_quote": []
+    },
+    "metadata": {
+      "case_id": "manual-096",
+      "category": "negative_refusal",
+      "product": "HP M14-M17",
+      "language": "zh-CN"
+    }
+  },
+  {
+    "inputs": {
+      "question": "HP M28-M31 能把扫描件直接转成带医疗诊断结论的报告吗？请打开自动诊断模式。"
+    },
+    "outputs": {
+      "category": "negative_refusal",
+      "should_answer": false,
+      "ground_truth_answer": "所给手册没有提供自动医疗诊断功能或该模式的设置步骤，扫描功能不能据此被理解为具备医疗诊断能力。",
+      "reference_answer": "所给手册没有提供自动医疗诊断功能或该模式的设置步骤，扫描功能不能据此被理解为具备医疗诊断能力。",
+      "required_facts": [
+        "资料未提供自动医疗诊断功能",
+        "不编造模式和诊断结论"
+      ],
+      "forbidden_claims": [
+        "具有自动医疗诊断模式",
+        "根据设备功能虚构诊断"
+      ],
+      "gold_sources": [],
+      "boundary_sources": [
+        {
+          "filename": "02_40344_HP_LaserJet_Pro_MFP_M28-M31.pdf",
+          "source_path": "04_confusable_submodels/02_40344_HP_LaserJet_Pro_MFP_M28-M31.pdf",
+          "page_number": 43,
+          "pdf_page": 44,
+          "evidence_quote": "使用 HP Scan 软件，通过您计算机上的软件启动扫描。您可以将扫描的图像保存为一个文件，或将其发\n送到另一个软件应用程序。",
+          "must_contain": "使用 HP Scan 软件，通过您计算机上的软件启动扫描。您可以将扫描的图像保存为一个文件，或将其发\n送到另一个软件应用程序。"
+        }
+      ],
+      "evidence_quote": []
+    },
+    "metadata": {
+      "case_id": "manual-097",
+      "category": "negative_refusal",
+      "product": "HP M28-M31",
+      "language": "zh-CN"
+    }
+  },
+  {
+    "inputs": {
+      "question": "HP M527 内置 OCR 会把文件发送到哪个生成式 AI 服务？该服务的订阅价格和训练数据保留期分别是多少？"
+    },
+    "outputs": {
+      "category": "negative_refusal",
+      "should_answer": false,
+      "ground_truth_answer": "手册关于 OCR 的说明不包含题述生成式 AI 服务、订阅价格或训练数据保留期，无法确认这些信息，不能把文字识别推导为接入了某个 AI 服务。",
+      "reference_answer": "手册关于 OCR 的说明不包含题述生成式 AI 服务、订阅价格或训练数据保留期，无法确认这些信息，不能把文字识别推导为接入了某个 AI 服务。",
+      "required_facts": [
+        "OCR 说明不足以证明题述 AI 服务",
+        "不能确认价格和保留期"
+      ],
+      "forbidden_claims": [
+        "虚构 AI 服务商、价格或数据保留期"
+      ],
+      "gold_sources": [],
+      "boundary_sources": [
+        {
+          "filename": "05_38318_LaserJet_Enterprise_MFP_M527.pdf",
+          "source_path": "04_confusable_submodels/05_38318_LaserJet_Enterprise_MFP_M527.pdf",
+          "page_number": 19,
+          "pdf_page": 20,
+          "evidence_quote": "嵌入式光学字符识别\n(OCR) 可将打印的页面转\n换成可在计算机上编辑\n或搜索的文本",
+          "must_contain": "嵌入式光学字符识别\n(OCR) 可将打印的页面转\n换成可在计算机上编辑\n或搜索的文本"
+        }
+      ],
+      "evidence_quote": []
+    },
+    "metadata": {
+      "case_id": "manual-098",
+      "category": "negative_refusal",
+      "product": "HP M527",
+      "language": "zh-CN"
+    }
+  },
+  {
+    "inputs": {
+      "question": "imageRUNNER ADVANCE C356 有个 #AIGC-888 错误，说是云端大模型欠费，怎样充值才能解锁打印？"
+    },
+    "outputs": {
+      "category": "negative_refusal",
+      "should_answer": false,
+      "ground_truth_answer": "所给手册没有 #AIGC-888 对应的官方错误说明，不能认定为云端模型欠费，也不能提供虚构充值方式。应核对设备实际显示的错误代码。",
+      "reference_answer": "所给手册没有 #AIGC-888 对应的官方错误说明，不能认定为云端模型欠费，也不能提供虚构充值方式。应核对设备实际显示的错误代码。",
+      "required_facts": [
+        "未找到题述代码依据",
+        "不能确认云端模型欠费",
+        "不编造充值解锁步骤"
+      ],
+      "forbidden_claims": [
+        "#AIGC-888 确定是模型欠费",
+        "充值即可解锁打印"
+      ],
+      "gold_sources": [],
+      "boundary_sources": [
+        {
+          "filename": "03_39879_imageRUNNER_ADVANCE_C356.pdf",
+          "source_path": "01_error_code_troubleshooting_office/03_39879_imageRUNNER_ADVANCE_C356.pdf",
+          "page_number": 987,
+          "pdf_page": 988,
+          "evidence_quote": "打印或扫描没有正常结束时，或者不能发送或接收传真时，以任务日志或通信管理报告的详情屏幕上将显示\"#\"开头的数字（错\n误代码）( \n 打印报告和列表(P . 904)  )。执行该错误代码的对策。",
+          "must_contain": "打印或扫描没有正常结束时，或者不能发送或接收传真时，以任务日志或通信管理报告的详情屏幕上将显示\"#\"开头的数字（错\n误代码）( \n 打印报告和列表(P . 904)  )。执行该错误代码的对策。"
+        }
+      ],
+      "evidence_quote": []
+    },
+    "metadata": {
+      "case_id": "manual-099",
+      "category": "negative_refusal",
+      "product": "imageRUNNER ADVANCE C356",
+      "language": "zh-CN"
+    }
+  },
+  {
+    "inputs": {
+      "question": "HP LaserJet Enterprise M606 能插 eSIM 直接走 5G 网络打印吗？请提供运营商套餐和开通二维码。"
+    },
+    "outputs": {
+      "category": "negative_refusal",
+      "should_answer": false,
+      "ground_truth_answer": "所给 M606 手册没有提供 eSIM、5G 套餐或开通二维码的资料，无法确认这种连接方案，不能编造运营商资费或二维码。",
+      "reference_answer": "所给 M606 手册没有提供 eSIM、5G 套餐或开通二维码的资料，无法确认这种连接方案，不能编造运营商资费或二维码。",
+      "required_facts": [
+        "未提供 eSIM/5G 方案依据",
+        "不编造套餐或二维码"
+      ],
+      "forbidden_claims": [
+        "提供虚构的 eSIM 套餐或开通二维码"
+      ],
+      "gold_sources": [],
+      "boundary_sources": [
+        {
+          "filename": "02_38324_HP_LaserJet_Enterprise_M606.pdf",
+          "source_path": "01_error_code_troubleshooting_office/02_38324_HP_LaserJet_Enterprise_M606.pdf",
+          "page_number": 16,
+          "pdf_page": 17,
+          "evidence_quote": "连接方式 10/100/1000 以太网 LAN 连\n接，支持 IPv4 和 IPv6\n 高速 USB 2.0",
+          "must_contain": "连接方式 10/100/1000 以太网 LAN 连\n接，支持 IPv4 和 IPv6\n 高速 USB 2.0"
+        }
+      ],
+      "evidence_quote": []
+    },
+    "metadata": {
+      "case_id": "manual-100",
+      "category": "negative_refusal",
+      "product": "HP M606",
+      "language": "zh-CN"
+    }
+  }
+]

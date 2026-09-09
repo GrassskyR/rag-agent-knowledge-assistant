@@ -12,14 +12,11 @@
         <!-- Document Management Settings View -->
         <DocumentSettings v-if="chatStore.activeNav === 'settings'" />
 
-        <!-- Task List View -->
-        <TaskPanel v-if="chatStore.activeNav === 'tasks'" />
-
         <!-- History Sidebar (Slides in on right if enabled) -->
         <HistorySidebar />
 
         <!-- Chat Area (Visible when settings is not active) -->
-        <ChatArea v-show="chatStore.activeNav !== 'settings' && chatStore.activeNav !== 'tasks'" />
+        <ChatArea v-show="chatStore.activeNav !== 'settings'" />
       </template>
     </main>
   </div>
@@ -32,7 +29,6 @@ import AuthPanel from '@/components/AuthPanel.vue';
 import HistorySidebar from '@/components/HistorySidebar.vue';
 import ChatArea from '@/components/Chat/ChatArea.vue';
 import DocumentSettings from '@/components/Documents/DocumentSettings.vue';
-import TaskPanel from '@/components/Chat/TaskPanel.vue';
 
 import { useAuthStore } from '@/stores/auth';
 import { useChatStore } from '@/stores/chat';

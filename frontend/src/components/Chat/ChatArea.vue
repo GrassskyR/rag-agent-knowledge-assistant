@@ -19,7 +19,7 @@
         <!-- Messages List -->
         <MessageItem
           v-for="(msg, index) in chatStore.messages"
-          :key="index"
+          :key="msg.id"
           :msg="msg"
           :msg-index="index"
           :ref="(el) => { if (el) messageItemRefs[index] = el; }"
@@ -29,7 +29,7 @@
     </div>
 
     <!-- Bottom Input Area -->
-    <ChatInput />
+    <ChatInput :key="chatStore.sessionId" />
   </div>
 </template>
 

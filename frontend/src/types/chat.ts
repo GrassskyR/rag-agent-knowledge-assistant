@@ -88,6 +88,7 @@ export interface GroupedRagStep {
 }
 
 export interface Message {
+  id: string;
   text: string;
   isUser: boolean;
   isThinking?: boolean;
@@ -97,6 +98,32 @@ export interface Message {
   ragSteps?: RagStep[];
   _groupedSteps?: GroupedRagStep[];
   images?: string[];
+}
+
+export interface QueuedMessage {
+  id: string;
+  text: string;
+  images: string[];
+  webSearchEnabled: boolean;
+}
+
+export interface ChatRequestState {
+  controller: AbortController;
+  stopped: boolean;
+  completion: Promise<void>;
+}
+
+export interface ConversationState {
+  messages: Message[];
+  userInput: string;
+  pendingImages: string[];
+  webSearchEnabled: boolean;
+  queue: QueuedMessage[];
+  pauseReason: 'interrupted' | 'error' | null;
+  request: ChatRequestState | null;
+  isGenerating: boolean;
+  loaded: boolean;
+  historyLoading: boolean;
 }
 
 export interface ChatSession {

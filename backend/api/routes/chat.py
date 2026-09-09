@@ -1,10 +1,13 @@
 import json
 import re
+from contextlib import aclosing
 
 from fastapi import APIRouter, Depends, HTTPException
 from fastapi.responses import StreamingResponse
+from starlette.concurrency import run_in_threadpool
 
 from backend.chat import chat_with_agent, chat_with_agent_stream
+from backend.chat.service import session_lock
 from backend.db.models import User
 from backend.infra.auth import get_current_user
 from backend.schemas import ChatRequest, ChatResponse
@@ -16,13 +19,15 @@ router = APIRouter(tags=["chat"])
 async def chat_endpoint(request: ChatRequest, current_user: User = Depends(get_current_user)):
     try:
         session_id = request.session_id or "default_session"
-        resp = chat_with_agent(
-            request.message,
-            current_user.username,
-            session_id,
-            request.images,
-            request.web_search_enabled,
-        )
+        async with session_lock(current_user.username, session_id):
+            resp = await run_in_threadpool(
+                chat_with_agent,
+                request.message,
+                current_user.username,
+                session_id,
+                request.images,
+                request.web_search_enabled,
+            )
         if isinstance(resp, dict):
             return ChatResponse(**resp)
         return ChatResponse(response=resp)
@@ -50,14 +55,15 @@ async def chat_stream_endpoint(request: ChatRequest, current_user: User = Depend
     async def event_generator():
         try:
             session_id = request.session_id or "default_session"
-            async for chunk in chat_with_agent_stream(
+            async with aclosing(chat_with_agent_stream(
                 request.message,
                 current_user.username,
                 session_id,
                 request.images,
                 request.web_search_enabled,
-            ):
-                yield chunk
+            )) as stream:
+                async for chunk in stream:
+                    yield chunk
         except Exception as e:
             error_data = {"type": "error", "content": str(e)}
             yield f"data: {json.dumps(error_data)}\n\n"

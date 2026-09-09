@@ -14,9 +14,6 @@
       <button @click="onHistory" :class="['nav-btn', { active: chatStore.activeNav === 'history' }]">
         <i class="icon-history" aria-hidden="true"></i> 历史记录
       </button>
-      <button @click="onTasks" :class="['nav-btn', { active: chatStore.activeNav === 'tasks' }]">
-        <i class="icon-list-check" aria-hidden="true"></i> 任务清单
-      </button>
       <button v-if="authStore.isAdmin" @click="onSettings" :class="['nav-btn', { active: chatStore.activeNav === 'settings' }]">
         <i class="icon-settings" aria-hidden="true"></i> 设置
       </button>
@@ -74,11 +71,6 @@ const onSettings = () => {
     return;
   }
   chatStore.activeNav = 'settings';
-  sessionStore.showHistorySidebar = false;
-};
-
-const onTasks = () => {
-  chatStore.activeNav = 'tasks';
   sessionStore.showHistorySidebar = false;
 };
 </script>

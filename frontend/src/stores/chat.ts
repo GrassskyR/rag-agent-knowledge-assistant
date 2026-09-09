@@ -1,20 +1,44 @@
 import { defineStore } from 'pinia';
+import { markRaw } from 'vue';
 import { useAuthStore } from './auth';
 import { useSessionStore } from './sessions';
 import api from '@/utils/api';
-import type { Message, RagStep, GroupedRagStep } from '@/types/chat';
+import type { Message, RagStep, GroupedRagStep, QueuedMessage, ConversationState, ChatRequestState } from '@/types/chat';
+
+const createConversation = (loaded = true): ConversationState => ({
+  messages: [],
+  userInput: '',
+  pendingImages: [],
+  webSearchEnabled: false,
+  queue: [],
+  pauseReason: null,
+  request: null,
+  isGenerating: false,
+  loaded,
+  historyLoading: false,
+});
+
+const createSessionId = () => 'session_' + crypto.randomUUID();
 
 export const useChatStore = defineStore('chat', {
-  state: () => ({
-    messages: [] as Message[],
-    userInput: '',
-    isLoading: false,
-    activeNav: 'newChat' as 'newChat' | 'history' | 'settings' | 'tasks',
-    sessionId: 'session_' + Date.now(),
-    abortController: null as AbortController | null,
-    pendingImages: [] as string[],
-    webSearchEnabled: false,
-  }),
+  state: () => {
+    const sessionId = createSessionId();
+    return {
+      conversations: { [sessionId]: createConversation() } as Record<string, ConversationState>,
+      sessionId,
+      activeNav: 'newChat' as 'newChat' | 'history' | 'settings',
+    };
+  },
+
+  getters: {
+    currentSession: (state): ConversationState => state.conversations[state.sessionId],
+    messages(): Message[] {
+      return this.currentSession.messages;
+    },
+    isLoading(): boolean {
+      return this.currentSession.request !== null;
+    },
+  },
 
   actions: {
     appendRagStepToGroups(prev: GroupedRagStep[], step: RagStep): GroupedRagStep[] {
@@ -58,90 +82,160 @@ export const useChatStore = defineStore('chat', {
     },
 
     handleNewChat() {
-      this.messages = [];
-      this.pendingImages = [];
-      this.webSearchEnabled = false;
-      this.sessionId = 'session_' + Date.now();
+      const sessionId = createSessionId();
+      this.conversations[sessionId] = createConversation();
+      this.sessionId = sessionId;
       this.activeNav = 'newChat';
-      const sessionStore = useSessionStore();
-      sessionStore.showHistorySidebar = false;
+      useSessionStore().showHistorySidebar = false;
     },
 
-    handleClearChat() {
-      if (confirm('确定要清空当前对话吗？')) {
-        this.messages = [];
-        this.pendingImages = [];
-        this.webSearchEnabled = false;
+    async handleClearChat() {
+      if (!confirm('确定要清空当前对话吗？')) return;
+      await this.discardSession(this.sessionId);
+    },
+
+    async discardSession(sessionId: string) {
+      const conversation = this.conversations[sessionId];
+      if (conversation) {
+        conversation.queue = [];
+        conversation.pauseReason = 'interrupted';
+        const request = conversation.request;
+        if (request) {
+          request.stopped = true;
+          request.controller.abort();
+          await request.completion;
+        }
+        delete this.conversations[sessionId];
       }
+      if (this.sessionId === sessionId) this.handleNewChat();
     },
 
-    async loadSession(sessionId: string) {
+    resetConversations() {
+      for (const conversation of Object.values(this.conversations)) {
+        conversation.queue = [];
+        conversation.pauseReason = 'interrupted';
+        if (conversation.request) {
+          conversation.request.stopped = true;
+          conversation.request.controller.abort();
+        }
+      }
+      const sessionId = createSessionId();
+      this.conversations = { [sessionId]: createConversation() };
       this.sessionId = sessionId;
       this.activeNav = 'newChat';
       const sessionStore = useSessionStore();
+      sessionStore.sessions = [];
       sessionStore.showHistorySidebar = false;
+    },
 
+    async loadSession(sessionId: string) {
+      if (!this.conversations[sessionId]) {
+        this.conversations[sessionId] = createConversation(false);
+      }
+      const conversation = this.conversations[sessionId];
+      this.sessionId = sessionId;
+      this.activeNav = 'newChat';
+      useSessionStore().showHistorySidebar = false;
+      if (conversation.loaded || conversation.historyLoading) return;
+
+      conversation.historyLoading = true;
       try {
-        const response = await api.get(`/sessions/${encodeURIComponent(sessionId)}`);
-        const data = response.data;
-        this.messages = (data.messages || []).map((msg: any) => ({
+        const response = await api.get('/sessions/' + encodeURIComponent(sessionId));
+        if (this.conversations[sessionId] !== conversation) return;
+        conversation.messages = (response.data.messages || []).map((msg: any, index: number) => ({
+          id: sessionId + '-history-' + index,
           text: msg.content,
           isUser: msg.type === 'human',
-          durationMs: msg.type === 'ai' ? msg.rag_trace?.duration_ms : undefined,
+          durationMs: msg.type === 'ai' ? msg.rag_trace?.duration_ms ?? undefined : undefined,
           ragTrace: msg.rag_trace?.tool_used ? msg.rag_trace : null,
         }));
+        conversation.loaded = true;
       } catch (error: any) {
-        const errMsg = error.response?.data?.detail || error.message || '加载会话失败';
-        this.messages = [];
-        throw new Error(errMsg);
+        if (this.conversations[sessionId] !== conversation) return;
+        throw new Error(error.response?.data?.detail || error.message || '加载会话失败');
+      } finally {
+        conversation.historyLoading = false;
+        this.processQueue(sessionId);
       }
     },
 
     handleStop() {
-      if (this.abortController) {
-        this.abortController.abort();
-      }
+      const conversation = this.currentSession;
+      const request = conversation.request;
+      if (!request || !conversation.isGenerating) return;
+      conversation.pauseReason = 'interrupted';
+      request.stopped = true;
+      request.controller.abort();
     },
 
-    async handleSend() {
-      const authStore = useAuthStore();
-      const sessionStore = useSessionStore();
+    resumeQueue() {
+      this.currentSession.pauseReason = null;
+      this.processQueue(this.sessionId);
+    },
 
-      if (!authStore.isAuthenticated) {
+    removeQueuedMessage(id: string) {
+      this.currentSession.queue = this.currentSession.queue.filter(item => item.id !== id);
+    },
+
+    handleSend() {
+      if (!useAuthStore().isAuthenticated) {
         alert('请先登录');
         return;
       }
-
-      const text = this.userInput.trim();
-      if ((!text && this.pendingImages.length === 0) || this.isLoading) return;
-
-      const images = [...this.pendingImages];
-      const webSearchEnabled = this.webSearchEnabled;
-
-      this.messages.push({
-        text: text,
-        isUser: true,
-        images: images.length ? images : undefined,
+      const conversation = this.currentSession;
+      const text = conversation.userInput.trim();
+      if (!text && !conversation.pendingImages.length) return;
+      conversation.queue.push({
+        id: crypto.randomUUID(),
+        text,
+        images: [...conversation.pendingImages],
+        webSearchEnabled: conversation.webSearchEnabled,
       });
+      conversation.userInput = '';
+      conversation.pendingImages = [];
+      this.processQueue(this.sessionId);
+    },
 
-      if (this.messages.length === 1) {
-        const tempTitle = text.length > 10 ? text.substring(0, 10) + '...' : text;
-        const existingSession = sessionStore.sessions.find((s) => s.session_id === this.sessionId);
-        if (!existingSession) {
-          sessionStore.sessions.unshift({
-            session_id: this.sessionId,
-            title: tempTitle,
-            message_count: 1,
-            updated_at: new Date().toISOString(),
-          });
-        }
+    processQueue(sessionId: string) {
+      const conversation = this.conversations[sessionId];
+      if (!conversation || !conversation.loaded || conversation.request || conversation.pauseReason) return;
+      if (!useAuthStore().isAuthenticated) return;
+      const nextMessage = conversation.queue.shift();
+      if (!nextMessage) return;
+      const request = markRaw<ChatRequestState>({
+        controller: new AbortController(),
+        stopped: false,
+        completion: Promise.resolve(),
+      });
+      conversation.request = request;
+      conversation.isGenerating = true;
+      request.completion = this.sendQueuedMessage(sessionId, conversation, nextMessage, request);
+    },
+
+    async sendQueuedMessage(
+      sessionId: string,
+      conversation: ConversationState,
+      queued: QueuedMessage,
+      request: ChatRequestState,
+    ) {
+      const authStore = useAuthStore();
+      const sessionStore = useSessionStore();
+      conversation.messages.push({
+        id: queued.id,
+        text: queued.text,
+        isUser: true,
+        images: queued.images.length ? queued.images : undefined,
+      });
+      if (!sessionStore.sessions.some(item => item.session_id === sessionId)) {
+        sessionStore.sessions.unshift({
+          session_id: sessionId,
+          title: queued.text ? queued.text.slice(0, 10) + (queued.text.length > 10 ? '...' : '') : '图片对话',
+          message_count: conversation.messages.length,
+          updated_at: new Date().toISOString(),
+        });
       }
-
-      this.userInput = '';
-      this.pendingImages = [];
-      this.isLoading = true;
-
-      this.messages.push({
+      conversation.messages.push({
+        id: crypto.randomUUID(),
         text: '',
         isUser: false,
         isThinking: true,
@@ -150,113 +244,109 @@ export const useChatStore = defineStore('chat', {
         ragSteps: [],
         _groupedSteps: [],
       });
-      const botMsgIdx = this.messages.length - 1;
-
-      this.abortController = new AbortController();
+      // 保留本次请求所属消息的引用，切换会话不会改变流式写入目标。
+      const botMessage = conversation.messages[conversation.messages.length - 1];
+      let completed = false;
+      let failed = false;
+      let reader: ReadableStreamDefaultReader<Uint8Array> | undefined;
 
       try {
         const response = await fetch('/chat/stream', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${authStore.token}`,
+            Authorization: 'Bearer ' + authStore.token,
           },
           body: JSON.stringify({
-            message: text,
-            session_id: this.sessionId,
-            images: images.length ? images : undefined,
-            web_search_enabled: webSearchEnabled,
+            message: queued.text,
+            session_id: sessionId,
+            images: queued.images.length ? queued.images : undefined,
+            web_search_enabled: queued.webSearchEnabled,
           }),
-          signal: this.abortController.signal,
+          signal: request.controller.signal,
         });
-
         if (!response.ok) {
           if (response.status === 401) {
             authStore.handleLogout();
             throw new Error('登录已过期，请重新登录');
           }
-          throw new Error(`HTTP ${response.status}`);
+          throw new Error('HTTP ' + response.status);
         }
 
-        const reader = response.body?.getReader();
+        reader = response.body?.getReader();
         if (!reader) throw new Error('无法读取响应流');
-
         const decoder = new TextDecoder();
         let buffer = '';
 
-        while (true) {
+        while (!completed) {
           const { done, value } = await reader.read();
           if (done) break;
-
           buffer += decoder.decode(value, { stream: true });
-
+          buffer = buffer.replace(/\r\n/g, '\n');
           let eventEndIndex;
           while ((eventEndIndex = buffer.indexOf('\n\n')) !== -1) {
             const eventStr = buffer.slice(0, eventEndIndex);
             buffer = buffer.slice(eventEndIndex + 2);
-
-            if (eventStr.startsWith('data: ')) {
-              const dataStr = eventStr.slice(6);
-              if (dataStr === '[DONE]') continue;
-              try {
-                const data = JSON.parse(dataStr);
-                if (data.type === 'content') {
-                  if (this.messages[botMsgIdx].isThinking) {
-                    this.messages[botMsgIdx].isThinking = false;
-                  }
-                  this.messages[botMsgIdx].text += data.content;
-                } else if (data.type === 'trace') {
-                  this.messages[botMsgIdx].ragTrace = data.rag_trace;
-                } else if (data.type === 'rag_step') {
-                  const msg = this.messages[botMsgIdx];
-                  if (!msg.ragSteps) msg.ragSteps = [];
-                  msg.ragSteps.push(data.step);
-                  msg._groupedSteps = this.appendRagStepToGroups(msg._groupedSteps || [], data.step);
-                } else if (data.type === 'session_title') {
-                  const s = sessionStore.sessions.find(
-                    (item) => item.session_id === data.session_id
-                  );
-                  if (s) {
-                    s.title = data.title;
-                    s.updated_at = new Date().toISOString();
-                    s.message_count = this.messages.length;
-                  } else {
-                    sessionStore.sessions.unshift({
-                      session_id: data.session_id,
-                      title: data.title,
-                      message_count: this.messages.length,
-                      updated_at: new Date().toISOString(),
-                    });
-                  }
-                } else if (data.type === 'error') {
-                  this.messages[botMsgIdx].isThinking = false;
-                  this.messages[botMsgIdx].text += `\n[Error: ${data.content}]`;
-                }
-              } catch (e) {
-                console.warn('SSE parse error:', e);
-              }
+            const dataStr = eventStr.split('\n')
+              .filter(line => line.startsWith('data:'))
+              .map(line => line.slice(5).trimStart()).join('\n');
+            if (!dataStr) continue;
+            if (dataStr === '[DONE]') {
+              completed = true;
+              break;
+            }
+            const data = JSON.parse(dataStr);
+            if (request.stopped) continue;
+            if (data.type === 'content') {
+              botMessage.isThinking = false;
+              botMessage.text += data.content;
+            } else if (data.type === 'trace') {
+              botMessage.ragTrace = data.rag_trace?.tool_used ? data.rag_trace : null;
+            } else if (data.type === 'response_complete') {
+              botMessage.isThinking = false;
+              botMessage.durationMs = data.duration_ms;
+              conversation.isGenerating = false;
+            } else if (data.type === 'rag_step') {
+              botMessage.ragSteps!.push(data.step);
+              botMessage._groupedSteps = this.appendRagStepToGroups(botMessage._groupedSteps || [], data.step);
+            } else if (data.type === 'session_title') {
+              const session = sessionStore.sessions.find(item => item.session_id === sessionId);
+              if (session) session.title = data.title;
+            } else if (data.type === 'error') {
+              failed = true;
+              botMessage.isThinking = false;
+              botMessage.text += '\n\n抱歉，出了点问题：' + data.content;
+              conversation.pauseReason = 'error';
             }
           }
         }
+        if (!completed && !failed && !request.stopped) throw new Error('回答连接已断开');
       } catch (error: any) {
-        if (error.name === 'AbortError') {
-          this.messages[botMsgIdx].isThinking = false;
-          if (!this.messages[botMsgIdx].text) {
-            this.messages[botMsgIdx].text = '(已终止回答)';
-          } else {
-            this.messages[botMsgIdx].text += '\n\n_(回答已被终止)_';
-          }
+        if (request.stopped || error.name === 'AbortError') {
+          botMessage.text = botMessage.text
+            ? botMessage.text + '\n\n_(回答已被终止)_'
+            : '(已终止回答)';
         } else {
-          this.messages[botMsgIdx].isThinking = false;
-          this.messages[botMsgIdx].text = `抱歉，出了点问题：${error.message}`;
+          failed = true;
+          conversation.pauseReason = 'error';
+          botMessage.text += '\n\n抱歉，出了点问题：' + error.message;
         }
       } finally {
-        const botMessage = this.messages[botMsgIdx];
-        if (botMessage?.startedAt !== undefined && botMessage.durationMs === undefined) {
-          botMessage.durationMs = Date.now() - botMessage.startedAt;
+        reader?.releaseLock();
+        botMessage.isThinking = false;
+        botMessage.durationMs ??= Math.max(0, Date.now() - botMessage.startedAt!);
+        if (conversation.request === request) {
+          conversation.request = null;
+          conversation.isGenerating = false;
         }
-        this.isLoading = false;
-        this.abortController = null;
+        if (this.conversations[sessionId] === conversation) {
+          const session = sessionStore.sessions.find(item => item.session_id === sessionId);
+          if (session) {
+            session.message_count = conversation.messages.length;
+            session.updated_at = new Date().toISOString();
+          }
+          this.processQueue(sessionId);
+        }
       }
     },
   },

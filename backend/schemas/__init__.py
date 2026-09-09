@@ -14,9 +14,6 @@ from backend.schemas.chat import (
     SessionInfo,
     SessionListResponse,
     SessionMessagesResponse,
-    TodoItem,
-    TodoListResponse,
-    TodoUpdateRequest,
 )
 from backend.schemas.documents import (
     DocumentBatchUploadResponse,
@@ -55,7 +52,4 @@ __all__ = [
     "DocumentDeleteStartResponse",
     "DocumentDeleteJobResponse",
     "DocumentDeleteResponse",
-    "TodoItem",
-    "TodoListResponse",
-    "TodoUpdateRequest",
 ]

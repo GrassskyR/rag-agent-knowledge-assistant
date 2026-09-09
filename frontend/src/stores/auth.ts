@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia';
 import api from '@/utils/api';
+import { useChatStore } from './chat';
 import type { CurrentUser } from '@/types/user';
 
 export const useAuthStore = defineStore('auth', {
@@ -73,6 +74,7 @@ export const useAuthStore = defineStore('auth', {
     },
 
     handleLogout() {
+      useChatStore().resetConversations();
       this.token = '';
       this.currentUser = null;
       localStorage.removeItem('accessToken');

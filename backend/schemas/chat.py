@@ -116,18 +116,3 @@ class SessionListResponse(BaseModel):
 class SessionDeleteResponse(BaseModel):
     session_id: str
     message: str
-
-
-class TodoItem(BaseModel):
-    id: str
-    text: str
-    done: bool = False
-    created_at: str
-
-
-class TodoListResponse(BaseModel):
-    todos: List[TodoItem]
-
-
-class TodoUpdateRequest(BaseModel):
-    todos: List[TodoItem]

@@ -1,13 +1,11 @@
 from fastapi import APIRouter, Depends, HTTPException
 
 from backend.chat import storage
+from backend.chat.service import session_lock
 from backend.db.models import User
 from backend.infra.auth import get_current_user
 from backend.schemas import (
     MessageInfo,
-    TodoItem,
-    TodoListResponse,
-    TodoUpdateRequest,
     SessionDeleteResponse,
     SessionInfo,
     SessionListResponse,
@@ -47,34 +45,12 @@ async def list_sessions(current_user: User = Depends(get_current_user)):
 @router.delete("/sessions/{session_id}", response_model=SessionDeleteResponse)
 async def delete_session(session_id: str, current_user: User = Depends(get_current_user)):
     try:
-        deleted = storage.delete_session(current_user.username, session_id)
+        async with session_lock(current_user.username, session_id):
+            deleted = storage.delete_session(current_user.username, session_id)
         if not deleted:
             raise HTTPException(status_code=404, detail="会话不存在")
         return SessionDeleteResponse(session_id=session_id, message="成功删除会话")
     except HTTPException:
         raise
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
-
-
-@router.get("/sessions/{session_id}/todos", response_model=TodoListResponse)
-async def get_todos(session_id: str, current_user: User = Depends(get_current_user)):
-    try:
-        todos = storage.get_todos(current_user.username, session_id)
-        return TodoListResponse(todos=[TodoItem(**t) for t in todos])
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
-
-
-@router.patch("/sessions/{session_id}/todos", response_model=TodoListResponse)
-async def update_todos(
-    session_id: str,
-    request: TodoUpdateRequest,
-    current_user: User = Depends(get_current_user),
-):
-    try:
-        todos = [t.model_dump() for t in request.todos]
-        saved = storage.update_todos(current_user.username, session_id, todos)
-        return TodoListResponse(todos=[TodoItem(**t) for t in saved])
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

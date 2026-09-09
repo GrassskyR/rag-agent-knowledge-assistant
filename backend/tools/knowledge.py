@@ -1,20 +1,23 @@
 from langchain_core.tools import tool
 from langsmith import traceable
-_KNOWLEDGE_TOOL_CALLS_THIS_TURN = 0
 
 
 def reset_knowledge_tool_calls() -> None:
     """每轮对话开始时重置知识库工具调用计数。"""
-    global _KNOWLEDGE_TOOL_CALLS_THIS_TURN
-    _KNOWLEDGE_TOOL_CALLS_THIS_TURN = 0
+    from backend.chat.turn_context import get_turn_context
+
+    get_turn_context().knowledge_calls = 0
 
 
 def _try_acquire_knowledge_tool_call() -> bool:
-    global _KNOWLEDGE_TOOL_CALLS_THIS_TURN
-    if _KNOWLEDGE_TOOL_CALLS_THIS_TURN >= 1:
-        return False
-    _KNOWLEDGE_TOOL_CALLS_THIS_TURN += 1
-    return True
+    from backend.chat.turn_context import get_turn_context
+
+    context = get_turn_context()
+    with context.lock:
+        if context.knowledge_calls >= 1:
+            return False
+        context.knowledge_calls += 1
+        return True
 
 
 _GRADE_PROMPT = (

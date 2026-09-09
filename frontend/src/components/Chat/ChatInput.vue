@@ -1,10 +1,34 @@
 <template>
   <div class="input-area-wrapper">
+    <section v-if="conversation.queue.length" class="message-queue" aria-label="待发送消息">
+      <div class="message-queue-header">
+        <span>待发送 {{ conversation.queue.length }}</span>
+        <button v-if="conversation.pauseReason" type="button" class="queue-resume" @click="chatStore.resumeQueue">继续</button>
+      </div>
+      <p v-if="conversation.pauseReason" class="message-queue-notice" role="status">
+        {{ conversation.pauseReason === 'interrupted'
+          ? '由于你中断了消息回复，队列已暂停，按 Enter 发送队列中首条消息'
+          : '上一条消息未完成，队列已暂停，按 Enter 发送队列中首条消息' }}
+      </p>
+      <ol class="message-queue-viewport">
+        <li v-for="(message, index) in conversation.queue" :key="message.id" class="message-queue-item">
+          <span class="queue-position">{{ index + 1 }}.</span>
+          <div class="queue-message">
+            <span class="queue-message-text">{{ message.text || '图片消息' }}</span>
+            <span v-if="message.images.length" class="queue-image-count">{{ message.images.length }} 张图片</span>
+          </div>
+          <button type="button" class="queue-remove" title="移除排队消息" aria-label="移除排队消息" @click="chatStore.removeQueuedMessage(message.id)">
+            <i class="icon-x" aria-hidden="true"></i>
+          </button>
+        </li>
+      </ol>
+    </section>
+
     <!-- Floating, pill-shaped input container -->
     <div class="input-area">
       <!-- Image attachment previews -->
-      <div v-if="chatStore.pendingImages.length" class="image-previews">
-        <div v-for="(img, idx) in chatStore.pendingImages" :key="idx" class="image-preview">
+      <div v-if="conversation.pendingImages.length" class="image-previews">
+        <div v-for="(img, idx) in conversation.pendingImages" :key="idx" class="image-preview">
           <img :src="img" alt="待上传图片" />
           <button class="image-preview-remove" type="button" title="移除" @click="removeImage(idx)">
             <i class="icon-x" aria-hidden="true"></i>
@@ -13,12 +37,12 @@
       </div>
 
       <textarea
-        v-model="chatStore.userInput"
+        v-model="conversation.userInput"
         @keydown="handleKeyDown"
         @compositionstart="handleCompositionStart"
         @compositionend="handleCompositionEnd"
         @input="autoResize"
-        :placeholder="chatStore.pendingImages.length ? '为图片添加说明（可选）... (Shift+Enter 换行)' : '输入消息... (Shift+Enter 换行)'"
+        :placeholder="conversation.pendingImages.length ? '为图片添加说明（可选）... (Shift+Enter 换行)' : '输入消息... (Shift+Enter 换行)'"
         rows="1"
         ref="textareaRef"
       ></textarea>
@@ -31,16 +55,7 @@
           </button>
           <button
             class="action-chip"
-            :class="{ active: chatStore.activeNav === 'tasks' }"
-            type="button"
-            title="任务清单"
-            @click="toggleTasks"
-          >
-            <i class="icon-list-check" aria-hidden="true"></i> 任务
-          </button>
-          <button
-            class="action-chip"
-            :class="{ active: chatStore.webSearchEnabled }"
+            :class="{ active: conversation.webSearchEnabled }"
             type="button"
             title="联网搜索"
             @click="toggleWebSearch"
@@ -49,23 +64,28 @@
           </button>
         </div>
 
-        <button
-          v-if="chatStore.isLoading"
-          @click="chatStore.handleStop"
-          class="send-btn stop-btn"
-          title="终止回答"
-        >
-          <i class="icon-square" aria-hidden="true"></i>
-        </button>
-
-        <button
-          v-else
-          @click="onSend"
-          class="send-btn"
-          title="发送"
-        >
-          <i class="icon-arrow-up" aria-hidden="true"></i>
-        </button>
+        <div class="input-send-actions">
+          <button
+            v-if="conversation.isGenerating"
+            @click="chatStore.handleStop"
+            class="send-btn stop-btn"
+            type="button"
+            title="终止当前回答"
+            aria-label="终止当前回答"
+          >
+            <i class="icon-square" aria-hidden="true"></i>
+          </button>
+          <button
+            @click="onSend"
+            class="send-btn"
+            type="button"
+            :disabled="!hasDraft && !canResume"
+            :title="chatStore.isLoading ? '加入发送队列' : '发送'"
+            :aria-label="chatStore.isLoading ? '加入发送队列' : '发送'"
+          >
+            <i class="icon-arrow-up" aria-hidden="true"></i>
+          </button>
+        </div>
       </div>
       <input
         ref="fileInputRef"
@@ -81,12 +101,13 @@
 </template>
 
 <script setup lang="ts">
-import { ref, nextTick } from 'vue';
+import { computed, onMounted, ref, nextTick } from 'vue';
 import { useChatStore } from '@/stores/chat';
-import { useSessionStore } from '@/stores/sessions';
 
 const chatStore = useChatStore();
-const sessionStore = useSessionStore();
+const conversation = chatStore.currentSession;
+const hasDraft = computed(() => !!conversation.userInput.trim() || !!conversation.pendingImages.length);
+const canResume = computed(() => !!conversation.pauseReason && !!conversation.queue.length);
 const textareaRef = ref<HTMLTextAreaElement | null>(null);
 const fileInputRef = ref<HTMLInputElement | null>(null);
 const isComposing = ref(false);
@@ -108,7 +129,7 @@ const onFilesSelected = (event: Event) => {
 
 const addFiles = (files: File[]) => {
   for (const file of files) {
-    if (chatStore.pendingImages.length >= MAX_IMAGES) {
+    if (conversation.pendingImages.length >= MAX_IMAGES) {
       alert(`最多上传 ${MAX_IMAGES} 张图片`);
       break;
     }
@@ -124,7 +145,7 @@ const addFiles = (files: File[]) => {
     reader.onload = () => {
       const result = reader.result;
       if (typeof result === 'string') {
-        chatStore.pendingImages.push(result);
+        conversation.pendingImages.push(result);
       }
     };
     reader.readAsDataURL(file);
@@ -132,20 +153,11 @@ const addFiles = (files: File[]) => {
 };
 
 const removeImage = (idx: number) => {
-  chatStore.pendingImages.splice(idx, 1);
-};
-
-const toggleTasks = () => {
-  if (chatStore.activeNav === 'tasks') {
-    chatStore.activeNav = 'newChat';
-  } else {
-    chatStore.activeNav = 'tasks';
-    sessionStore.showHistorySidebar = false;
-  }
+  conversation.pendingImages.splice(idx, 1);
 };
 
 const toggleWebSearch = () => {
-  chatStore.webSearchEnabled = !chatStore.webSearchEnabled;
+  conversation.webSearchEnabled = !conversation.webSearchEnabled;
 };
 
 const handleCompositionStart = () => {
@@ -159,7 +171,11 @@ const handleCompositionEnd = () => {
 const handleKeyDown = (event: KeyboardEvent) => {
   if (event.key === 'Enter' && !event.shiftKey && !isComposing.value) {
     event.preventDefault();
-    onSend();
+    if (canResume.value) {
+      chatStore.resumeQueue();
+    } else {
+      onSend();
+    }
   }
 };
 
@@ -177,12 +193,15 @@ const resetTextareaHeight = () => {
 };
 
 const onSend = async () => {
-  const text = chatStore.userInput.trim();
-  if ((!text && chatStore.pendingImages.length === 0) || chatStore.isLoading || isComposing.value) return;
-
-  await chatStore.handleSend();
-
+  if (isComposing.value) return;
+  if (hasDraft.value) {
+    chatStore.handleSend();
+  } else if (canResume.value) {
+    chatStore.resumeQueue();
+  }
   await nextTick();
   resetTextareaHeight();
 };
+
+onMounted(autoResize);
 </script>

@@ -23,35 +23,38 @@ WEB_SEARCH_MAX_CALLS = _read_positive_int_env("WEB_SEARCH_MAX_CALLS", 2)
 WEB_FETCH_MAX_CALLS = _read_positive_int_env("WEB_FETCH_MAX_CALLS", 3)
 WEB_FETCH_MAX_URLS = _read_positive_int_env("WEB_FETCH_MAX_URLS", 5)
 
-_WEB_SEARCH_CALLS = 0
-_WEB_FETCH_CALLS = 0
-_WEB_FETCH_URLS_USED = 0
-
-
 def reset_web_tool_calls() -> None:
     """每轮对话开始时重置 web 工具调用计数。"""
-    global _WEB_SEARCH_CALLS, _WEB_FETCH_CALLS, _WEB_FETCH_URLS_USED
-    _WEB_SEARCH_CALLS = 0
-    _WEB_FETCH_CALLS = 0
-    _WEB_FETCH_URLS_USED = 0
+    from backend.chat.turn_context import get_turn_context
+
+    context = get_turn_context()
+    context.web_search_calls = 0
+    context.web_fetch_calls = 0
+    context.web_fetch_urls_used = 0
 
 
 def _try_acquire_web_search_call() -> bool:
-    global _WEB_SEARCH_CALLS
-    if _WEB_SEARCH_CALLS >= WEB_SEARCH_MAX_CALLS:
-        return False
-    _WEB_SEARCH_CALLS += 1
-    return True
+    from backend.chat.turn_context import get_turn_context
+
+    context = get_turn_context()
+    with context.lock:
+        if context.web_search_calls >= WEB_SEARCH_MAX_CALLS:
+            return False
+        context.web_search_calls += 1
+        return True
 
 
 def _try_acquire_web_fetch_call() -> tuple[bool, int]:
     """返回 (是否允许, 剩余 URL 预算)。"""
-    global _WEB_FETCH_CALLS
-    if _WEB_FETCH_CALLS >= WEB_FETCH_MAX_CALLS:
-        return False, 0
-    _WEB_FETCH_CALLS += 1
-    remaining = max(WEB_FETCH_MAX_URLS - _WEB_FETCH_URLS_USED, 0)
-    return True, remaining
+    from backend.chat.turn_context import get_turn_context
+
+    context = get_turn_context()
+    with context.lock:
+        if context.web_fetch_calls >= WEB_FETCH_MAX_CALLS:
+            return False, 0
+        context.web_fetch_calls += 1
+        remaining = max(WEB_FETCH_MAX_URLS - context.web_fetch_urls_used, 0)
+        return True, remaining
 
 
 _SUMMARY_PROMPT = (
@@ -158,7 +161,7 @@ def web_fetch(urls: list) -> str:
             f"and provide the final answer directly."
         )
 
-    global _WEB_FETCH_URLS_USED
+    from backend.chat.turn_context import get_turn_context
 
     urls = [u for u in urls if isinstance(u, str) and u.strip()]
     if remaining == 0:
@@ -168,7 +171,7 @@ def web_fetch(urls: list) -> str:
         )
     if len(urls) > remaining:
         urls = urls[:remaining]
-    _WEB_FETCH_URLS_USED += len(urls)
+    get_turn_context().web_fetch_urls_used += len(urls)
 
     from backend.chat.runtime import fast_model
     from backend.chat.streaming import clear_sub_agent_group, emit_rag_step, set_sub_agent_group

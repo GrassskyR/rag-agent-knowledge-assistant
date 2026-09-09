@@ -59,12 +59,8 @@ const onDeleteSession = async (sessionId: string) => {
   }
 
   try {
+    await chatStore.discardSession(sessionId);
     const successMsg = await sessionStore.deleteSession(sessionId);
-    if (chatStore.sessionId === sessionId) {
-      chatStore.messages = [];
-      chatStore.sessionId = 'session_' + Date.now();
-      chatStore.activeNav = 'newChat';
-    }
     alert(successMsg);
   } catch (error: any) {
     alert('删除会话失败：' + error.message);

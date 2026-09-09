@@ -27,7 +27,7 @@ class ConversationStorage:
             if msg_type == "human":
                 messages.append(HumanMessage(content=content))
             elif msg_type == "ai":
-                messages.append(AIMessage(content=content))
+                messages.append(AIMessage(content=content, additional_kwargs={"rag_trace": msg_data.get("rag_trace")}))
             elif msg_type == "system":
                 messages.append(SystemMessage(content=content))
         return messages
@@ -64,10 +64,10 @@ class ConversationStorage:
             serialized = []
             now = datetime.utcnow()
             for idx, msg in enumerate(messages):
-                rag_trace = None
+                rag_trace = msg.additional_kwargs.get("rag_trace")
                 if extra_message_data and idx < len(extra_message_data):
                     extra = extra_message_data[idx] or {}
-                    rag_trace = extra.get("rag_trace")
+                    rag_trace = extra.get("rag_trace", rag_trace)
 
                 db.add(
                     ChatMessage(
@@ -91,6 +91,23 @@ class ConversationStorage:
             db.commit()
 
             cache.set_json(self._messages_cache_key(user_id, session_id), serialized)
+            cache.delete(self._sessions_cache_key(user_id))
+        finally:
+            db.close()
+
+    def update_metadata(self, user_id: str, session_id: str, metadata: dict) -> None:
+        db = SessionLocal()
+        try:
+            session = (
+                db.query(ChatSession)
+                .join(User)
+                .filter(User.username == user_id, ChatSession.session_id == session_id)
+                .first()
+            )
+            if session is None:
+                return
+            session.metadata_json = {**(session.metadata_json or {}), **metadata}
+            db.commit()
             cache.delete(self._sessions_cache_key(user_id))
         finally:
             db.close()
@@ -217,48 +234,5 @@ class ConversationStorage:
             cache.delete(self._messages_cache_key(user_id, session_id))
             cache.delete(self._sessions_cache_key(user_id))
             return True
-        finally:
-            db.close()
-
-    def get_todos(self, user_id: str, session_id: str) -> list[dict]:
-        db = SessionLocal()
-        try:
-            user = db.query(User).filter(User.username == user_id).first()
-            if not user:
-                return []
-            session = (
-                db.query(ChatSession)
-                .filter(ChatSession.user_id == user.id, ChatSession.session_id == session_id)
-                .first()
-            )
-            if not session:
-                return []
-            return (session.metadata_json or {}).get("todos", [])
-        finally:
-            db.close()
-
-    def update_todos(self, user_id: str, session_id: str, todos: list[dict]) -> list[dict]:
-        db = SessionLocal()
-        try:
-            user = db.query(User).filter(User.username == user_id).first()
-            if not user:
-                return todos
-            session = (
-                db.query(ChatSession)
-                .filter(ChatSession.user_id == user.id, ChatSession.session_id == session_id)
-                .first()
-            )
-            if not session:
-                session = ChatSession(
-                    user_id=user.id, session_id=session_id, metadata_json={"todos": todos}
-                )
-                db.add(session)
-            else:
-                session.metadata_json = {**(session.metadata_json or {}), "todos": todos}
-            session.updated_at = datetime.utcnow()
-            db.commit()
-            cache.delete(self._messages_cache_key(user_id, session_id))
-            cache.delete(self._sessions_cache_key(user_id))
-            return todos
         finally:
             db.close()

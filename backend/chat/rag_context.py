@@ -2,19 +2,18 @@
 
 from typing import Optional
 
-_LAST_RAG_CONTEXT: Optional[dict] = None
+from backend.chat.turn_context import get_turn_context
 
 
 def get_last_rag_context(clear: bool = True) -> Optional[dict]:
     """获取最近一次 RAG 检索上下文，默认读取后清空。"""
-    global _LAST_RAG_CONTEXT
-    context = _LAST_RAG_CONTEXT
+    turn = get_turn_context()
+    context = turn.rag_context
     if clear:
-        _LAST_RAG_CONTEXT = None
+        turn.rag_context = None
     return context
 
 
 def record_rag_context(rag_trace: dict) -> None:
     if rag_trace:
-        global _LAST_RAG_CONTEXT
-        _LAST_RAG_CONTEXT = {"rag_trace": rag_trace}
+        get_turn_context().rag_context = {"rag_trace": rag_trace}

@@ -28,6 +28,15 @@
             >
               {{ chunk.title || chunk.filename || chunk.url }}
             </a>
+            <button
+              v-else-if="isPdfSource(chunk)"
+              class="source-file source-link document-link"
+              type="button"
+              :disabled="openingFilename === chunk.filename"
+              @click="openDocument(chunk)"
+            >
+              {{ chunk.filename }}
+            </button>
             <span v-else class="source-file">{{ chunk.filename }}</span>
             <span v-if="chunk.page_number" class="source-page"> - 第 {{ chunk.page_number }} 页</span>
           </div>
@@ -50,6 +59,8 @@
 
 <script setup lang="ts">
 import { computed, ref } from 'vue';
+import api from '@/utils/api';
+import { useAuthStore } from '@/stores/auth';
 import type { Message } from '@/types/chat';
 
 const props = defineProps<{
@@ -62,6 +73,8 @@ const emit = defineEmits<{
 }>();
 
 const detailsRef = ref<HTMLDetailsElement | null>(null);
+const openingFilename = ref<string | null>(null);
+const authStore = useAuthStore();
 const sources = computed(() => {
   const trace = props.msg.ragTrace;
   if (!trace) return [];
@@ -75,11 +88,52 @@ const openDetails = () => {
   }
 };
 
-defineExpose({
-  openDetails
-});
-
 const onCiteClick = (chunkIndex: number) => {
   emit('cite-click', props.msgIndex, chunkIndex);
 };
+
+const isPdfSource = (chunk: (typeof sources.value)[number]) => {
+  return chunk.source_type !== 'web' && /\.pdf$/i.test(chunk.filename || '');
+};
+
+const openDocumentAt = async (chunkIndex: number) => {
+  const chunk = sources.value[chunkIndex - 1];
+  if (!chunk || !isPdfSource(chunk)) return false;
+  await openDocument(chunk);
+  return true;
+};
+
+const openDocument = async (chunk: (typeof sources.value)[number]) => {
+  if (!authStore.isAuthenticated || !authStore.token) {
+    alert('请先登录');
+    return;
+  }
+
+  const popup = window.open('about:blank', '_blank');
+  if (!popup) {
+    alert('请允许弹出窗口后重试');
+    return;
+  }
+
+  openingFilename.value = chunk.filename;
+  try {
+    const response = await api.get(`/documents/file/${encodeURIComponent(chunk.filename)}`, {
+      responseType: 'blob',
+    });
+    const blobUrl = URL.createObjectURL(response.data);
+    const rawPage = Number(chunk.page_number);
+    const page = Number.isFinite(rawPage) ? Math.max(rawPage + 1, 1) : 1;
+    popup.location.href = `${blobUrl}#page=${page}`;
+  } catch (error: any) {
+    popup.close();
+    alert(error.response?.data?.detail || '文档打开失败');
+  } finally {
+    openingFilename.value = null;
+  }
+};
+
+defineExpose({
+  openDetails,
+  openDocumentAt,
+});
 </script>

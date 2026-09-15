@@ -153,7 +153,10 @@ defineExpose({
   openReferences
 });
 
-const onCiteClick = (msgIndex: number, chunkIndex: number) => {
+const onCiteClick = async (msgIndex: number, chunkIndex: number) => {
+  if (msgIndex === props.msgIndex && await referencesRef.value?.openDocumentAt(chunkIndex)) {
+    return;
+  }
   emit('cite-click', msgIndex, chunkIndex);
 };
 </script>

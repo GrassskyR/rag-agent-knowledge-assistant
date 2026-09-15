@@ -13,20 +13,40 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 DATA_DIR = BASE_DIR.parent / "data"
 UPLOAD_DIR = DATA_DIR / "documents"
 
+
+def resolve_upload_path(filename: str) -> Path:
+    """将文件名解析到上传目录内，拒绝路径穿越。"""
+    if not filename or Path(filename).name != filename:
+        raise ValueError("文件名不合法")
+    upload_root = UPLOAD_DIR.resolve()
+    file_path = (upload_root / filename).resolve()
+    if file_path.parent != upload_root:
+        raise ValueError("文件名不合法")
+    return file_path
+
 loader = DocumentLoader()
 parent_chunk_store = ParentChunkStore()
 milvus_manager = get_milvus_store()
 milvus_writer = MilvusWriter(embedding_service=embedding_service, milvus_manager=milvus_manager)
 
 
-def delete_document_transactionally(filename: str, job_manager=None, job_id=None) -> int:
+def delete_document_transactionally(
+    filename: str,
+    job_manager=None,
+    job_id=None,
+    *,
+    delete_local_file: bool = True,
+) -> int:
     """
     一致性且事务性地删除文档的所有关联数据（Milvus 2.5+ 新版由服务端自动维护 BM25 索引统计）。
     包含以下步骤：
     1. 初始化 Milvus 集合。
     2. 删除 Milvus 向量数据。
     3. 删除 PostgreSQL 中的 L1/L2 父级分块以及对应的 Redis 缓存。
+    4. 按需删除上传目录中的本地文件。
     """
+    upload_path = resolve_upload_path(filename)
+
     if job_manager and job_id:
         job_manager.update_step(job_id, "prepare", 50, "running", "正在初始化 Milvus 集合")
     
@@ -63,6 +83,16 @@ def delete_document_transactionally(filename: str, job_manager=None, job_id=None
 
     if job_manager and job_id:
         job_manager.complete_step(job_id, "parent_store", "父级分块及 Redis 缓存已清空")
+
+    if delete_local_file:
+        # 索引删除成功后同步删除本地文件，避免已删除文档仍可被查看。
+        try:
+            if upload_path.exists():
+                upload_path.unlink()
+        except ValueError:
+            raise
+        except OSError as e:
+            raise RuntimeError(f"删除本地文档失败: {str(e)}") from e
 
     return chunks_deleted
 

@@ -1,9 +1,9 @@
 import os
 
 from fastapi import APIRouter, BackgroundTasks, Depends, File, HTTPException, UploadFile
+from fastapi.responses import FileResponse
 
 from backend.api.resources import (
-    UPLOAD_DIR,
     ensure_upload_dir,
     is_supported_document,
     loader,
@@ -11,10 +11,11 @@ from backend.api.resources import (
     milvus_writer,
     parent_chunk_store,
     delete_document_transactionally,
+    resolve_upload_path,
     save_upload_file,
 )
 from backend.db.models import User
-from backend.infra.auth import require_admin
+from backend.infra.auth import get_current_user, require_admin
 from backend.jobs import DELETE_STEPS, delete_job_manager, upload_job_manager
 from backend.schemas import (
     DocumentBatchUploadResponse,
@@ -31,6 +32,27 @@ from backend.schemas import (
 router = APIRouter(tags=["documents"])
 
 
+@router.get("/documents/file/{filename}")
+async def view_pdf(filename: str, _: User = Depends(get_current_user)):
+    if not filename.lower().endswith(".pdf"):
+        raise HTTPException(status_code=415, detail="仅支持查看 PDF 文档")
+    try:
+        file_path = resolve_upload_path(filename)
+    except ValueError:
+        raise HTTPException(status_code=400, detail="文件名不合法")
+    if not file_path.is_file():
+        raise HTTPException(status_code=404, detail="文档不存在")
+
+    return FileResponse(
+        path=file_path,
+        media_type="application/pdf",
+        headers={
+            "Content-Disposition": "inline",
+            "Cache-Control": "private, no-store",
+        },
+    )
+
+
 def _process_upload_job(job_id: str, file_path: str, filename: str) -> None:
     failed_step = "cleanup"
     try:
@@ -38,7 +60,8 @@ def _process_upload_job(job_id: str, file_path: str, filename: str) -> None:
 
         failed_step = "cleanup"
         upload_job_manager.update_step(job_id, "cleanup", 10, "running", "正在清理同名旧文档")
-        delete_document_transactionally(filename)
+        # 新文件已写入目标路径；这里只清理旧索引，保留新文件供后续解析。
+        delete_document_transactionally(filename, delete_local_file=False)
         upload_job_manager.complete_step(job_id, "cleanup", "旧版本清理完成")
 
         failed_step = "parse"
@@ -142,10 +165,13 @@ async def upload_document_async(
         raise HTTPException(status_code=400, detail="文件名不能为空")
     if not is_supported_document(filename):
         raise HTTPException(status_code=400, detail="仅支持 PDF、Word、Excel 和 HTML 文档")
+    try:
+        file_path = resolve_upload_path(filename)
+    except ValueError:
+        raise HTTPException(status_code=400, detail="文件名不能包含路径")
 
     ensure_upload_dir()
     job = upload_job_manager.create_job(filename)
-    file_path = UPLOAD_DIR / filename
 
     try:
         upload_job_manager.update_step(job["job_id"], "upload", 1, "running", "正在保存文件到服务器")
@@ -190,7 +216,7 @@ async def upload_documents_batch_async(
     for file in files:
         filename = file.filename
         job_id = upload_job_manager.create_job(filename)["job_id"]
-        file_path = UPLOAD_DIR / filename
+        file_path = resolve_upload_path(filename)
         try:
             upload_job_manager.update_step(job_id, "upload", 1, "running", "正在保存文件到服务器")
             await save_upload_file(file, file_path)
@@ -258,13 +284,16 @@ async def upload_document(file: UploadFile = File(...), _: User = Depends(requir
             raise HTTPException(status_code=400, detail="文件名不能为空")
         if not is_supported_document(filename):
             raise HTTPException(status_code=400, detail="仅支持 PDF、Word、Excel 和 HTML 文档")
+        try:
+            file_path = resolve_upload_path(filename)
+        except ValueError:
+            raise HTTPException(status_code=400, detail="文件名不能包含路径")
 
         ensure_upload_dir()
         
         # Cleanup existing同名文档以保证一致性
         delete_document_transactionally(filename)
 
-        file_path = UPLOAD_DIR / filename
         with open(file_path, "wb") as f:
             content = await file.read()
             f.write(content)

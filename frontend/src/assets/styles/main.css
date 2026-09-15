@@ -1419,6 +1419,19 @@ span.cite-ref:hover {
     text-decoration: underline;
 }
 
+.document-link {
+    padding: 0;
+    border: 0;
+    background: transparent;
+    font: inherit;
+    cursor: pointer;
+}
+
+.document-link:disabled {
+    cursor: wait;
+    opacity: 0.6;
+}
+
 .source-page {
     color: var(--text-muted);
     font-weight: 400;

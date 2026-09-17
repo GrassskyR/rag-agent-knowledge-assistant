@@ -141,7 +141,7 @@ def chat_with_agent(
 
     context_messages = _build_context_messages(messages, persistent_note, user_text, images)
     messages.append(HumanMessage(content=user_text))
-    storage.save(user_id, session_id, messages)
+    storage.append_message(user_id, session_id, messages[-1])
     started_at = time.perf_counter()
 
     active_agent = get_agent(web_search_enabled)
@@ -179,8 +179,6 @@ def chat_with_agent(
     else:
         response_content = str(result)
 
-    messages.append(AIMessage(content=response_content))
-
     rag_context = get_last_rag_context(clear=True)
     rag_trace = rag_context.get("rag_trace") if rag_context else None
     stored_rag_trace = dict(rag_trace or {})
@@ -193,13 +191,11 @@ def chat_with_agent(
         persistent_note, user_text, response_content
     )
 
-    extra_message_data = [None] * (len(messages) - 1) + [{"rag_trace": stored_rag_trace}]
-    storage.save(
+    storage.append_message(
         user_id,
         session_id,
-        messages,
+        AIMessage(content=response_content, additional_kwargs={"rag_trace": stored_rag_trace}),
         metadata=save_meta,
-        extra_message_data=extra_message_data,
     )
 
     return {
@@ -250,7 +246,7 @@ async def _chat_with_agent_stream(
 
     context_messages = _build_context_messages(messages, persistent_note, user_text, images)
     messages.append(HumanMessage(content=user_text))
-    storage.save(user_id, session_id, messages)
+    storage.append_message(user_id, session_id, messages[-1])
 
     title_task = None
     if is_first_message:
@@ -336,8 +332,10 @@ async def _chat_with_agent_stream(
         saved_response = full_response
         if error_message:
             saved_response += f"\n\n抱歉，出了点问题：{error_message}"
-        messages.append(AIMessage(content=saved_response, additional_kwargs={"rag_trace": rag_trace}))
-        storage.save(user_id, session_id, messages)
+        storage.append_message(
+            user_id, session_id,
+            AIMessage(content=saved_response, additional_kwargs={"rag_trace": rag_trace}),
+        )
         response_saved = True
 
         if rag_trace.get("tool_used"):
@@ -371,8 +369,10 @@ async def _chat_with_agent_stream(
             rag_context = get_last_rag_context(clear=True)
             rag_trace = dict((rag_context or {}).get("rag_trace") or {})
             rag_trace["duration_ms"] = round((time.perf_counter() - started_at) * 1000)
-            messages.append(AIMessage(content=stopped_response, additional_kwargs={"rag_trace": rag_trace}))
-            storage.save(user_id, session_id, messages)
+            storage.append_message(
+                user_id, session_id,
+                AIMessage(content=stopped_response, additional_kwargs={"rag_trace": rag_trace}),
+            )
         raise
     finally:
         set_rag_step_queue(None)

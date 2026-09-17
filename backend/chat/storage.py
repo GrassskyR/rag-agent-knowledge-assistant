@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from langchain_core.messages import AIMessage, HumanMessage, SystemMessage
+from langchain_core.messages import AIMessage, BaseMessage, HumanMessage, SystemMessage
 
 from backend.db.models import ChatMessage, ChatSession, User
 from backend.infra.cache import cache
@@ -32,14 +32,15 @@ class ConversationStorage:
                 messages.append(SystemMessage(content=content))
         return messages
 
-    def save(
+    def append_message(
         self,
         user_id: str,
         session_id: str,
-        messages: list,
-        metadata: dict = None,
-        extra_message_data: list = None,
-    ):
+        message: BaseMessage,
+        *,
+        metadata: dict | None = None,
+    ) -> None:
+        """追加当前消息及可选元数据，保留历史消息身份与时间。"""
         db = SessionLocal()
         try:
             user = db.query(User).filter(User.username == user_id).first()
@@ -59,38 +60,21 @@ class ConversationStorage:
                 existing_meta = session.metadata_json or {}
                 session.metadata_json = {**existing_meta, **metadata}
 
-            db.query(ChatMessage).filter(ChatMessage.session_ref_id == session.id).delete(synchronize_session=False)
-
-            serialized = []
             now = datetime.utcnow()
-            for idx, msg in enumerate(messages):
-                rag_trace = msg.additional_kwargs.get("rag_trace")
-                if extra_message_data and idx < len(extra_message_data):
-                    extra = extra_message_data[idx] or {}
-                    rag_trace = extra.get("rag_trace", rag_trace)
-
-                db.add(
-                    ChatMessage(
-                        session_ref_id=session.id,
-                        message_type=msg.type,
-                        content=str(msg.content),
-                        timestamp=now,
-                        rag_trace=rag_trace,
-                    )
+            db.add(
+                ChatMessage(
+                    session_ref_id=session.id,
+                    message_type=message.type,
+                    content=str(message.content),
+                    timestamp=now,
+                    rag_trace=message.additional_kwargs.get("rag_trace"),
                 )
-                serialized.append(
-                    {
-                        "type": msg.type,
-                        "content": str(msg.content),
-                        "timestamp": now.isoformat(),
-                        "rag_trace": rag_trace,
-                    }
-                )
+            )
 
             session.updated_at = now
             db.commit()
 
-            cache.set_json(self._messages_cache_key(user_id, session_id), serialized)
+            cache.delete(self._messages_cache_key(user_id, session_id))
             cache.delete(self._sessions_cache_key(user_id))
         finally:
             db.close()

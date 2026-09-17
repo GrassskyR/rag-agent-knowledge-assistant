@@ -18,8 +18,8 @@ JobStatus = Literal["pending", "running", "completed", "failed"]
 
 DEFAULT_STEPS = [
     ("upload", "文档上传"),
-    ("cleanup", "清理旧版本"),
     ("parse", "解析与分块"),
+    ("cleanup", "清理旧版本"),
     ("parent_store", "父级分块入库"),
     ("vector_store", "向量化入库"),
 ]

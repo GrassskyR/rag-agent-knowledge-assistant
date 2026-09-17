@@ -36,6 +36,7 @@ class ParentChunkStore:
 
         db = SessionLocal()
         upserted = 0
+        chunk_ids = []
         try:
             for doc in docs:
                 chunk_id = (doc.get("chunk_id") or "").strip()
@@ -55,32 +56,31 @@ class ParentChunkStore:
                     "chunk_idx": int(doc.get("chunk_idx", 0) or 0),
                     "updated_at": datetime.utcnow(),
                 }
-                cache_payload = {
-                    "chunk_id": chunk_id,
-                    "text": payload["text"],
-                    "filename": payload["filename"],
-                    "file_type": payload["file_type"],
-                    "file_path": payload["file_path"],
-                    "page_number": payload["page_number"],
-                    "parent_chunk_id": payload["parent_chunk_id"],
-                    "root_chunk_id": payload["root_chunk_id"],
-                    "chunk_level": payload["chunk_level"],
-                    "chunk_idx": payload["chunk_idx"],
-                }
                 if record:
                     for key, value in payload.items():
                         setattr(record, key, value)
                 else:
                     db.add(ParentChunk(chunk_id=chunk_id, **payload))
 
-                cache.set_json(self._cache_key(chunk_id), cache_payload)
+                chunk_ids.append(chunk_id)
                 upserted += 1
 
             db.commit()
+            for chunk_id in chunk_ids:
+                cache.delete(self._cache_key(chunk_id))
         finally:
             db.close()
 
         return upserted
+
+    def get_documents_by_filename(self, filename: str) -> list[dict]:
+        """从数据库读取完整父块快照，供文档替换失败时恢复。"""
+        db = SessionLocal()
+        try:
+            rows = db.query(ParentChunk).filter(ParentChunk.filename == filename).all()
+            return [self._to_dict(row) for row in rows]
+        finally:
+            db.close()
 
     def get_documents_by_ids(self, chunk_ids: List[str]) -> List[dict]:
         if not chunk_ids:

@@ -158,27 +158,24 @@ class MilvusStore:
         return self._run(_query)
 
     def query_all(self, filter_expr: str = "", output_fields: list[str] | None = None) -> list:
-        """分页拉取；单次 session 内完成，避免每页新建连接。"""
+        """完整读取索引快照，使用迭代器避免 offset 查询窗口截断。"""
         fields = output_fields or ["filename", "file_type"]
         expr = _normalize_filter(filter_expr)
 
         def _query_all(client: MilvusClient) -> list:
             out: list = []
-            offset = 0
-            while True:
-                batch = client.query(
-                    collection_name=self.collection_name,
-                    filter=expr,
-                    output_fields=fields,
-                    limit=QUERY_MAX_LIMIT,
-                    offset=offset,
-                )
-                if not batch:
-                    break
-                out.extend(batch)
-                if len(batch) < QUERY_MAX_LIMIT:
-                    break
-                offset += len(batch)
+            iterator = client.query_iterator(
+                collection_name=self.collection_name,
+                filter=expr,
+                output_fields=fields,
+                batch_size=1000,
+                consistency_level="Strong",
+            )
+            try:
+                while batch := iterator.next():
+                    out.extend(batch)
+            finally:
+                iterator.close()
             return out
 
         return self._run(_query_all)

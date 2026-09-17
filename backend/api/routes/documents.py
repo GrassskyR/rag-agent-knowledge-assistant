@@ -1,18 +1,17 @@
-import os
+from pathlib import Path
 
 from fastapi import APIRouter, BackgroundTasks, Depends, File, HTTPException, UploadFile
 from fastapi.responses import FileResponse
+from starlette.concurrency import run_in_threadpool
 
 from backend.api.resources import (
-    ensure_upload_dir,
+    DocumentOperationError,
     is_supported_document,
-    loader,
     milvus_manager,
-    milvus_writer,
-    parent_chunk_store,
-    delete_document_transactionally,
+    delete_document as delete_document_data,
+    replace_document,
     resolve_upload_path,
-    save_upload_file,
+    stage_upload_file,
 )
 from backend.db.models import User
 from backend.infra.auth import get_current_user, require_admin
@@ -53,77 +52,35 @@ async def view_pdf(filename: str, _: User = Depends(get_current_user)):
     )
 
 
+def _update_job_progress(manager, job_id: str, progress: dict) -> None:
+    manager.update_step(
+        job_id, progress["step"], progress["percent"], progress["status"], progress["message"],
+        total_chunks=progress.get("total_chunks"),
+        processed_chunks=progress.get("processed_chunks"),
+    )
+
+
 def _process_upload_job(job_id: str, file_path: str, filename: str) -> None:
-    failed_step = "cleanup"
     try:
-        upload_job_manager.complete_step(job_id, "upload", "文件已保存到服务器")
-
-        failed_step = "cleanup"
-        upload_job_manager.update_step(job_id, "cleanup", 10, "running", "正在清理同名旧文档")
-        # 新文件已写入目标路径；这里只清理旧索引，保留新文件供后续解析。
-        delete_document_transactionally(filename, delete_local_file=False)
-        upload_job_manager.complete_step(job_id, "cleanup", "旧版本清理完成")
-
-        failed_step = "parse"
-        upload_job_manager.update_step(job_id, "parse", 5, "running", "正在解析文档并执行三级分块")
-        new_docs = loader.load_document(file_path, filename)
-        if not new_docs:
-            raise ValueError("文档处理失败，未能提取内容")
-
-        parent_docs = [doc for doc in new_docs if int(doc.get("chunk_level", 0) or 0) in (1, 2)]
-        leaf_docs = [doc for doc in new_docs if int(doc.get("chunk_level", 0) or 0) == 3]
-        if not leaf_docs:
-            raise ValueError("文档处理失败，未生成可检索叶子分块")
-        upload_job_manager.complete_step(
-            job_id,
-            "parse",
-            f"解析完成：父级分块 {len(parent_docs)} 个，叶子分块 {len(leaf_docs)} 个",
+        replace_document(
+            filename, Path(file_path),
+            on_progress=lambda progress: _update_job_progress(upload_job_manager, job_id, progress),
         )
-
-        failed_step = "parent_store"
-        upload_job_manager.update_step(job_id, "parent_store", 20, "running", "正在写入父级分块")
-        parent_chunk_store.upsert_documents(parent_docs)
-        upload_job_manager.complete_step(job_id, "parent_store", f"父级分块已入库：{len(parent_docs)} 个")
-
-        failed_step = "vector_store"
-        total_leaf = len(leaf_docs)
-        upload_job_manager.update_step(
-            job_id,
-            "vector_store",
-            0,
-            "running",
-            f"正在向量化入库：0 / {total_leaf}",
-            total_chunks=total_leaf,
-            processed_chunks=0,
-        )
-
-        def _on_vector_progress(processed: int, total: int) -> None:
-            percent = round(processed * 100 / total) if total else 100
-            upload_job_manager.update_step(
-                job_id,
-                "vector_store",
-                percent,
-                "running",
-                f"正在向量化入库：{processed} / {total}",
-                total_chunks=total,
-                processed_chunks=processed,
-            )
-
-        milvus_writer.write_documents(leaf_docs, progress_callback=_on_vector_progress)
-        upload_job_manager.complete_step(job_id, "vector_store", f"向量化入库完成：{total_leaf} 个叶子分块")
         upload_job_manager.complete_job(job_id, f"成功上传并处理 {filename}")
     except Exception as e:
+        failed_step = e.step if isinstance(e, DocumentOperationError) else "parse"
         upload_job_manager.fail_job(job_id, failed_step, str(e))
 
 
 def _process_delete_job(job_id: str, filename: str) -> None:
-    failed_step = "prepare"
     try:
-        chunks_deleted = delete_document_transactionally(filename, delete_job_manager, job_id)
+        chunks_deleted = delete_document_data(
+            filename,
+            on_progress=lambda progress: _update_job_progress(delete_job_manager, job_id, progress),
+        )
         delete_job_manager.complete_job(job_id, f"已删除 {filename}，向量数据 {chunks_deleted} 条")
     except Exception as e:
-        job = delete_job_manager.get_job(job_id)
-        current_step = job.get("current_step", "prepare") if job else "prepare"
+        current_step = e.step if isinstance(e, DocumentOperationError) else "prepare"
         delete_job_manager.fail_job(job_id, current_step, str(e))
 
 
@@ -166,16 +123,15 @@ async def upload_document_async(
     if not is_supported_document(filename):
         raise HTTPException(status_code=400, detail="仅支持 PDF、Word、Excel 和 HTML 文档")
     try:
-        file_path = resolve_upload_path(filename)
+        resolve_upload_path(filename)
     except ValueError:
         raise HTTPException(status_code=400, detail="文件名不能包含路径")
 
-    ensure_upload_dir()
     job = upload_job_manager.create_job(filename)
 
     try:
         upload_job_manager.update_step(job["job_id"], "upload", 1, "running", "正在保存文件到服务器")
-        await save_upload_file(file, file_path)
+        file_path = await stage_upload_file(file, filename)
         upload_job_manager.complete_step(job["job_id"], "upload", "文件已上传，等待后台处理")
     except Exception as e:
         upload_job_manager.fail_job(job["job_id"], "upload", f"文件保存失败: {e}")
@@ -211,15 +167,13 @@ async def upload_documents_batch_async(
             raise HTTPException(status_code=400, detail=f"同一批次不能上传同名文件：{filename}")
         filenames.add(filename)
 
-    ensure_upload_dir()
     jobs = []
     for file in files:
         filename = file.filename
         job_id = upload_job_manager.create_job(filename)["job_id"]
-        file_path = resolve_upload_path(filename)
         try:
             upload_job_manager.update_step(job_id, "upload", 1, "running", "正在保存文件到服务器")
-            await save_upload_file(file, file_path)
+            file_path = await stage_upload_file(file, filename)
             upload_job_manager.complete_step(job_id, "upload", "文件已上传，等待后台处理")
         except Exception as e:
             upload_job_manager.fail_job(job_id, "upload", f"文件保存失败: {e}")
@@ -252,6 +206,10 @@ async def delete_document_async(
     background_tasks: BackgroundTasks,
     _: User = Depends(require_admin),
 ):
+    try:
+        resolve_upload_path(filename)
+    except ValueError:
+        raise HTTPException(status_code=400, detail="文件名不能包含路径")
     job = delete_job_manager.create_job(
         filename,
         steps=DELETE_STEPS,
@@ -285,41 +243,19 @@ async def upload_document(file: UploadFile = File(...), _: User = Depends(requir
         if not is_supported_document(filename):
             raise HTTPException(status_code=400, detail="仅支持 PDF、Word、Excel 和 HTML 文档")
         try:
-            file_path = resolve_upload_path(filename)
+            resolve_upload_path(filename)
         except ValueError:
             raise HTTPException(status_code=400, detail="文件名不能包含路径")
 
-        ensure_upload_dir()
-        
-        # Cleanup existing同名文档以保证一致性
-        delete_document_transactionally(filename)
-
-        with open(file_path, "wb") as f:
-            content = await file.read()
-            f.write(content)
-
-        try:
-            new_docs = loader.load_document(str(file_path), filename)
-        except Exception as doc_err:
-            raise HTTPException(status_code=500, detail=f"文档处理失败: {doc_err}")
-
-        if not new_docs:
-            raise HTTPException(status_code=500, detail="文档处理失败，未能提取内容")
-
-        parent_docs = [doc for doc in new_docs if int(doc.get("chunk_level", 0) or 0) in (1, 2)]
-        leaf_docs = [doc for doc in new_docs if int(doc.get("chunk_level", 0) or 0) == 3]
-        if not leaf_docs:
-            raise HTTPException(status_code=500, detail="文档处理失败，未生成可检索叶子分块")
-
-        parent_chunk_store.upsert_documents(parent_docs)
-        milvus_writer.write_documents(leaf_docs)
+        staged_path = await stage_upload_file(file, filename)
+        result = await run_in_threadpool(replace_document, filename, staged_path)
 
         return DocumentUploadResponse(
             filename=filename,
-            chunks_processed=len(leaf_docs),
+            chunks_processed=result["leaf_count"],
             message=(
-                f"成功上传并处理 {filename}，叶子分块 {len(leaf_docs)} 个，"
-                f"父级分块 {len(parent_docs)} 个（存入 PostgreSQL）"
+                f"成功上传并处理 {filename}，叶子分块 {result['leaf_count']} 个，"
+                f"父级分块 {result['parent_count']} 个（存入 PostgreSQL）"
             ),
         )
     except HTTPException:
@@ -331,12 +267,12 @@ async def upload_document(file: UploadFile = File(...), _: User = Depends(requir
 @router.delete("/documents/{filename}", response_model=DocumentDeleteResponse)
 async def delete_document(filename: str, _: User = Depends(require_admin)):
     try:
-        chunks_deleted = delete_document_transactionally(filename)
+        chunks_deleted = await run_in_threadpool(delete_document_data, filename)
 
         return DocumentDeleteResponse(
             filename=filename,
             chunks_deleted=chunks_deleted,
-            message=f"成功删除文档 {filename} 的向量数据（本地文件已保留）",
+            message=f"成功删除文档 {filename} 的索引与本地文件",
         )
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"删除文档失败: {str(e)}")
